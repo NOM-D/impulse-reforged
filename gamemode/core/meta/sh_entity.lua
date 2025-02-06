@@ -8,6 +8,7 @@ See the [Garry's Mod Wiki](https://wiki.garrysmod.com/page/Category:Entity) for 
 ]]
 -- @classmod Entity
 
+---@class Entity
 local ENTITY = FindMetaTable("Entity")
 
 local modelCache = {}
@@ -28,6 +29,15 @@ function ENTITY:IsFemale(modelov)
     modelCache[model] = false
 
     return false
+end
+
+
+---Reset the bodygroups of an entity (set all to 0)
+--- @realm shared
+function ENTITY:ResetBodygroups()
+    for i = 0, self:GetNumBodyGroups() - 1 do
+        self:SetBodygroup(i, 0)
+    end
 end
 
 local propDoors = {
@@ -152,6 +162,25 @@ end
 if ( SERVER ) then
     util.AddNetworkString("impulseBudgetSound")
     util.AddNetworkString("impulseBudgetSoundExtra")
+
+
+    ---Get a data variable for an entity
+    ---@param key string
+    ---@param default any
+    ---@return unknown
+    function ENTITY:GetData(key, default)
+        if (key == true) then
+            return self.impulseData
+        end
+
+        local data = self.impulseData and self.impulseData[key]
+
+        if (data == nil) then
+            return default
+        else
+            return data
+        end
+    end
 
     --- Emits a that is only networked to nearby players
     -- @realm server
@@ -328,6 +357,16 @@ if (SERVER) then
     end
 
 else
+    net.Receive("impulseDataSync", function()
+        impulse.localData = net.ReadTable()
+        impulse.playTime = net.ReadUInt(32)
+    end)
+
+    net.Receive("impulseData", function()
+        impulse.localData = impulse.localData or {}
+        impulse.localData[net.ReadString()] = net.ReadType()
+    end)
+
     -- Returns the door's slave entity.
     function ENTITY:GetDoorPartner()
         local owner = self:GetOwner() or self.impulseDoorOwner
@@ -341,6 +380,21 @@ else
 
                 return v
             end
+        end
+    end
+
+    
+    ---Get a data variable for an entity
+    ---@param key string
+    ---@param default any
+    ---@return unknown
+    function ENTITY:GetData(key, default)
+        local data = impulse.localData and impulse.localData[key]
+
+        if (data == nil) then
+            return default
+        else
+            return data
         end
     end
 end

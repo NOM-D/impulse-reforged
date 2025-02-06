@@ -1,3 +1,4 @@
+---@class impulseEntityMenu : DFrame
 local PANEL = {}
 
 function PANEL:Init()

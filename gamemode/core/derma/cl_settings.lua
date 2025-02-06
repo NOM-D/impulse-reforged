@@ -18,7 +18,7 @@ function PANEL:Init()
 
     for v, k in SortedPairs(settings) do
         if type(k) != "table" then
-            impulse.Logs.Debug("Setting " .. v .. " is not a table, skipping...")
+            impulse.logs:Debug("Setting " .. v .. " is not a table, skipping...")
             continue
         end
 

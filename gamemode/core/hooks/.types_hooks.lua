@@ -1,0 +1,49 @@
+---@realm server
+---@class Player
+---@field nextQuiz number The time the player can next do a quiz
+---@field nextPVSTry number
+---@field lastPVS number 
+---@field nextChat number The time the player can next send a chat message
+---@field currentATM Entity ATM the player is using
+---@field nextATM number The time the player can next use an ATM
+---@field BusinessSpawnCount number
+---@field lastTeamChange number The time the player last changed team
+---@field lastTeamTry number The time the player last tried to change team
+---@field impulseNextChatState number The time the player can next change chat state
+---@field nextDoorLock number The time the player can next lock a door
+---@field CanHear boolean Wether the player can hear
+---@field impulseBeenInventorySetup boolean Wether the player has had their inventory setup
+---@field impulseBeenSetup boolean Wether the player has had their setup
+---@field impulseLastFall number The time the player last fell
+---@field InventoryWeight number The weight of the players inventory
+---@field InventoryWeightStorage number The weight of the players storage inventory
+---@field InventoryRegister table The players inventory
+---@field InventoryStorageRegister table The players storage inventory
+---@field InventoryEquipGroups table The players equipment groups
+
+---@class impulse.Misc.SetupData
+---@field id number
+---@field rpname string
+---@field steamid string
+---@field steamname string
+---@field group string
+---@field xp number
+---@field money number
+---@field bankmoney number
+---@field model string
+---@field data string
+---@field skills string
+---@field skin number
+---@field firstjoin number
+---@field lastjoin number
+---@field rpgroup number
+---@field rpgrouprank string
+---@field address string
+---@field playtime number
+
+---@realm client
+---@class Player
+
+---@realm shared
+---@class Player
+---@field impulseInventorySearching Player The player whose inventory our player is searching

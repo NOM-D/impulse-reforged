@@ -175,7 +175,6 @@ function impulse.Group:ComputeMembers(name, callback)
 
     local query = mysql:Select("impulse_players")
     query:Select("steamid")
-    query:Select("rpname")
     query:Select("rpgroup")
     query:Select("rpgrouprank")
     query:Where("rpgroup", id)

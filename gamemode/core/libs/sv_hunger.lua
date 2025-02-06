@@ -20,8 +20,7 @@ function impulse.Hunger:FeedHunger(ply, amount)
 end
 
 --- Player class methods
--- @classmod Player
-
+---@class Player
 local PLAYER = FindMetaTable("Player")
 
 --- Set the hunger amount of a player

@@ -13,7 +13,9 @@ if ( SERVER ) then
     RunConsoleCommand("sv_defaultdeployspeed", 1)
 end
 
--- disable widgets cause it uses like 30% server cpu lol
+--- disable widgets cause it uses like 30% server cpu lol
+---@deprecated
+---@return nil
 function widgets.PlayerTick()
 end
 
@@ -37,6 +39,23 @@ end
 file.CreateDir("impulse-reforged")
 
 -- Load config
+---@class impulse.Config
+---@field YML table
+---@field MapWorkshopID string?
+---@field MenuCamPos Vector?
+---@field MenuCamAng Angle?
+---@field BroadcastPos Vector?
+---@field BroadcastDistance number?
+---@field BlacklistEnts table
+---@field Zones table
+---@field IntroScenes table
+---@field PrisonAngle Angle?
+---@field PrisonCells table
+---@field Buttons table
+---@field ApartmentBlocks table
+---@field LoadScript function?
+---@field JumpPower number The jump power of players
+---@field CityName string? The name of the city (e.g. "City 17")
 impulse.Config = impulse.Config or {}
 
 -- Include thirdparty libraries
@@ -46,7 +65,7 @@ impulse.Util:IncludeDir("core/thirdparty")
 impulse.Config.YML = impulse.Yaml.Read("data/impulse-reforged/config.yml") or {}
 
 -- Load the rest of the gamemode
-impulse.Util:IncludeDir("core/libs")
+impulse.Util:IncludeDir("core/libs", nil, true)
 impulse.Util:IncludeDir("core/meta")
 impulse.Util:IncludeDir("core/derma")
 impulse.Util:IncludeDir("core/hooks")
@@ -57,8 +76,11 @@ function GM:Initialize()
     impulse.Schema:Load()
 end
 
+---@type boolean Whether the gamemode has been just reloaded
 impulse_reloaded = false
+---@type number The number of Lua reloads that have occurred
 impulse_reloads = impulse_reloads or 0
+---@type number The time the last reload took
 impulse_reload_time = SysTime()
 
 function GM:OnReloaded()
@@ -72,8 +94,7 @@ function GM:OnReloaded()
     impulse_reloads = impulse_reloads + 1
     impulse_reload_time = math.Round(SysTime() - impulse_reload_time, 2)
 
-    MsgC(Color(0, 255, 0), "[impulse-reforged] Reloaded in " .. impulse_reload_time .. "s. (" .. impulse_reloads .. " total reloads)\n")
-
+    impulse.Logs:Success("Reloaded in " .. impulse_reload_time .. "s. (" .. impulse_reloads .. " total reloads)")
     GM = nil
 end
 

@@ -134,13 +134,12 @@ net.Receive("impulseCharacterCreate", function(len, ply)
     query:Callback(function(result)
         -- If we already have a rp name, we can't create a new character
         if istable(result) and #result > 0 and result[1].rpname and result[1].rpname != "" then
-            logs.Info(ply:SteamName().." attempted to create a new character when they already have one.")
+            logs:Info(ply:SteamName().." attempted to create a new character when they already have one.")
             ply:Kick("You already have a character, stop trying to exploit.")
             return
         end
 
         local insertQuery = mysql:Update("impulse_players")
-        insertQuery:Update("rpname", charName)
         insertQuery:Update("steamid", plyID)
         insertQuery:Update("steamname", ply:SteamName())
         insertQuery:Update("group", "user")
@@ -160,6 +159,7 @@ net.Receive("impulseCharacterCreate", function(len, ply)
         insertQuery:Where("steamid", plyID)
         insertQuery:Callback(function(result, status, lastID)
             if IsValid(ply) then
+                ---@type impulse.Misc.SetupData
                 local setupData = {
                     id = lastID,
                     rpname = charName,
@@ -181,7 +181,7 @@ net.Receive("impulseCharacterCreate", function(len, ply)
                     playtime = 0
                 }
 
-                logs.Debug(ply:SteamName().." has created their character with the name \""..charName.."\".")
+                logs:Debug(ply:SteamName().." has created their character with the name \""..charName.."\".")
 
                 ply:Freeze(false)
                 ply:AllowScenePVSControl(false) -- stop cutscene

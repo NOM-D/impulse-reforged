@@ -6,7 +6,10 @@ This library is used to send and receive networked variables between the server 
 @module impulse.Networking
 ]]
 
+--- @class Entity
 local entityMeta = FindMetaTable("Entity")
+
+--- @class Player
 local playerMeta = FindMetaTable("Player")
 
 impulse.Networking = impulse.Networking or {}

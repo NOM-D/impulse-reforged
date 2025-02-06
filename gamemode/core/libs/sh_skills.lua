@@ -5,6 +5,9 @@ impulse.Skills.Data = impulse.Skills.Data or {}
 
 local count = 0
 
+---Define a skill
+---@param name string
+---@param niceName string
 function impulse.Skills.Define(name, niceName)
     count = count + 1
 
@@ -12,19 +15,28 @@ function impulse.Skills.Define(name, niceName)
     impulse.Skills.NiceNames[name] = niceName
 end
 
+---Get the 'pretty name' of a skill
+---@param name string
+---@return string?
 function impulse.Skills.GetNiceName(name)
     return impulse.Skills.NiceNames[name]
 end
 
+---@class Player
 local PLAYER = FindMetaTable("Player")
 
 if ( CLIENT ) then
+    ---Get the XP of a skill
+    ---@param name string
+    ---@return integer xp
     function PLAYER:GetSkillXP(name)
         local xp = impulse.Skills.Data[name]
-        
         return xp or 0
     end
 
+    ---Get the XP requirement to level up a skill
+    ---@param level number
+    ---@return number xpRequirement
     function impulse.Skills.GetLevelXPRequirement(level)
         local req = 0
 
@@ -36,6 +48,9 @@ if ( CLIENT ) then
     end
 end
 
+---Get the skill level for a skill
+---@param name string
+---@return integer
 function PLAYER:GetSkillLevel(name)
     local xp = self:GetSkillXP(name)
     local req = 0

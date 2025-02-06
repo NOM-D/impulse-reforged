@@ -7,6 +7,7 @@ See the [Garry's Mod Wiki](https://wiki.garrysmod.com/page/Category:Player) for 
 ]]
 -- @classmod Player
 
+--- @class Player
 local PLAYER = FindMetaTable("Entity")
 
 util.AddNetworkString("impulseDataSync")
@@ -42,7 +43,6 @@ function PLAYER:LoadData(callback)
                 end
             else
                 local insertQuery = mysql:Insert("impulse_players")
-                    insertQuery:Insert("rpname", "")
                     insertQuery:Insert("steamid", steamID64)
                     insertQuery:Insert("steamname", name)
                     insertQuery:Insert("group", "user")

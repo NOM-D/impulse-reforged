@@ -117,7 +117,7 @@ end)
 
 net.Receive("impulseQuizForce", function()
     local team = net.ReadUInt(8)
-    local quiz = vgui.Create("impulseQuiz")
+    local quiz = vgui.Create("impulseQuiz") --[[@as impulse.Derma.impulseQuiz]]
     quiz:SetQuiz(team)
 end)
 

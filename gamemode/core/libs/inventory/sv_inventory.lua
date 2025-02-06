@@ -8,6 +8,8 @@ INVENTORY_PLAYER = 1
 INVENTORY_STORAGE = 2
 
 impulse.Inventory = impulse.Inventory or {}
+
+---@type table<string, impulse.Inventory.Inventory>
 impulse.Inventory.Data = impulse.Inventory.Data or {}
 
 --- Inserts an inventory item into the database. This can be used to control the inventory of offline users
@@ -113,7 +115,7 @@ end
 -- @treturn entity Spawned item
 function impulse.Inventory:SpawnItem(class, pos, bannedPlayer, killTime)
     local itemID = impulse.Inventory:ClassToNetID(class)
-    if not itemID then return logs.Error("Attempting to spawn nil item!") end
+    if not itemID then return logs:Error("Attempting to spawn nil item!") end
     
     local item = ents.Create("impulse_item")
     item:SetItem(itemID)
@@ -140,7 +142,7 @@ end
 -- @treturn entity Spawned workbench
 function impulse.Inventory:SpawnBench(class, pos, ang)
     local benchClass = impulse.Inventory.Benches[class]
-    if not benchClass then return logs.Error("Attempting to spawn nil bench!") end
+    if not benchClass then return logs:Error("Attempting to spawn nil bench!") end
 
     local bench = ents.Create("impulse_bench")
     bench:SetBench(benchClass)
@@ -151,6 +153,7 @@ function impulse.Inventory:SpawnBench(class, pos, ang)
     return bench
 end
 
+--- @class Player
 local PLAYER = FindMetaTable("Player")
 
 --- Gets a players inventory table
@@ -299,14 +302,14 @@ function PLAYER:IsInventoryItemRestricted(itemID, storagetype)
 end
 
 --- Gives an inventory item to a player
--- @realm server
--- @string class Item class name
--- @int[opt=1] storagetype Storage type (1 is player inventory, 2 is storage)
--- @bool[opt=false] restricted Is item restricted
--- @bool[opt=false] isLoaded (INTERNAL) Used for first time setup when player connects
--- @bool[opt=false] moving (INTERNAL) Is item just being moved? (stops database requests)
--- @int[opt] clip (INTERNAL) (Only used for weapons) Item clip
--- @treturn int ItemID
+--- @realm server
+--- @parameter class string
+--- @param storagetype number? Storage type (1 is player inventory, 2 is storage)
+--- @param restricted boolean? Is item restricted
+--- @param isLoaded boolean? (INTERNAL) Used for first time setup when player connects
+--- @param moving boolean? (INTERNAL) Is item just being moved? (stops database requests)
+--- @param clip number? (INTERNAL) (Only used for weapons) Item clip
+--- @return number? itemId
 function PLAYER:GiveItem(class, storagetype, restricted, isLoaded, moving, clip) -- isLoaded is a internal arg used for first time item setup, when they are already half loaded
     if ( !self.impulseBeenInventorySetup and !isLoaded ) then
         return
@@ -426,8 +429,8 @@ function PLAYER:TakeInventoryItem(itemID, storagetype, moving)
 end
 
 --- Clears a players inventory
--- @realm server
--- @int[opt=1] storagetype Storage type (1 is player inventory, 2 is storage)
+--- @realm server
+--- @param storageType number Storage type (1 is player inventory, 2 is storage)
 function PLAYER:ClearInventory(storagetype)
     if ( !self.impulseBeenInventorySetup ) then
         return false

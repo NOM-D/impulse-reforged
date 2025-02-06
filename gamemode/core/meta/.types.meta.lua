@@ -1,0 +1,2 @@
+---@class Player
+---@field impulseDefaultSkin number The default skin of the player

@@ -1,3 +1,4 @@
+---@class impulse.Derma.impulseQuiz : DFrame
 local PANEL = {}
 
 function PANEL:Init()

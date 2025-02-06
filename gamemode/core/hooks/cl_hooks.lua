@@ -19,7 +19,7 @@ function GM:OnSchemaLoaded()
         local data = util.JSONToTable(f)
 
         if not data then
-            logs.Error("Error loading menu message "..k.."!")
+            logs:Error("Error loading menu message "..k.."!")
             continue
         end
 
@@ -41,6 +41,7 @@ function GM:Think()
     if ( LocalPlayer():Team() != 0 and !vgui.CursorVisible() and !impulse_ActiveWorkbar ) then
         if ( !IsValid(impulse.MainMenu) ) then
             if ( input.IsKeyDown(KEY_F1) ) then
+                ---@class impulseMainMenu : Panel
                 impulse.MainMenu = vgui.Create("impulseMainMenu")
                 impulse.MainMenu:SetAlpha(0)
                 impulse.MainMenu:AlphaTo(255, 0.2, 0)
@@ -362,6 +363,8 @@ function GM:CalcView(ply, origin, angles, fov)
         if ( traceData.Fraction < 1.0 ) then
             pos = pos + traceData.HitNormal * 5
         end
+
+
 
         local wep = ply:GetActiveWeapon()
         if ( IsValid(wep) and wep.GetIronsights and !wep.NoThirdpersonIronsights ) then

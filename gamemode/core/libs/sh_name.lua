@@ -1,14 +1,13 @@
+---@class Player
 local PLAYER = FindMetaTable("Player")
 
 if ( SERVER ) then
+    ---Set the roleplay name for the player and save it to the database if necessary.
+    ---@param name string
+    ---@param save? boolean
     function PLAYER:SetRPName(name, save)
         if save then
-            local query = mysql:Update("impulse_players")
-            query:Update("rpname", name)
-            query:Where("steamid", self:SteamID64())
-            query:Execute(true)
-
-            self.impulseDefaultName = name
+            self:SetSavedRPName(name, self:Team())
         end
 
         hook.Run("PlayerRPNameChanged", self, self:Name(), name)
@@ -16,11 +15,32 @@ if ( SERVER ) then
         self:SetNetVar("roleplayName", name)
     end
 
-    function PLAYER:GetSavedRPName()
-        return self.impulseDefaultName
+    --- Set the roleplay name for the player's team and save it to the database.
+    --- @param name string
+    --- @param teamId? number
+    function PLAYER:SetSavedRPName(name, teamId)
+        if not teamId then
+            teamId = self:Team()
+        end
+
+        impulse.Logs:Database("Player " .. self:SteamName() .. " set their RP name to " .. name .. " for team " .. teamId)
+        local data = self:GetData("rp_names", {})
+        data[teamId] = name
+        self:SetData("rp_names", data)
+    end
+
+    --- Get the roleplay name for the player for the specified team.
+    --- @param teamId? number
+    --- @return string name The roleplay name we save for the player in the database
+    function PLAYER:GetSavedRPName(teamId)
+        if not teamId then
+            teamId = self:Team()
+        end
+        return self:GetData("rp_names", {})[teamId]
     end
 end
 
+--- Table of blacklisted roleplay names
 local blacklistNames = {
     ["ooc"] = true,
     ["shared"] = true,
@@ -39,9 +59,13 @@ local blacklistNames = {
     ["tyrone jenson"] = true
 }
 
+--- Check whether a roleplay name is usable
+---@param name string
+---@return boolean isAllowed
+---@return string? reason
 function impulse.CanUseName(name)
     if name:len() >= 24 then
-        return false, "Name too long. (max. 24)" 
+        return false, "Name too long. (max. 24)"
     end
 
     name = name:Trim()
@@ -74,10 +98,22 @@ function PLAYER:SteamName()
     return self.steamName(self)
 end
 
+--- Get the player's roleplay name
+---@return string roleplayName
 function PLAYER:Name()
     return self:GetNetVar("roleplayName", self:SteamName())
 end
 
+--- Get the player's known name.
+--- 
+--- This is the name that is displayed to other players.
+--- 
+--- Known name can be changed by the player.
+--- 
+--- If the player has set a name, it will return the player's set roleplay name.
+--- 
+--- If the player has not set a roleplay name, it will return the player's Steam name.
+---@return string knownName
 function PLAYER:KnownName()
     local custom = hook.Run("PlayerGetKnownName", self)
     return custom or self:GetNetVar("roleplayName", self:SteamName())

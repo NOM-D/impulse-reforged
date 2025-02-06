@@ -89,7 +89,7 @@ end
 -- @internal
 function impulse.Database:LoadTables()
     local query
-    logs.Database("loading tables...")
+    logs:Database("loading tables...")
 
     query = mysql:Create("impulse_schema")
         query:Create("table", "VARCHAR(64) NOT NULL")
@@ -99,7 +99,6 @@ function impulse.Database:LoadTables()
 
     query = mysql:Create("impulse_players")
         query:Create("id", "INT UNSIGNED NOT NULL AUTO_INCREMENT")
-        query:Create("rpname", "VARCHAR(70) NOT NULL")
         query:Create("steamid", "VARCHAR(25) NOT NULL")
         query:Create("steamname", "VARCHAR(70) NOT NULL")
         query:Create("group", "VARCHAR(70) NOT NULL")
@@ -198,7 +197,7 @@ function impulse.Database:LoadTables()
         end)
     query:Execute()
 
-    logs.Database("tables loaded.")
+    logs:Database("tables loaded.")
 end
 
 --- Wipes all tables in the database, meaning all data will be lost.
@@ -262,17 +261,17 @@ concommand.Add("impulse_database_reset", function(ply, cmd, arguments)
         if ( resetCalled < RealTime() ) then
             resetCalled = RealTime() + 3
 
-            logs.Error("WIPING THE DATABASE WILL PERMENANTLY REMOVE ALL PLAYER, CHARACTER, ITEM, AND INVENTORY DATA.")
-            logs.Error("THE SERVER WILL RESTART TO APPLY THESE CHANGES WHEN COMPLETED.")
-            logs.Error("TO CONFIRM DATABASE RESET, RUN 'impulse_database_reset' AGAIN WITHIN 3 SECONDS.")
+            logs:Error("WIPING THE DATABASE WILL PERMENANTLY REMOVE ALL PLAYER, CHARACTER, ITEM, AND INVENTORY DATA.")
+            logs:Error("THE SERVER WILL RESTART TO APPLY THESE CHANGES WHEN COMPLETED.")
+            logs:Error("TO CONFIRM DATABASE RESET, RUN 'impulse_database_reset' AGAIN WITHIN 3 SECONDS.")
         else
             resetCalled = 0
-            logs.Error("DATABASE WIPE IN PROGRESS...")
+            logs:Error("DATABASE WIPE IN PROGRESS...")
 
             hook.Run("OnWipeTables")
 
             impulse.Database:WipeTables(function()
-                logs.Warning("DATABASE WIPE COMPLETED! RESTARTING SERVER...")
+                logs:Warning("DATABASE WIPE COMPLETED! RESTARTING SERVER...")
                 RunConsoleCommand("changelevel", game.GetMap())
             end)
         end

@@ -5,6 +5,7 @@ impulse.Arrest.DisconnectRemember = impulse.Arrest.DisconnectRemember or {}
 
 util.AddNetworkString("impulseSendJailInfo")
 
+--- @class Player
 local PLAYER = FindMetaTable("Player")
 
 function PLAYER:Arrest()

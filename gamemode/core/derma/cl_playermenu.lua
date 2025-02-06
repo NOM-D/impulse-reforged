@@ -173,6 +173,8 @@ function PANEL:QuickActions()
 end
 
 function PANEL:Teams()
+    local client = LocalPlayer()
+
     self.modelPreview = vgui.Create("DModelPanel", self.teams)
     self.modelPreview:SetPos(373, 0)
     self.modelPreview:SetSize(300, 370)
@@ -240,18 +242,22 @@ function PANEL:Teams()
     unavailibleList:SetSpaceY(5)
     unavailibleList:SetSpaceX(5)
 
-    for v, k in pairs(impulse.Teams.Stored) do
+    for teamIndex, teamTable in pairs(impulse.Teams.Stored) do
         local selectedList
+        local model = teamTable.model
+        if model and isfunction(model) then
+            model = model(client)
+        end
 
-        if (k.xp > LocalPlayer():GetXP()) or (k.donatorOnly and k.donatorOnly == true and LocalPlayer():IsDonator() == false) then
+        if (teamTable.xp > client:GetXP()) or (teamTable.donatorOnly and teamTable.donatorOnly == true and client:IsDonator() == false) then
             selectedList = unavailibleList
         else
             selectedList = availibleList
         end
 
-        local teamCard = selectedList:Add("impulseTeamCard")
-        teamCard:SetTeam(v)
-        teamCard.team = v
+        local teamCard = selectedList:Add("impulseTeamCard") --[[@as impulse.Derma.impulseTeamCard]]
+        teamCard:SetTeam(teamIndex)
+        teamCard.team = teamIndex
         teamCard:Dock(TOP)
         teamCard:SetHeight(60)
         teamCard:SetMouseInputEnabled(true)
@@ -259,14 +265,19 @@ function PANEL:Teams()
         local realSelf = self
 
         function teamCard:OnCursorEntered()
-            local model = impulse.Teams.Stored[self.team].model
-            local skin = impulse.Teams.Stored[self.team].skin or 0
-            local desc = impulse.Teams.Stored[self.team].description
-            local bodygroups = impulse.Teams.Stored[self.team].bodygroups
+            local storedTeam = impulse.Teams:FindTeam(self.team)
+            local model = storedTeam.model
+            local skin = storedTeam.skin or 0
+            local desc = storedTeam.description
+            local bodygroups = storedTeam.bodygroups
 
             if not model then
-                model = impulse_defaultModel or "models/Humans/Group01/male_02.mdl" 
+                model = impulse_defaultModel or "models/Humans/Group01/male_02.mdl"
                 skin = impulse_defaultSkin or 0
+            end
+
+            if isfunction(model) then
+                model = model(client)
             end
 
             realSelf.modelPreview:SetModel(model)

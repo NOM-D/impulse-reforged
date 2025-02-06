@@ -303,6 +303,8 @@ function GM:HUDPaint()
     --Crosshair
     local hud_crosshair = impulse.Settings:Get("hud_crosshair")
     if hud_crosshair == true then
+        ---@class Weapon
+        ---@field ShouldDrawCrosshair boolean|fun(wep: Weapon)
         local curWep = ply:GetActiveWeapon()
 
         if not curWep or not curWep.ShouldDrawCrosshair or (curWep.ShouldDrawCrosshair and curWep.ShouldDrawCrosshair(curWep) != false) then

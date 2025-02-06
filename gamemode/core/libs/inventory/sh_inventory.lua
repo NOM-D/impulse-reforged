@@ -25,9 +25,9 @@ local count = 1
 local countX = 1
 
 --- Registers a new inventory item
--- @realm shared
--- @param itemData Item data
--- @internal
+--- @realm shared
+--- @param item impulse.Inventory.ItemData
+--- @internal
 function impulse.Inventory:RegisterItem(item)
     local class = item.WeaponClass
     local attachmentClass = item.AttachmentClass

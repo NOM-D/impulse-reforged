@@ -1,3 +1,4 @@
+---@class Player
 local PLAYER = FindMetaTable("Player")
 
 function PLAYER:GetZone()

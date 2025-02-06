@@ -8,7 +8,7 @@ function GM:DatabaseConnected()
     -- Create the SQL tables if they do not exist.
     impulse.Database:LoadTables()
 
-    logs.Database("Database type: " .. impulse.Database.Config.adapter .. ".")
+    logs:Database("Database type: " .. impulse.Database.Config.adapter .. ".")
 
     if ( impulse.Database.Config.dev and impulse.Database.Config.dev.preview ) then
         GetConVar("impulse_preview"):SetBool(true)
@@ -43,7 +43,6 @@ function GM:PlayerInitialSpawn(ply)
 
         local query = mysql:Select("impulse_players")
         query:Select("id")
-        query:Select("rpname")
         query:Select("group")
         query:Select("rpgroup")
         query:Select("rpgrouprank")
@@ -60,13 +59,16 @@ function GM:PlayerInitialSpawn(ply)
         query:Select("address")
         query:Select("playtime")
         query:Where("steamid", ply:SteamID64())
-        query:Callback(function(result)
+        query:Callback(
+        ---@param result { id: number, group: string, rpgroup: string, rpgrouprank: string, xp: number, money: number, bankmoney: number, model: string, skin: string, data: string, skills: string, ammo: number, firstjoin: string, lastjoin: string, address: string, playtime: number }[]
+        function(result)
             if ( !IsValid(ply) ) then return end
-
+            ---@type impulse.Misc.SetupData
             local db = result[1]
 
-            -- Set the isNew flag to false if the player has already joined the server.
-            isNew = db.rpname == nil or db.rpname == ""
+            -- Set the isNew flag to false if the player has already joined the server (set one of their RP names).
+            local dataJson = util.JSONToTable(db.data or "") or {}
+            isNew = dataJson["rp_names"] == nil
     
             net.Start("impulseChatText")
                 net.WriteTable({Color(150, 150, 200), ply:SteamName() .. " has connected to the server."})
@@ -85,16 +87,16 @@ function GM:PlayerInitialSpawn(ply)
             end
 
             if ( GExtension ) then
-                logs.Database("GExtension detected, skipping group setting for '" .. ply:SteamID64() .. " (" .. ply:Name() .. ")'.")
+                logs:Database("GExtension detected, skipping group setting for '" .. ply:SteamID64() .. " (" .. ply:Name() .. ")'.")
             elseif ( VyHub ) then
-                logs.Database("VyHub detected, skipping group setting for '" .. ply:SteamID64() .. " (" .. ply:Name() .. ")'.")
+                logs:Database("VyHub detected, skipping group setting for '" .. ply:SteamID64() .. " (" .. ply:Name() .. ")'.")
             else
                 if ( db.group ) then
                     ply:SetUserGroup(db.group, true)
-                    logs.Database("Set '" .. ply:SteamID64() .. " (" .. ply:Name() .. ")' to group '" .. db.group .. "'.")
+                    logs:Database("Set '" .. ply:SteamID64() .. " (" .. ply:Name() .. ")' to group '" .. db.group .. "'.")
                 else
                     ply:SetUserGroup("user", true)
-                    logs.Database("No group found for '" .. ply:SteamID64() .. " (" .. ply:Name() .. ")'. Defaulting to user.")
+                    logs:Database("No group found for '" .. ply:SteamID64() .. " (" .. ply:Name() .. ")'. Defaulting to user.")
     
                     local queryGroup = mysql:Update("impulse_players")
                     queryGroup:Update("group", "user")
@@ -162,6 +164,8 @@ function GM:PlayerInitialSpawn(ply)
     plyTable.impulseAFKTimer = CurTime() + 720
 end
 
+---@param ply Player
+---@param data impulse.Misc.SetupData
 function GM:PlayerSetup(ply, data)
     local plyTable = ply:GetTable()
 
@@ -241,7 +245,6 @@ function GM:PlayerSetup(ply, data)
 
     plyTable.impulseDefaultModel = data.model
     plyTable.impulseDefaultSkin = data.skin
-    plyTable.impulseDefaultName = data.rpname
 
     ply:UpdateDefaultModelSkin()
     ply:SetTeam(impulse.Config.DefaultTeam)
@@ -370,6 +373,7 @@ function GM:PlayerLoadout(ply)
 end
 
 function GM:PostSetupPlayer(ply)
+    --- @class Player
     local plyTable = ply:GetTable()
     plyTable.impulseData.Achievements = plyTable.impulseData.Achievements or {}
 
@@ -383,6 +387,7 @@ end
 function GM:PlayerInitialSpawnLoaded(ply)
     local jailTime = impulse.Arrest.DisconnectRemember[ply:SteamID64()]
 
+    --- @class Player
     local plyTable = ply:GetTable()
     if ( plyTable.ammoToGive ) then
         for v, k in pairs(plyTable.ammoToGive) do
@@ -413,6 +418,7 @@ function GM:PlayerInitialSpawnLoaded(ply)
 end
 
 function GM:PlayerSpawn(ply)
+    --- @class Player
     local plyTable = ply:GetTable()
     local cellID = plyTable.InJail
 
@@ -484,6 +490,7 @@ function GM:PlayerDisconnected(ply)
     local entIndex = ply:EntIndex()
     local arrested = ply:GetNetVar("arrested", false)
 
+    --- @class Player
     local plyTable = ply:GetTable()
     local dragger = plyTable.impulseArrestedDragger
     if ( IsValid(dragger) ) then
@@ -549,6 +556,8 @@ function GM:PlayerDisconnected(ply)
         end
     end
 
+    --- Save player's data to database
+    ply:SaveData()
     impulse.Refunds.RemoveAll(steamID)
 end
 
@@ -560,6 +569,7 @@ local talkCol = Color(255, 255, 100)
 local infoCol = Color(135, 206, 250)
 local strTrim = string.Trim
 function GM:PlayerSay(ply, text, teamChat, newChat)
+    --- @class Player
     local plyTable = ply:GetTable()
     if ( !plyTable.impulseBeenSetup or teamChat ) then return "" end
 
@@ -641,7 +651,7 @@ end
 function GM:DoPlayerDeath(ply, attacker, dmginfo)
     local ragCount = table.Count(ents.FindByClass("prop_ragdoll"))
     if ( ragCount > 32 ) then
-        logs.Debug("Avoiding ragdoll body spawn for performance reasons... (rag count: " .. ragCount .. ")")
+        logs:Debug("Avoiding ragdoll body spawn for performance reasons... (rag count: " .. ragCount .. ")")
         return
     end
 
@@ -652,7 +662,8 @@ function GM:DoPlayerDeath(ply, attacker, dmginfo)
     ragdoll.DeadPlayer = ply
     ragdoll.Killer = attacker
     ragdoll.DmgInfo = dmginfo
-
+    
+    --- @class Player
     local plyTable = ply:GetTable()
     if ( plyTable.impulseLastFall and plyTable.impulseLastFall > CurTime() - 0.5 ) then
         ragdoll.FallDeath = true
@@ -724,6 +735,7 @@ function GM:PlayerDeath(ply, killer)
         wait = impulse.Config.RespawnTimeDonator
     end
 
+    --- @class Player
     local plyTable = ply:GetTable()
     plyTable.impulseRespawnWait = CurTime() + wait
 
@@ -776,6 +788,7 @@ function GM:PlayerDeath(ply, killer)
 end
 
 function GM:PlayerSilentDeath(ply)
+    --- @class Player
     local plyTable = ply:GetTable()
     plyTable.IsKillSilent = true
     plyTable.TempWeapons = {}
@@ -799,6 +812,7 @@ function GM:PlayerDeathThink(ply)
     if ( curTime < nextDeathThink ) then return end
     nextDeathThink = curTime + 0.5
 
+    --- @class Player
     local plyTable = ply:GetTable()
     if ( !plyTable.impulseRespawnWait or plyTable.impulseRespawnWait < CurTime() ) then
         ply:Spawn()
@@ -964,7 +978,7 @@ function GM:InitPostEntity()
 
     if ( impulse.Config.Zones ) then
         for k, v in pairs(impulse.Config.Zones) do
-            local zone = ents.Create("impulse_zone")
+            local zone = ents.Create("impulse_zone") --[[@as impulse.Entities.impulse_zone]]
             zone:SetBounds(v.pos1, v.pos2)
             zone.Zone = k
         end

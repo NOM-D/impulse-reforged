@@ -67,29 +67,45 @@ function impulse.Util:Include(fileName, realm)
 end
 
 --- Includes multiple files in a directory.
--- @realm shared
--- @string directory Directory to include files from
--- @bool[opt] bFromLua Whether or not to search from the base `lua/` folder, instead of contextually basing from `schema/`
--- or `gamemode/`
--- @see impulse.Util:Include
--- @usage impulse.Util:IncludeDir("libs/thirdparty")
-function impulse.Util:IncludeDir(directory, bFromLua)
-    -- By default, we include relatively to impulse.
+--- @realm shared
+--- @param directory string Directory to include files from
+--- @param bFromLua boolean? Whether or not to search from the base `lua/` folder, instead of contextually basing from `schema/`
+--- or `gamemode
+--- @param bRecursive boolean? Whether or not to include files in subdirectories
+--- @see impulse.Util:Include
+--- @usage impulse.Util:IncludeDir("libs/thirdparty")
+function impulse.Util:IncludeDir(directory, bFromLua, bRecursive)
     local baseDir = "impulse-reforged"
-
-    -- If we're in a schema, include relative to the schema.
-    if ( SCHEMA_NAME ) then
+    
+    if SCHEMA_NAME then
         baseDir = SCHEMA_NAME .. "/schema/"
     else
         baseDir = baseDir .. "/gamemode/"
     end
+    
+    ---@param dir string
+    local function includeDir(dir)
+        local searchPath = (bFromLua and "" or baseDir) .. dir
 
-    -- Find all of the files within the directory.
-    for _, v in ipairs(file.Find((bFromLua and "" or baseDir)..directory.."/*.lua", "LUA")) do
-        -- Include the file from the prefix.
-        impulse.Util:Include(directory.."/"..v)
+        -- Include all Lua files in the directory
+        local files, dirs = file.Find(searchPath .. "/*", "LUA")
+        for _, fileName in ipairs(files) do
+            if not fileName:EndsWith(".lua") then continue end -- Ignore non-Lua files
+            impulse.Util:Include(dir .. "/" .. fileName)
+        end
+
+        -- Recursively include subdirectories
+        if bRecursive then
+            for _, dirName in ipairs(dirs) do
+                includeDir(dir .. "/" .. dirName)
+            end
+        end
     end
+
+    -- Start including the directory
+    includeDir(directory)
 end
+
 
 if ( SERVER ) then
     function impulse:CinematicIntro(message)

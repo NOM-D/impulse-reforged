@@ -581,6 +581,7 @@ local ALWAYS_RAISED = {}
 ALWAYS_RAISED["weapon_physgun"] = true
 ALWAYS_RAISED["gmod_tool"] = true
 
+--- @class Player
 local PLAYER = FindMetaTable("Player")
 
 --- Plays an animation sequence on a player

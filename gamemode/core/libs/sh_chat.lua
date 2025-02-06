@@ -2,6 +2,18 @@
 impulse.chatCommands = impulse.chatCommands or {}
 impulse.chatClasses = impulse.chatClasses or {}
 
+---@class impulse.Chat.CommandData
+---@field onRun fun(ply:Player, arg:table, rawText:string)
+---@field adminOnly boolean?
+---@field leadAdminOnly boolean?
+---@field superAdminOnly boolean?
+---@field description string?
+---@field requiresArg boolean?
+---@field requiresAlive boolean?E
+
+---Register a chat command
+---@param name string
+---@param cmdData impulse.Chat.CommandData
 function impulse.RegisterChatCommand(name, cmdData)
     if not cmdData.adminOnly then cmdData.adminOnly = false end
     if not cmdData.leadAdminOnly then cmdData.leadAdminOnly = false end
@@ -14,6 +26,7 @@ function impulse.RegisterChatCommand(name, cmdData)
 end
 
 if ( SERVER ) then
+    --- @class Player
     local PLAYER = FindMetaTable("Player")
 
     util.AddNetworkString("impulseChatNetMessage")
@@ -31,15 +44,6 @@ else
         impulse.chatClasses[id] = onReceive
     end
 end
-
-local oocCol = color_white
-local oocTagCol = Color(200, 0, 0)
-local yellCol = Color(255, 140, 0)
-local whisperCol = Color(65, 105, 225)
-local infoCol = Color(135, 206, 250)
-local talkCol = Color(255, 255, 100)
-local radioCol = Color(55, 146, 21)
-local pmCol = Color(45, 154, 6)
 
 local oocCommand = {
     description = "Talk out of character globally.",

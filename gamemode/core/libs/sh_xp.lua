@@ -1,6 +1,7 @@
 --- Player class methods
 -- @classmod Player
 
+---@class Player
 local PLAYER = FindMetaTable("Player")
 
 --- Returns the amount of XP a player has

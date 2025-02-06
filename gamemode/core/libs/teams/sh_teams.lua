@@ -1,11 +1,13 @@
+--- @class impulse.Teams
+--- @field Stored table<number, impulse.Teams.TeamData> A list of all registered teams
+--- @field List table<string, number> A list of team code names to their index
 impulse.Teams = impulse.Teams or {}
 impulse.Teams.Stored = impulse.Teams.Stored or {}
 impulse.Teams.List = impulse.Teams.List or {}
 
 --- Registers a new team in the schema.
--- @realm shared
--- @table teamData Team data
--- @treturn number Team ID
+---@param teamData impulse.Teams.TeamData
+---@return number
 function impulse.Teams:Register(teamData)
     if ( !teamData.name ) then
         ErrorNoHalt("Attempted to register a team without a name.\n")
@@ -47,10 +49,11 @@ function impulse.Teams:Register(teamData)
     return id
 end
 
+--- Returns a team by its index or code name.
+---@param identifier string|number
+---@return impulse.Teams.TeamData?
 function impulse.Teams:FindTeam(identifier)
     if ( !identifier ) then return end
-
-    tostring(identifier)
 
     for k, v in ipairs(impulse.Teams.Stored) do
         if ( impulse.Util:StringMatches(tostring(v.name), identifier) ) then
@@ -97,6 +100,8 @@ function impulse.Teams:FindRank(identifier)
     end
 end
 
+
+--- @class Player
 local PLAYER = FindMetaTable("Player")
 
 function PLAYER:CanBecomeTeam(teamID, notify)
@@ -312,10 +317,14 @@ function PLAYER:GetTeamRankName()
     return "Default"
 end
 
+---Get the player's team's table
+---@return (impulse.Teams.TeamData)?
 function PLAYER:GetTeamData()
     return impulse.Teams:FindTeam(self:Team())
 end
 
+---Get the player's team class table if applicable
+---@return impulse.Teams.TeamData.Class?
 function PLAYER:GetTeamClassData()
     local teamData = self:GetTeamData()
     if ( !teamData or !teamData.classes ) then return end
@@ -326,6 +335,8 @@ function PLAYER:GetTeamClassData()
     return teamData.classes[classID]
 end
 
+---Get the player's team rank table if applicable
+---@return impulse.Teams.TeamData.Rank?
 function PLAYER:GetTeamRankData()
     local teamData = self:GetTeamData()
     if ( !teamData or !teamData.ranks ) then return end
@@ -336,13 +347,18 @@ function PLAYER:GetTeamRankData()
     return teamData.ranks[rankID]
 end
 
+---Check if the player is a CP
+---@return boolean
 function PLAYER:IsCP()
     local teamData = impulse.Teams:FindTeam(self:Team())
     if ( teamData ) then
         return teamData.cp or false
     end
+    return false
 end
 
+---Get an ambient sound that is suitable for the player depending on their team, rank, and class
+---@return string?
 function PLAYER:GetAmbientSound()
     local rankData = self:GetTeamRankData()
     local classData = self:GetTeamClassData()

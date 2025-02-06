@@ -1,9 +1,13 @@
 if ( SERVER ) then
+    ---@class impulse.Entities.impulse_zone : ENTITY
+    ---@field Zone number? The zone ID
+    local ENT = ENT --[[@as impulse.Entities.impulse_zone]]
+
     ENT.Base = "base_brush"
     ENT.Type = "brush"
     ENT.IsZoneTrigger =  true
 
-    -- Updates the bounds of this collision box
+    --- Updates the bounds of this collision box
     function ENT:SetBounds(min, max)
         self:DrawShadow(false)
         self:SetNotSolid(true)
@@ -19,6 +23,8 @@ if ( SERVER ) then
     function ENT:StartTouch(ent)
         if not ent:IsPlayer() then return end
 
+        ---@type Player
+        ent = ent
         ent:SetZone(self.Zone)
     end
 

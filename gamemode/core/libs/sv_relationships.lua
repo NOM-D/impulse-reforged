@@ -21,7 +21,7 @@ Relationships use the following disposition values:<br/>
     name = "Citizen",
     color = Color(20, 150, 20, 255),
     description = \[\[The lowest class of Combine society.\]\],
-    loadout = {"impulse_hands", "weapon_physgun", "gmod_tool"},
+    loadoutAdd = {"impulse_hands", "weapon_physgun", "gmod_tool"},
     salary = 100,
     xp = 0,
     cp = false,

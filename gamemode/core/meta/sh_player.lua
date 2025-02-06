@@ -7,12 +7,13 @@ See the [Garry's Mod Wiki](https://wiki.garrysmod.com/page/Category:Player) for 
 ]]
 -- @classmod Player
 
-local PLAYER = FindMetaTable("Entity")
+---@class Player
+local PLAYER = FindMetaTable("Player")
 
 --- Sends a chat message to the player
--- @realm shared
--- @tab package Chat message package
--- @usage ply:AddChatText(Color(255, 0, 0), "Hello, ", Color(0, 255, 0), "world!")
+--- @realm shared
+--- @tab package Chat message package
+--- @usage ply:AddChatText(Color(255, 0, 0), "Hello, ", Color(0, 255, 0), "world!")
 function PLAYER:AddChatText(...)
     local package = {...}
     
@@ -26,9 +27,9 @@ function PLAYER:AddChatText(...)
 end
 
 --- Plays a sound on the player's client
--- @realm shared
--- @string sound Sound path
--- @usage ply:SurfacePlaySound("ambient/levels/labs/electric_explosion1.wav")
+--- @realm shared
+--- @string sound Sound path
+--- @usage ply:SurfacePlaySound("ambient/levels/labs/electric_explosion1.wav")
 function PLAYER:SurfacePlaySound(sound)
     if ( SERVER ) then
         net.Start("impulseSurfaceSound")
@@ -40,15 +41,15 @@ function PLAYER:SurfacePlaySound(sound)
 end
 
 --- Returns if a player is an impulse framework developer
--- @realm shared
--- @treturn bool Is developer
+--- @realm shared
+--- @treturn bool Is developer
 function PLAYER:IsDeveloper()
     return hook.Run("PlayerIsDeveloper", self)
 end
 
 --- Returns if a player has donator status
--- @realm shared
--- @treturn bool Is donator
+--- @realm shared
+--- @treturn bool Is donator
 function PLAYER:IsDonator()
     return ( self:IsUserGroup("donator") or self:IsAdmin() ) or hook.Run("PlayerIsDonator", self)
 end
@@ -60,8 +61,8 @@ local adminGroups = {
 }
 
 --- Returns if a player is an admin
--- @realm shared
--- @treturn bool Is admin
+--- @realm shared
+--- @treturn bool Is admin
 function PLAYER:IsAdmin()
     if ( hook.Run("PlayerIsAdmin", self) ) then return true end
 
@@ -78,8 +79,8 @@ local leadAdminGroups = {
 }
 
 --- Returns if a player is a lead admin
--- @realm shared
--- @treturn bool Is lead admin
+--- @realm shared
+--- @treturn bool Is lead admin
 function PLAYER:IsLeadAdmin()
     if ( hook.Run("PlayerIsLeadAdmin", self) ) then return true end
 
@@ -91,8 +92,8 @@ function PLAYER:IsLeadAdmin()
 end
 
 --- Returns if a player is a super admin
--- @realm shared
--- @treturn bool Is super admin
+--- @realm shared
+--- @treturn bool Is super admin
 function PLAYER:IsSuperAdmin()
     if ( hook.Run("PlayerIsSuperAdmin", self) ) then return true end
 
@@ -102,8 +103,8 @@ function PLAYER:IsSuperAdmin()
 end
 
 --- Returns if a player is in the spawn zone
--- @realm shared
--- @treturn bool Is in spawn
+--- @realm shared
+--- @treturn bool Is in spawn
 function PLAYER:InSpawn()
     if ( hook.Run("PlayerIsInSpawn", self) ) then return true end
 
@@ -113,8 +114,8 @@ function PLAYER:InSpawn()
 end
 
 --- Returns if the player has a female character
--- @realm shared
--- @treturn bool Is female
+--- @realm shared
+--- @treturn bool Is female
 function PLAYER:IsCharacterFemale()
     hook.Run("PlayerIsCharacterFemale", self)
 
@@ -139,8 +140,8 @@ local function OrganizeNotices(i)
 end
 
 --- Sends a notification to a player
--- @realm shared
--- @string message The notification message
+--- @realm shared
+--- @string message The notification message
 function PLAYER:Notify(message)
     if ( CLIENT ) then
         if ( !impulse.HUDEnabled ) then
@@ -180,56 +181,20 @@ function PLAYER:Notify(message)
 end
 
 --- Returns whether a player is running or not
--- @realm shared
--- @treturn bool Is running
+--- @realm shared
+--- @treturn bool Is running
 function PLAYER:IsRunning()
     local velocity = self:GetVelocity():Length2D()
     return self:GetWalkSpeed() < velocity and self:KeyDown(IN_SPEED)
 end
 
 --- Returns whether a player is stuck or not
--- @realm shared
--- @treturn bool Is stuck
+--- @realm shared
+--- @treturn bool Is stuck
 function PLAYER:IsStuck()
     return util.TraceEntity({
         start = self:GetPos(),
         endpos = self:GetPos(),
         filter = self
     }, self).StartSolid
-end
-
-if ( SERVER ) then
-    function PLAYER:GetData(key, default)
-        if (key == true) then
-            return self.impulseData
-        end
-
-        local data = self.impulseData and self.impulseData[key]
-
-        if (data == nil) then
-            return default
-        else
-            return data
-        end
-    end
-else
-    function PLAYER:GetData(key, default)
-        local data = impulse.localData and impulse.localData[key]
-
-        if (data == nil) then
-            return default
-        else
-            return data
-        end
-    end
-
-    net.Receive("impulseDataSync", function()
-        impulse.localData = net.ReadTable()
-        impulse.playTime = net.ReadUInt(32)
-    end)
-
-    net.Receive("impulseData", function()
-        impulse.localData = impulse.localData or {}
-        impulse.localData[net.ReadString()] = net.ReadType()
-    end)
 end

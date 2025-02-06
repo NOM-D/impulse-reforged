@@ -1,5 +1,10 @@
 AddCSLuaFile()
 
+---@class impulse.Entities.impulse_money : ENTITY
+---@field GetMoneyVal fun(): number
+---@field SetMoneyVal fun(self: impulse.Entities.impulse_money, amount: number)
+local ENT = ENT --[[@as impulse.Entities.impulse_money]]
+
 ENT.Type = "anim"
 ENT.PrintName = "Money"
 ENT.Category = "impulse"
@@ -24,6 +29,8 @@ if ( SERVER ) then
         physObj:Wake()
     end
 
+    ---Set the money value of the entity
+    ---@param amount number
     function ENT:SetMoney(amount)
         self:SetMoneyVal(amount)
         self.money = amount
@@ -69,5 +76,3 @@ else
         cam.End3D2D()
     end
 end
-
-    

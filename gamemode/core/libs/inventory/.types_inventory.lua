@@ -1,0 +1,14 @@
+---@class impulse.Inventory.ItemData
+---@field UniqueID string
+---@field WeaponClass string?
+---@field AttachmentClass string?
+---@field WeaponOverrideClip number?
+---@field CraftSound string?
+---@field CraftTime number?
+---@field Weight number
+---@field OnEquip fun(ply: Player, data: table, uid: string, sec: number)
+---@field UnEquip fun(ply: Player)
+---@field CanEquip fun(ply: Player): boolean
+---@field clip number?
+
+---@class impulse.Inventory.Inventory

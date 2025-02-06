@@ -5,10 +5,10 @@
     These functions are used to give, take, check and calculate achievement points for players
 ]]
 
--- @module impulse.Achievements
-
+--- @class impulse.Achievements
 impulse.Achievements = impulse.Achievements or {}
 
+---@class Player
 local PLAYER = FindMetaTable("Player")
 
 if ( SERVER ) then

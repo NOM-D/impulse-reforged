@@ -14,16 +14,16 @@ function PANEL:Init()
         end
     end, 
     function(error) 
-        if IsValid(self) then 
+        if IsValid(self) then
             self:Remove()
-            logs.Error("Failed to load newsfeed. Error: "..error)
-        end 
+            logs:Error("Failed to load newsfeed. Error: "..error)
+        end
     end)
 end
 
 function PANEL:SetupNews(newsData)
     if not newsData then
-        return logs.Error("Failed to load newsfeed.")
+        return logs:Error("Failed to load newsfeed.")
     end
     
     for v,postData in pairs(newsData) do

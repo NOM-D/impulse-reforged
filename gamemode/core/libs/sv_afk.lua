@@ -1,5 +1,9 @@
+---@class Player
+---@field impulseAFKState boolean Whether the player is AFK
 local PLAYER = FindMetaTable("Player")
 
+--- Set the player as AFK
+--- @param self Player
 function PLAYER:MakeAFK()
     if self.impulseAFKImmune then return end
     
