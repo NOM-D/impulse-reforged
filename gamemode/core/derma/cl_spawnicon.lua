@@ -97,4 +97,9 @@ function PANEL:OnMousePressed()
     end
 end
 
+
+---@class impulse.Derma.impulseSpawnIcon : DModelPanel
+---@field SetHidden fun(hidden: boolean)
+---@field SetModel fun(model: string, skin: number, hidden: boolean)
+
 vgui.Register("impulseSpawnIcon", PANEL, "DModelPanel")

@@ -16,7 +16,10 @@ DeriveGamemode("sandbox")
 
 MsgC(Color(83, 143, 239), "[impulse-reforged] Starting client load...\n")
 
-impulse = impulse or {}
+--- @class impulse
+impulse = impulse or {
+    Derma = {}
+}
 
 include("core/cl_util.lua")
 include("core/sh_util.lua")
@@ -28,7 +31,6 @@ timer.Remove("HintSystem_Annoy1")
 timer.Remove("HintSystem_Annoy2")
 
 hook.Add("PreDrawHalos", "PropertiesHover", function() -- overwrite exploitable context menu shit
-
     if ( !IsValid( vgui.GetHoveredPanel() ) or !vgui.GetHoveredPanel():IsWorldClicker() ) then return end
 
     local ent = properties.GetHovered( EyePos(), LocalPlayer():GetAimVector() )

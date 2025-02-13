@@ -104,6 +104,11 @@ end
 --- @class Player
 local PLAYER = FindMetaTable("Player")
 
+
+---Check whether the player can become a certain team
+---@param teamID number The team ID to check
+---@param notify boolean Whether to notify the player of the reason they cannot become the team
+---@return boolean
 function PLAYER:CanBecomeTeam(teamID, notify)
     local teamData = impulse.Teams.Stored[teamID]
     local teamPlayers = team.NumPlayers(teamID)
@@ -163,6 +168,11 @@ function PLAYER:CanBecomeTeam(teamID, notify)
     return true
 end
 
+---Check whether the player can become a certain team class
+---@param classID number The class ID to check
+---@param forced boolean Whether to ignore XP requirements
+---@return boolean
+---@return string
 function PLAYER:CanBecomeTeamClass(classID, forced)
     local teamData = impulse.Teams:FindTeam(self:Team())
     local classData = teamData.classes[classID]
@@ -223,6 +233,11 @@ function PLAYER:CanBecomeTeamClass(classID, forced)
     return true
 end
 
+---Check whether the player can become a certain team rank
+---@param rankID number The rank ID to check
+---@param forced boolean Whether to ignore XP requirements
+---@return boolean canBecome
+---@return string failMessage?
 function PLAYER:CanBecomeTeamRank(rankID, forced)
     local teamData = impulse.Teams:FindTeam(self:Team())
     local rankData = teamData.ranks[rankID]
@@ -279,14 +294,20 @@ function PLAYER:CanBecomeTeamRank(rankID, forced)
     return true
 end
 
+---Get the player's team class
+---@return number?
 function PLAYER:GetTeamClass()
     return self:GetNetVar("class", nil)
 end
 
+---Get the player's team rank
+---@return number?
 function PLAYER:GetTeamRank()
     return self:GetNetVar("rank", nil)
 end
 
+---Get the player's team class name
+---@return string
 function PLAYER:GetTeamClassName()
     if ( !impulse.Teams:FindTeam(self:Team()) ) then
         return ""
@@ -302,6 +323,8 @@ function PLAYER:GetTeamClassName()
     return "Default"
 end
 
+---Get the player's team rank name
+---@return string teamRankName
 function PLAYER:GetTeamRankName()
     if ( !impulse.Teams:FindTeam(self:Team()) ) then
         return ""
@@ -348,6 +371,7 @@ function PLAYER:GetTeamRankData()
 end
 
 ---Check if the player is a CP
+---@realm shared
 ---@return boolean
 function PLAYER:IsCP()
     local teamData = impulse.Teams:FindTeam(self:Team())

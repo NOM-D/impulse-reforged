@@ -2,6 +2,7 @@ DeriveGamemode("sandbox")
 
 MsgC(Color(83, 143, 239), "[impulse-reforged] Starting server load...\n")
 
+---@class impulse
 impulse = impulse or {}
 
 AddCSLuaFile("cl_init.lua")

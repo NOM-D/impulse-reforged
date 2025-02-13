@@ -112,15 +112,15 @@ function impulse.Plugins:Load(path)
         PLUGIN.Description = "No description provided."
         PLUGIN.Version = "1.0"
 
-        impulse.Util:IncludeDir(path .. "/" .. v .. "/setup", true)
+        impulse.Util:IncludeDir(path .. "/" .. v .. "/setup", true, true)
         impulse.Util:IncludeDir(path .. "/" .. v, true)
-        impulse.Util:IncludeDir(path .. "/" .. v .. "/vgui", true)
+        impulse.Util:IncludeDir(path .. "/" .. v .. "/vgui", true, true)
         impulse.Util:IncludeDir(path .. "/" .. v .. "/hooks", true)
-        impulse.Util:IncludeDir(path .. "/" .. v .. "/items", true)
+        impulse.Util:IncludeDir(path .. "/" .. v .. "/items", true, true)
         impulse.Util:IncludeDir(path .. "/" .. v .. "/benches", true)
-        impulse.Util:IncludeDir(path .. "/" .. v .. "/mixtures", true)
-        impulse.Util:IncludeDir(path .. "/" .. v .. "/buyables", true)
-        impulse.Util:IncludeDir(path .. "/" .. v .. "/vendors", true)
+        impulse.Util:IncludeDir(path .. "/" .. v .. "/mixtures", true, true)
+        impulse.Util:IncludeDir(path .. "/" .. v .. "/buyables", true, true)
+        impulse.Util:IncludeDir(path .. "/" .. v .. "/vendors", true, true)
 
         self:LoadEntities(path .. "/" .. v .. "/entities")
 
