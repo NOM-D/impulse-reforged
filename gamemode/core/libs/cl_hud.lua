@@ -72,9 +72,9 @@ local function DrawPlayerInfo(target, alpha)
     pos = pos:ToScreen()
     pos.y = pos.y - 50
 
-    local myGroup = LocalPlayer():GetNetVar("groupName", nil)
-    local group = target:GetNetVar("groupName", nil)
-    local rank = target:GetNetVar("groupRank", nil)
+    local myGroup = LocalPlayer():GetNetVar(NET_GROUP_NAME, nil)
+    local group = target:GetNetVar(NET_GROUP_NAME, nil)
+    local rank = target:GetNetVar(NET_GROUP_RANK, nil)
     local col = ColorAlpha(team.GetColor(target:Team()), alpha)
 
     if myGroup and !LocalPlayer():IsCP() and !target:IsCP() and group and rank and group == myGroup then
@@ -83,9 +83,9 @@ local function DrawPlayerInfo(target, alpha)
 
     draw.DrawText(target:KnownName(), "Impulse-Elements18-Shadow", pos.x, pos.y, col, 1)
 
-    if target:GetNetVar("typing", false) then
+    if target:GetNetVar(NET_IS_TYPING, false) then
         draw.DrawText("Typing...", "Impulse-Elements16-Shadow", pos.x, pos.y + 15, ColorAlpha(color_white, alpha), 1)
-    elseif target:GetNetVar("arrested", false) and LocalPlayer():CanArrest(target) then
+    elseif target:GetNetVar(NET_IS_INCOGNITO, false) and LocalPlayer():CanArrest(target) then
         draw.DrawText("(F2 to unrestrain | E to drag)", "Impulse-Elements16-Shadow", pos.x, pos.y + 15, ColorAlpha(color_white, alpha), 1)
     end
 
@@ -97,10 +97,10 @@ local function DrawDoorInfo(target, alpha)
     if ( preDrawDoorInfo == false ) then return end
 
     local pos = target.LocalToWorld(target, target:OBBCenter()):ToScreen()
-    local doorOwners = target:GetNetVar("doorOwners", nil)
-    local doorName = target:GetNetVar("doorName", nil)
-    local doorGroup =  target:GetNetVar("doorGroup", nil)
-    local doorBuyable = target:GetNetVar("doorBuyable", nil)
+    local doorOwners = target:GetNetVar(NET_DOOR_OWNERS, nil)
+    local doorName = target:GetNetVar(NET_DOOR_NAME, nil)
+    local doorGroup =  target:GetNetVar(NET_DOOR_GROUP, nil)
+    local doorBuyable = target:GetNetVar(NET_IS_DOOR_BUYABLE, nil)
     local col = ColorAlpha(impulse.Config.MainColour, alpha)
 
     if doorName then
@@ -371,7 +371,7 @@ function GM:HUDPaint()
 
         surface.SetDrawColor(color_white)
 
-        if ply:GetNetVar("arrested", false) == true and impulse_JailTimeEnd and impulse_JailTimeEnd > CurTime() then
+        if ply:GetNetVar(NET_IS_INCOGNITO, false) == true and impulse_JailTimeEnd and impulse_JailTimeEnd > CurTime() then
             local timeLeft = math.ceil(impulse_JailTimeEnd - CurTime())
 
             surface.SetMaterial(exitIcon)
@@ -425,7 +425,7 @@ function GM:HUDPaint()
 
                 surface.SetFont("Impulse-Elements18-Shadow")
                 surface.SetTextPos(scrW-130, scrH-50)
-                surface.DrawText("Props: " .. ply:GetLocalVar("propCount", 0) .. "/" .. ((ply:IsDonator() and impulse.Config.PropLimitDonator) or impulse.Config.PropLimit))
+                surface.DrawText("Props: " .. ply:NetVar(NET_PLAYER_PROP_COUNT, 0) .. "/" .. ((ply:IsDonator() and impulse.Config.PropLimitDonator) or impulse.Config.PropLimit))
             end
         end
 

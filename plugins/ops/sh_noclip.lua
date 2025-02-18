@@ -1,12 +1,12 @@
 hook.Add("PlayerNoClip", "opsNoclip", function(ply, state)
-    if ( hook.Run("CanPlayerEnterObserver", ply) == true ) then
-        if ( state ) then
-            if ( hook.Run("ShouldHidePlayerObserver", ply) == true ) then
+    if (hook.Run("CanPlayerEnterObserver", ply) == true) then
+        if (state) then
+            if (hook.Run("ShouldHidePlayerObserver", ply) == true) then
                 ply:SetNoDraw(true)
                 ply:SetNotSolid(true)
                 ply:DrawShadow(false)
 
-                if ( SERVER ) then
+                if (SERVER) then
                     ply:DrawWorldModel(false)
                     ply:GodEnable()
                     ply:SetNoTarget(true)
@@ -19,7 +19,7 @@ hook.Add("PlayerNoClip", "opsNoclip", function(ply, state)
             ply:SetNotSolid(false)
             ply:DrawShadow(true)
 
-            if ( SERVER ) then
+            if (SERVER) then
                 ply:DrawWorldModel(true)
                 ply:GodDisable()
                 ply:SetNoTarget(false)
@@ -39,5 +39,5 @@ hook.Add("CanPlayerEnterObserver", "opsNoclip", function(ply)
 end)
 
 hook.Add("ShouldHidePlayerObserver", "opsNoclip", function(ply)
-    return ply:GetNetVar("observerHide", true)
+    return ply:GetNetVar(NET_SHOULD_HIDE_OBSERVER, true)
 end)

@@ -44,11 +44,11 @@ local table = table
 local Replacements = {
     sqlite = {
         Create = {
-            {"UNSIGNED ", ""},
-            {"NOT NULL AUTO_INCREMENT", ""}, -- assuming primary key
-            {"AUTO_INCREMENT", ""},
-            {"INT%(%d*%)", "INTEGER"},
-            {"INT ", "INTEGER"}
+            { "UNSIGNED ",               "" },
+            { "NOT NULL AUTO_INCREMENT", "" }, -- assuming primary key
+            { "AUTO_INCREMENT",          "" },
+            { "INT%(%d*%)",              "INTEGER" },
+            { "INT ",                    "INTEGER" }
         }
     }
 }
@@ -68,14 +68,14 @@ QUERY_CLASS.__index = QUERY_CLASS
 
 function QUERY_CLASS:New(tableName, queryType)
     local newObject = setmetatable({}, QUERY_CLASS)
-        newObject.queryType = queryType
-        newObject.tableName = tableName
-        newObject.selectList = {}
-        newObject.insertList = {}
-        newObject.updateList = {}
-        newObject.createList = {}
-        newObject.whereList = {}
-        newObject.orderByList = {}
+    newObject.queryType = queryType
+    newObject.tableName = tableName
+    newObject.selectList = {}
+    newObject.insertList = {}
+    newObject.updateList = {}
+    newObject.createList = {}
+    newObject.whereList = {}
+    newObject.orderByList = {}
     return newObject
 end
 
@@ -92,41 +92,41 @@ function QUERY_CLASS:Where(key, value)
 end
 
 function QUERY_CLASS:WhereEqual(key, value)
-    self.whereList[#self.whereList + 1] = "`"..key.."` = '"..self:Escape(value).."'"
+    self.whereList[#self.whereList+1] = "`" .. key .. "` = '" .. self:Escape(value) .. "'"
 end
 
 function QUERY_CLASS:WhereNotEqual(key, value)
-    self.whereList[#self.whereList + 1] = "`"..key.."` != '"..self:Escape(value).."'"
+    self.whereList[#self.whereList+1] = "`" .. key .. "` != '" .. self:Escape(value) .. "'"
 end
 
 function QUERY_CLASS:WhereLike(key, value, format)
     format = format or "%%%s%%"
-    self.whereList[#self.whereList + 1] = "`"..key.."` LIKE '"..string.format(format, self:Escape(value)).."'"
+    self.whereList[#self.whereList+1] = "`" .. key .. "` LIKE '" .. string.format(format, self:Escape(value)) .. "'"
 end
 
 function QUERY_CLASS:WhereNotLike(key, value, format)
     format = format or "%%%s%%"
-    self.whereList[#self.whereList + 1] = "`"..key.."` NOT LIKE '"..string.format(format, self:Escape(value)).."'"
+    self.whereList[#self.whereList+1] = "`" .. key .. "` NOT LIKE '" .. string.format(format, self:Escape(value)) .. "'"
 end
 
 function QUERY_CLASS:WhereGT(key, value)
-    self.whereList[#self.whereList + 1] = "`"..key.."` > '"..self:Escape(value).."'"
+    self.whereList[#self.whereList+1] = "`" .. key .. "` > '" .. self:Escape(value) .. "'"
 end
 
 function QUERY_CLASS:WhereLT(key, value)
-    self.whereList[#self.whereList + 1] = "`"..key.."` < '"..self:Escape(value).."'"
+    self.whereList[#self.whereList+1] = "`" .. key .. "` < '" .. self:Escape(value) .. "'"
 end
 
 function QUERY_CLASS:WhereGTE(key, value)
-    self.whereList[#self.whereList + 1] = "`"..key.."` >= '"..self:Escape(value).."'"
+    self.whereList[#self.whereList+1] = "`" .. key .. "` >= '" .. self:Escape(value) .. "'"
 end
 
 function QUERY_CLASS:WhereLTE(key, value)
-    self.whereList[#self.whereList + 1] = "`"..key.."` <= '"..self:Escape(value).."'"
+    self.whereList[#self.whereList+1] = "`" .. key .. "` <= '" .. self:Escape(value) .. "'"
 end
 
 function QUERY_CLASS:WhereIn(key, value)
-    value = istable(value) and value or {value}
+    value = istable(value) and value or { value }
 
     local values = ""
     local bFirst = true
@@ -136,15 +136,15 @@ function QUERY_CLASS:WhereIn(key, value)
         bFirst = false
     end
 
-    self.whereList[#self.whereList + 1] = "`"..key.."` IN ("..values..")"
+    self.whereList[#self.whereList+1] = "`" .. key .. "` IN (" .. values .. ")"
 end
 
 function QUERY_CLASS:OrderByDesc(key)
-    self.orderByList[#self.orderByList + 1] = "`"..key.."` DESC"
+    self.orderByList[#self.orderByList+1] = "`" .. key .. "` DESC"
 end
 
 function QUERY_CLASS:OrderByAsc(key)
-    self.orderByList[#self.orderByList + 1] = "`"..key.."` ASC"
+    self.orderByList[#self.orderByList+1] = "`" .. key .. "` ASC"
 end
 
 function QUERY_CLASS:Callback(queryCallback)
@@ -152,34 +152,38 @@ function QUERY_CLASS:Callback(queryCallback)
 end
 
 function QUERY_CLASS:Select(fieldName)
-    self.selectList[#self.selectList + 1] = "`"..fieldName.."`"
+    self.selectList[#self.selectList+1] = "`" .. fieldName .. "`"
 end
 
 function QUERY_CLASS:Insert(key, value)
-    self.insertList[#self.insertList + 1] = {"`"..key.."`", "'"..self:Escape(value).."'"}
+    self.insertList[#self.insertList+1] = { "`" .. key .. "`", "'" .. self:Escape(value) .. "'" }
 end
 
 function QUERY_CLASS:Update(key, value)
-    self.updateList[#self.updateList + 1] = {"`"..key.."`", "'"..self:Escape(value).."'"}
+    self.updateList[#self.updateList+1] = { "`" .. key .. "`", "'" .. self:Escape(value) .. "'" }
 end
 
 function QUERY_CLASS:Create(key, value)
-    self.createList[#self.createList + 1] = {"`"..key.."`", value}
+    self.createList[#self.createList+1] = { "`" .. key .. "`", value }
 end
 
 function QUERY_CLASS:Add(key, value)
-    self.add = {"`"..key.."`", value}
+    self.add = { "`" .. key .. "`", value }
 end
 
 function QUERY_CLASS:Drop(key)
-    self.drop = "`"..key.."`"
+    self.drop = "`" .. key .. "`"
 end
 
 function QUERY_CLASS:PrimaryKey(key)
-    self.primaryKey = "`"..key.."`"
+    self.primaryKey = "`" .. key .. "`"
 end
 
 function QUERY_CLASS:Limit(value)
+    if (mysql.module == "sqlite") then
+        impulse.Logs:Debug("Attempted to use LIMIT statement but SQLite does not support it.")
+        return
+    end
     self.limit = value
 end
 
@@ -188,7 +192,7 @@ function QUERY_CLASS:Offset(value)
 end
 
 local function ApplyQueryReplacements(mode, query)
-    if (!Replacements[mysql.module]) then
+    if (! Replacements[mysql.module]) then
         return query
     end
 
@@ -203,34 +207,34 @@ local function ApplyQueryReplacements(mode, query)
 end
 
 local function BuildSelectQuery(queryObj)
-    local queryString = {"SELECT"}
+    local queryString = { "SELECT" }
 
-    if (!istable(queryObj.selectList) or #queryObj.selectList == 0) then
-        queryString[#queryString + 1] = " *"
+    if (! istable(queryObj.selectList) or #queryObj.selectList == 0) then
+        queryString[#queryString+1] = " *"
     else
-        queryString[#queryString + 1] = " "..table.concat(queryObj.selectList, ", ")
+        queryString[#queryString+1] = " " .. table.concat(queryObj.selectList, ", ")
     end
 
     if (isstring(queryObj.tableName)) then
-        queryString[#queryString + 1] = " FROM `"..queryObj.tableName.."` "
+        queryString[#queryString+1] = " FROM `" .. queryObj.tableName .. "` "
     else
         ErrorNoHalt("[mysql] No table name specified!\n")
         return
     end
 
     if (istable(queryObj.whereList) and #queryObj.whereList > 0) then
-        queryString[#queryString + 1] = " WHERE "
-        queryString[#queryString + 1] = table.concat(queryObj.whereList, " AND ")
+        queryString[#queryString+1] = " WHERE "
+        queryString[#queryString+1] = table.concat(queryObj.whereList, " AND ")
     end
 
     if (istable(queryObj.orderByList) and #queryObj.orderByList > 0) then
-        queryString[#queryString + 1] = " ORDER BY "
-        queryString[#queryString + 1] = table.concat(queryObj.orderByList, ", ")
+        queryString[#queryString+1] = " ORDER BY "
+        queryString[#queryString+1] = table.concat(queryObj.orderByList, ", ")
     end
 
     if (isnumber(queryObj.limit)) then
-        queryString[#queryString + 1] = " LIMIT "
-        queryString[#queryString + 1] = queryObj.limit
+        queryString[#queryString+1] = " LIMIT "
+        queryString[#queryString+1] = queryObj.limit
     end
 
     return table.concat(queryString)
@@ -238,35 +242,35 @@ end
 
 local function BuildInsertQuery(queryObj, bIgnore)
     local suffix = (bIgnore and (mysql.module == "sqlite" and "INSERT OR IGNORE INTO" or "INSERT IGNORE INTO") or "INSERT INTO")
-    local queryString = {suffix}
+    local queryString = { suffix }
     local keyList = {}
     local valueList = {}
 
     if (isstring(queryObj.tableName)) then
-        queryString[#queryString + 1] = " `"..queryObj.tableName.."`"
+        queryString[#queryString+1] = " `" .. queryObj.tableName .. "`"
     else
         ErrorNoHalt("[mysql] No table name specified!\n")
         return
     end
 
     for i = 1, #queryObj.insertList do
-        keyList[#keyList + 1] = queryObj.insertList[i][1]
-        valueList[#valueList + 1] = queryObj.insertList[i][2]
+        keyList[#keyList+1] = queryObj.insertList[i][1]
+        valueList[#valueList+1] = queryObj.insertList[i][2]
     end
 
     if (#keyList == 0) then return end
 
-    queryString[#queryString + 1] = " ("..table.concat(keyList, ", ")..")"
-    queryString[#queryString + 1] = " VALUES ("..table.concat(valueList, ", ")..")"
+    queryString[#queryString+1] = " (" .. table.concat(keyList, ", ") .. ")"
+    queryString[#queryString+1] = " VALUES (" .. table.concat(valueList, ", ") .. ")"
 
     return table.concat(queryString)
 end
 
 local function BuildUpdateQuery(queryObj)
-    local queryString = {"UPDATE"}
+    local queryString = { "UPDATE" }
 
     if (isstring(queryObj.tableName)) then
-        queryString[#queryString + 1] = " `"..queryObj.tableName.."`"
+        queryString[#queryString+1] = " `" .. queryObj.tableName .. "`"
     else
         ErrorNoHalt("[mysql] No table name specified!\n")
         return
@@ -275,56 +279,56 @@ local function BuildUpdateQuery(queryObj)
     if (istable(queryObj.updateList) and #queryObj.updateList > 0) then
         local updateList = {}
 
-        queryString[#queryString + 1] = " SET"
+        queryString[#queryString+1] = " SET"
 
         for i = 1, #queryObj.updateList do
-            updateList[#updateList + 1] = queryObj.updateList[i][1].." = "..queryObj.updateList[i][2]
+            updateList[#updateList+1] = queryObj.updateList[i][1] .. " = " .. queryObj.updateList[i][2]
         end
 
-        queryString[#queryString + 1] = " "..table.concat(updateList, ", ")
+        queryString[#queryString+1] = " " .. table.concat(updateList, ", ")
     end
 
     if (istable(queryObj.whereList) and #queryObj.whereList > 0) then
-        queryString[#queryString + 1] = " WHERE "
-        queryString[#queryString + 1] = table.concat(queryObj.whereList, " AND ")
+        queryString[#queryString+1] = " WHERE "
+        queryString[#queryString+1] = table.concat(queryObj.whereList, " AND ")
     end
 
     if (isnumber(queryObj.offset)) then
-        queryString[#queryString + 1] = " OFFSET "
-        queryString[#queryString + 1] = queryObj.offset
+        queryString[#queryString+1] = " OFFSET "
+        queryString[#queryString+1] = queryObj.offset
     end
 
     return table.concat(queryString)
 end
 
 local function BuildDeleteQuery(queryObj)
-    local queryString = {"DELETE FROM"}
+    local queryString = { "DELETE FROM" }
 
     if (isstring(queryObj.tableName)) then
-        queryString[#queryString + 1] = " `"..queryObj.tableName.."`"
+        queryString[#queryString+1] = " `" .. queryObj.tableName .. "`"
     else
         ErrorNoHalt("[mysql] No table name specified!\n")
         return
     end
 
     if (istable(queryObj.whereList) and #queryObj.whereList > 0) then
-        queryString[#queryString + 1] = " WHERE "
-        queryString[#queryString + 1] = table.concat(queryObj.whereList, " AND ")
+        queryString[#queryString+1] = " WHERE "
+        queryString[#queryString+1] = table.concat(queryObj.whereList, " AND ")
     end
 
     if (isnumber(queryObj.limit)) then
-        queryString[#queryString + 1] = " LIMIT "
-        queryString[#queryString + 1] = queryObj.limit
+        queryString[#queryString+1] = " LIMIT "
+        queryString[#queryString+1] = queryObj.limit
     end
 
     return table.concat(queryString)
 end
 
 local function BuildDropQuery(queryObj)
-    local queryString = {"DROP TABLE"}
+    local queryString = { "DROP TABLE" }
 
     if (isstring(queryObj.tableName)) then
-        queryString[#queryString + 1] = " `"..queryObj.tableName.."`"
+        queryString[#queryString+1] = " `" .. queryObj.tableName .. "`"
     else
         ErrorNoHalt("[mysql] No table name specified!\n")
         return
@@ -334,10 +338,10 @@ local function BuildDropQuery(queryObj)
 end
 
 local function BuildTruncateQuery(queryObj)
-    local queryString = {"TRUNCATE TABLE"}
+    local queryString = { "TRUNCATE TABLE" }
 
     if (isstring(queryObj.tableName)) then
-        queryString[#queryString + 1] = " `"..queryObj.tableName.."`"
+        queryString[#queryString+1] = " `" .. queryObj.tableName .. "`"
     else
         ErrorNoHalt("[mysql] No table name specified!\n")
         return
@@ -347,60 +351,62 @@ local function BuildTruncateQuery(queryObj)
 end
 
 local function BuildCreateQuery(queryObj)
-    local queryString = {"CREATE TABLE IF NOT EXISTS"}
+    local queryString = { "CREATE TABLE IF NOT EXISTS" }
 
     if (isstring(queryObj.tableName)) then
-        queryString[#queryString + 1] = " `"..queryObj.tableName.."`"
+        queryString[#queryString+1] = " `" .. queryObj.tableName .. "`"
     else
         ErrorNoHalt("[mysql] No table name specified!\n")
         return
     end
 
-    queryString[#queryString + 1] = " ("
+    queryString[#queryString+1] = " ("
 
     if (istable(queryObj.createList) and #queryObj.createList > 0) then
         local createList = {}
 
         for i = 1, #queryObj.createList do
             if (mysql.module == "sqlite") then
-                createList[#createList + 1] = queryObj.createList[i][1].." "..ApplyQueryReplacements("Create", queryObj.createList[i][2])
+                createList[#createList+1] = queryObj.createList[i][1] ..
+                        " " .. ApplyQueryReplacements("Create", queryObj.createList[i][2])
             else
-                createList[#createList + 1] = queryObj.createList[i][1].." "..queryObj.createList[i][2]
+                createList[#createList+1] = queryObj.createList[i][1] .. " " .. queryObj.createList[i][2]
             end
         end
 
-        queryString[#queryString + 1] = " "..table.concat(createList, ", ")
+        queryString[#queryString+1] = " " .. table.concat(createList, ", ")
     end
 
     if (isstring(queryObj.primaryKey)) then
-        queryString[#queryString + 1] = ", PRIMARY KEY"
-        queryString[#queryString + 1] = " ("..queryObj.primaryKey..")"
+        queryString[#queryString+1] = ", PRIMARY KEY"
+        queryString[#queryString+1] = " (" .. queryObj.primaryKey .. ")"
     end
 
-    queryString[#queryString + 1] = " )"
+    queryString[#queryString+1] = " )"
 
     return table.concat(queryString)
 end
 
 local function BuildAlterQuery(queryObj)
-    local queryString = {"ALTER TABLE"}
+    local queryString = { "ALTER TABLE" }
 
     if (isstring(queryObj.tableName)) then
-        queryString[#queryString + 1] = " `"..queryObj.tableName.."`"
+        queryString[#queryString+1] = " `" .. queryObj.tableName .. "`"
     else
         ErrorNoHalt("[mysql] No table name specified!\n")
         return
     end
 
     if (istable(queryObj.add)) then
-        queryString[#queryString + 1] = " ADD "..queryObj.add[1].." "..ApplyQueryReplacements("Create", queryObj.add[2])
+        queryString[#queryString+1] = " ADD " .. queryObj.add[1] ..
+                " " .. ApplyQueryReplacements("Create", queryObj.add[2])
     elseif (isstring(queryObj.drop)) then
         if (mysql.module == "sqlite") then
             ErrorNoHalt("[mysql] Cannot drop columns in sqlite!\n")
             return
         end
 
-        queryString[#queryString + 1] = " DROP COLUMN "..queryObj.drop
+        queryString[#queryString+1] = " DROP COLUMN " .. queryObj.drop
     end
 
     return table.concat(queryString)
@@ -431,7 +437,7 @@ function QUERY_CLASS:Execute(bQueueQuery)
     end
 
     if (isstring(queryString)) then
-        if (!bQueueQuery) then
+        if (! bQueueQuery) then
             return mysql:RawQuery(queryString, self.callback)
         else
             return mysql:Queue(queryString, self.callback)
@@ -486,7 +492,7 @@ function mysql:Connect(host, username, password, database, port, socket, flags)
     port = port or 3306
 
     if (self.module == "mysqloo") then
-        if (!istable(mysqloo)) then
+        if (! istable(mysqloo)) then
             require("mysqloo")
         end
 
@@ -495,7 +501,7 @@ function mysql:Connect(host, username, password, database, port, socket, flags)
 
             local clientFlag = flags or 0
 
-            if (!isstring(socket)) then
+            if (! isstring(socket)) then
                 self.connection = mysqloo.connect(host, username, password, database, port)
             else
                 self.connection = mysqloo.connect(host, username, password, database, port, socket, clientFlag)
@@ -504,7 +510,7 @@ function mysql:Connect(host, username, password, database, port, socket, flags)
             self.connection.onConnected = function(connection)
                 local success, error_message = connection:setCharacterSet("utf8mb4")
 
-                if (!success) then
+                if (! success) then
                     ErrorNoHalt("Failed to set MySQL encoding!\n")
                     ErrorNoHalt(error_message .. "\n")
                 else
@@ -544,7 +550,7 @@ function mysql:RawQuery(query, callback, flags, ...)
             if (callback) then
                 local bStatus, value = pcall(callback, result, true, tonumber(queryObj:lastInsert()))
 
-                if (!bStatus) then
+                if (! bStatus) then
                     error(string.format("[mysql] MySQL Callback Error!\n%s\n", value))
                 end
             end
@@ -562,9 +568,10 @@ function mysql:RawQuery(query, callback, flags, ...)
             error(string.format("[mysql] SQL Query Error!\nQuery: %s\n%s\n", query, sql.LastError()))
         else
             if (callback) then
-                local bStatus, value = pcall(callback, result, true, tonumber(sql.QueryValue("SELECT last_insert_rowid()")))
+                local bStatus, value = pcall(callback, result, true,
+                    tonumber(sql.QueryValue("SELECT last_insert_rowid()")))
 
-                if (!bStatus) then
+                if (! bStatus) then
                     error(string.format("[mysql] SQL Callback Error!\n%s\n", value))
                 end
             end
@@ -577,7 +584,7 @@ end
 -- A function to add a query to the queue.
 function mysql:Queue(queryString, callback)
     if (isstring(queryString)) then
-        QueueTable[#QueueTable + 1] = {queryString, callback}
+        QueueTable[#QueueTable+1] = { queryString, callback }
     end
 end
 

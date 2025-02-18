@@ -1,4 +1,4 @@
-if ( CLIENT ) then
+if (CLIENT) then
     net.Receive("impulseOpsItemSpawner", function()
         local panel = vgui.Create("DFrame")
         panel:SetSize(ScrW() / 1.5, ScrH() / 1.25)
@@ -14,7 +14,7 @@ if ( CLIENT ) then
         targetBox:AddChoice("Custom SteamID64 (Offline User)")
 
         for v, k in player.Iterator() do
-            targetBox:AddChoice("PLAYER: "..k:Nick().." ("..k:SteamName()..")", k:SteamID64())
+            targetBox:AddChoice("PLAYER: " .. k:Nick() .. " (" .. k:SteamName() .. ")", k:SteamID64())
         end
 
         targetBox:SetSortItems(false)
@@ -27,7 +27,7 @@ if ( CLIENT ) then
                     if IsValid(panel) then
                         sid = string.Trim(sid, " ")
                         panel.Selected = sid
-                        self:SetText("Custom SteamID64 ("..sid..")")
+                        self:SetText("Custom SteamID64 (" .. sid .. ")")
                     end
                 end)
             else
@@ -67,7 +67,7 @@ if ( CLIENT ) then
                     return LocalPlayer():Notify("No target selected.")
                 end
 
-                LocalPlayer():ConCommand("say /giveitem "..panel.Selected.." "..self.ItemClass)
+                LocalPlayer():ConCommand("say /giveitem " .. panel.Selected .. " " .. self.ItemClass)
             end
 
             local label = vgui.Create("DLabel", btn)
@@ -120,20 +120,20 @@ local giveItemCommand = {
             end
 
             if not impulse.Inventory.ItemsStored[item] then
-                return ply:Notify("Item: "..item.." does not exist.")
+                return ply:Notify("Item: " .. item .. " does not exist.")
             end
 
             local target = player.GetBySteamID64(steamid)
 
             if target and IsValid(target) then
                 target:GiveItem(item)
-                return ply:Notify("You have given "..target:Nick().." a "..item..".")
+                return ply:Notify("You have given " .. target:Nick() .. " a " .. item .. ".")
             end
 
             local impulseID = result[1].id
 
             impulse.Inventory:AddItem(impulseID, item)
-            ply:Notify("Offline player ("..steamid..") has been given a "..item..".")
+            ply:Notify("Offline player (" .. steamid .. ") has been given a " .. item .. ".")
         end)
 
         query:Execute()

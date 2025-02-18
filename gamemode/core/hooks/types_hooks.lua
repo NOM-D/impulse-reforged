@@ -1,0 +1,41 @@
+---@realm server
+---@class Player
+---@field nextQuiz number The time the player can next do a quiz
+---@field nextPVSTry number
+---@field lastPVS number
+---@field nextChat number The time the player can next send a chat message
+---@field currentATM Entity ATM the player is using
+---@field nextATM number The time the player can next use an ATM
+---@field BusinessSpawnCount number
+---@field lastTeamChange number The time the player last changed team
+---@field lastTeamTry number The time the player last tried to change team
+---@field impulseNextChatState number The time the player can next change chat state
+---@field nextDoorLock number The time the player can next lock a door
+---@field CanHear boolean Wether the player can hear
+---@field impulseBeenInventorySetup boolean Wether the player has had their inventory setup
+---@field impulseBeenSetup boolean Wether the player has had their setup
+---@field impulseLastFall number The time the player last fell
+---@field InventoryWeight number The weight of the players inventory
+---@field InventoryWeightStorage number The weight of the players storage inventory
+---@field InventoryRegister table The players inventory
+---@field InventoryStorageRegister table The players storage inventory
+---@field InventoryEquipGroups table The players equipment groups
+---@field impulseID number The player's ID that is used internally in place of their SteamID64
+---@field NextCreate number? The time the player can next create a character
+---@field nextRPNameTry number? The time the player can next try to set their RP name
+---@field nextRPNameChange number? The time the player can next change their RP name
+---@field nextCharEditTry number? The time the player can next try to edit their character
+---@field currentCosmeticEditor Entity? The cosmetic editor the player is using
+---@field ConfiscatingItem Entity? The item the player is confiscating
+---@field nextDoConfiscate number? The time the player can next confiscate an item
+---@field nextMixTry number? The time the player can next try to mix an item
+---@field IsCrafting boolean? Wether the player is crafting
+---@field currentBench Entity? The bench the player is using
+---@field CraftFail boolean? Wether the player failed to craft
+
+---@realm client
+---@class Player
+
+---@realm shared
+---@class Player
+---@field impulseInventorySearching Player The player whose inventory our player is searching

@@ -1,0 +1,30 @@
+---@class impulse.DataModels.Player The type to represent the structure of the impulse_players table
+---@field id number
+---@field steamid string
+---@field steamname string
+---@field group string
+---@field xp number
+---@field money number
+---@field bankmoney number
+---@field model string
+---@field data impulse.DataModels.Player.Data
+---@field skills table
+---@field skin number
+---@field firstjoin number
+---@field lastjoin number
+---@field rpgroup number
+---@field rpgrouprank string
+---@field address string
+---@field playtime number
+---@field ammo table
+
+---@class impulse.DataModels.Player.Data The structure of the player's JSON blob data in the database
+---@field rp_names? table<string, string> Team-specific roleplay names
+---@field lastIP? string The last IP the player connected to the server with
+---@field Achievements? table The player's achievements
+
+---@class impulse.DataModels.InventoryItem The structure of the impulse_inventory table
+---@field id number
+---@field uniqueid string
+---@field ownerid number
+---@field storagetype number

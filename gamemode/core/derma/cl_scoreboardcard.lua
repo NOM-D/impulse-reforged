@@ -79,7 +79,7 @@ function PANEL:Paint(w,h)
     if LocalPlayer():IsAdmin() then
         icName = " ("..self.Player:Name()..")"
 
-        local rpGroup = self.Player:GetNetVar("groupName", nil)
+        local rpGroup = self.Player:GetNetVar(NET_GROUP_NAME, nil)
         if impulse.Settings:Get("admin_showgroup") and rpGroup then
             icName = icName.." ("..rpGroup..")"
         end

@@ -15,11 +15,11 @@ local PLAYER = FindMetaTable("Player")
 --- @tab package Chat message package
 --- @usage ply:AddChatText(Color(255, 0, 0), "Hello, ", Color(0, 255, 0), "world!")
 function PLAYER:AddChatText(...)
-    local package = {...}
-    
-    if ( SERVER ) then
+    local package = { ... }
+
+    if (SERVER) then
         net.Start("impulseChatText")
-            net.WriteTable(package)
+        net.WriteTable(package)
         net.Send(self)
     else
         chat.AddText(unpack(package))
@@ -31,9 +31,9 @@ end
 --- @string sound Sound path
 --- @usage ply:SurfacePlaySound("ambient/levels/labs/electric_explosion1.wav")
 function PLAYER:SurfacePlaySound(sound)
-    if ( SERVER ) then
+    if (SERVER) then
         net.Start("impulseSurfaceSound")
-            net.WriteString(sound)
+        net.WriteString(sound)
         net.Send(self)
     else
         surface.PlaySound(sound)
@@ -51,7 +51,7 @@ end
 --- @realm shared
 --- @treturn bool Is donator
 function PLAYER:IsDonator()
-    return ( self:IsUserGroup("donator") or self:IsAdmin() ) or hook.Run("PlayerIsDonator", self)
+    return (self:IsUserGroup("donator") or self:IsAdmin()) or hook.Run("PlayerIsDonator", self)
 end
 
 local adminGroups = {
@@ -64,11 +64,11 @@ local adminGroups = {
 --- @realm shared
 --- @treturn bool Is admin
 function PLAYER:IsAdmin()
-    if ( hook.Run("PlayerIsAdmin", self) ) then return true end
+    if (hook.Run("PlayerIsAdmin", self)) then return true end
 
-    if ( self:IsSuperAdmin() ) then return true end
+    if (self:IsSuperAdmin()) then return true end
 
-    if ( adminGroups[self:GetUserGroup()] ) then return true end
+    if (adminGroups[self:GetUserGroup()]) then return true end
 
     return false
 end
@@ -82,11 +82,11 @@ local leadAdminGroups = {
 --- @realm shared
 --- @treturn bool Is lead admin
 function PLAYER:IsLeadAdmin()
-    if ( hook.Run("PlayerIsLeadAdmin", self) ) then return true end
+    if (hook.Run("PlayerIsLeadAdmin", self)) then return true end
 
-    if ( self:IsSuperAdmin() ) then return true end
+    if (self:IsSuperAdmin()) then return true end
 
-    if ( leadAdminGroups[self:GetUserGroup()] ) then return true end
+    if (leadAdminGroups[self:GetUserGroup()]) then return true end
 
     return false
 end
@@ -95,9 +95,9 @@ end
 --- @realm shared
 --- @treturn bool Is super admin
 function PLAYER:IsSuperAdmin()
-    if ( hook.Run("PlayerIsSuperAdmin", self) ) then return true end
+    if (hook.Run("PlayerIsSuperAdmin", self)) then return true end
 
-    if ( self.GetUserGroup and self:GetUserGroup() == "superadmin" ) then return true end
+    if (self.GetUserGroup and self:GetUserGroup() == "superadmin") then return true end
 
     return false
 end
@@ -106,9 +106,9 @@ end
 --- @realm shared
 --- @treturn bool Is in spawn
 function PLAYER:InSpawn()
-    if ( hook.Run("PlayerIsInSpawn", self) ) then return true end
+    if (hook.Run("PlayerIsInSpawn", self)) then return true end
 
-    if ( !impulse.Config.SpawnPos1 or !impulse.Config.SpawnPos2 ) then return false end
+    if (! impulse.Config.SpawnPos1 or ! impulse.Config.SpawnPos2) then return false end
 
     return self:GetPos():WithinAABox(impulse.Config.SpawnPos1, impulse.Config.SpawnPos2)
 end
@@ -119,7 +119,7 @@ end
 function PLAYER:IsCharacterFemale()
     hook.Run("PlayerIsCharacterFemale", self)
 
-    if ( SERVER ) then
+    if (SERVER) then
         return self:IsFemale(self.impulseDefaultModel)
     else
         return self:IsFemale(impulse_defaultModel)
@@ -143,8 +143,8 @@ end
 --- @realm shared
 --- @string message The notification message
 function PLAYER:Notify(message)
-    if ( CLIENT ) then
-        if ( !impulse.HUDEnabled ) then
+    if (CLIENT) then
+        if (! impulse.HUDEnabled) then
             return MsgN(message)
         end
 
@@ -157,13 +157,13 @@ function PLAYER:Notify(message)
         OrganizeNotices(i)
 
         timer.Simple(7.5, function()
-            if ( !IsValid(notice) ) then return end
+            if (! IsValid(notice)) then return end
 
             notice:AlphaTo(0, 1, 0, function()
                 notice:Remove()
 
                 for k, v in pairs(notices) do
-                    if ( v == notice ) then
+                    if (v == notice) then
                         table.remove(notices, k)
                     end
                 end
@@ -175,7 +175,7 @@ function PLAYER:Notify(message)
         MsgN(message)
     else
         net.Start("impulseNotify")
-            net.WriteString(message)
+        net.WriteString(message)
         net.Send(self)
     end
 end

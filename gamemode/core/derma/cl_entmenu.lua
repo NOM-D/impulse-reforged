@@ -43,9 +43,9 @@ end
 
 function PANEL:SetDoor(door)
     local panel = self
-    local doorOwners = door:GetNetVar("doorOwners", nil)
-    local doorGroup = door:GetNetVar("doorGroup", nil)
-    local doorBuyable = door:GetNetVar("doorBuyable", true)
+    local doorOwners = door:GetNetVar(NET_DOOR_OWNERS, nil)
+    local doorGroup = door:GetNetVar(NET_DOOR_GROUP, nil)
+    local doorBuyable = door:GetNetVar(NET_IS_DOOR_BUYABLE, true)
     local isDoorMaster = false
     if doorOwners and doorOwners[1] == LocalPlayer():EntIndex() then
         isDoorMaster = true
@@ -80,7 +80,7 @@ function PANEL:SetDoor(door)
 
         if LocalPlayer():IsDoorOwner(doorOwners) and isDoorMaster and (customCanEditDoor or customCanEditDoor == nil) then
             self:AddAction("impulse-reforged/icons/group-256.png", "Permissions", function()
-                doorOwners = door:GetNetVar("doorOwners", nil)
+                doorOwners = door:GetNetVar(NET_DOOR_OWNERS, nil)
 
                 local perm = DermaMenu()
 
@@ -158,7 +158,7 @@ function PANEL:SetDoor(door)
 end
 
 function PANEL:SetPlayer(ply)
-    if LocalPlayer():IsCP() and LocalPlayer():CanArrest(ply) and ply:GetNetVar("arrested", false) then
+    if LocalPlayer():IsCP() and LocalPlayer():CanArrest(ply) and ply:GetNetVar(NET_IS_INCOGNITO, false) then
         self:AddAction("impulse-reforged/icons/search-3-256.png", "Search Inventory", function()
             LocalPlayer():ConCommand("say /invsearch")
 

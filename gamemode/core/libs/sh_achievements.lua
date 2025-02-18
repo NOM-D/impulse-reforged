@@ -1,4 +1,3 @@
-
 --[[
     Helper functions for achievements
 
@@ -11,7 +10,7 @@ impulse.Achievements = impulse.Achievements or {}
 ---@class Player
 local PLAYER = FindMetaTable("Player")
 
-if ( SERVER ) then
+if (SERVER) then
     --- Player class methods
     -- @classmod Player
 
@@ -22,30 +21,19 @@ if ( SERVER ) then
     function PLAYER:AchievementGive(class, skipPoints)
         if not self.impulseData then return end
 
-        self.impulseData.Achievements = self.impulseData.Achievements or {}
-        if self.impulseData.Achievements[class] then return end
-
-        self.impulseData.Achievements[class] = math.floor(os.time())
-        self:SaveData()
-
-        net.Start("impulseAchievementGet")
-        net.WriteString(class)
-        net.Send(self)
-
-        if not skipPoints then
-            self:CalculateAchievementPoints()
-        end
+        local achievements = self:GetNetVar(NET_ACHIEVEMENTS, {})
+        if achievements[class] then return end
+        achievements[class] = math.floor(os.time())
+        self:SetNetVar(NET_ACHIEVEMENTS, achievements)
     end
 
     --- Takes an achievement from a player
     -- @realm server
     -- @string class Achievement class
     function PLAYER:AchievementTake(class)
-        if not self.impulseData then return end
-
-        self.impulseData.Achievements = self.impulseData.Achievements or {}
-        self.impulseData.Achievements[class] = nil
-        self:SaveData()
+        local achievements = self:GetNetVar(NET_ACHIEVEMENTS, {})
+        achievements[class] = nil
+        self:SetNetVar(NET_ACHIEVEMENTS, achievements)
     end
 
     --- Returns if a player has an achievement
@@ -53,13 +41,8 @@ if ( SERVER ) then
     -- @string class Achievement class
     -- @treturn bool Has achievement
     function PLAYER:AchievementHas(class)
-        if not self.impulseData then
-            return false
-        end
-
-        self.impulseData.Achievements = self.impulseData.Achievements or {}
-
-        if self.impulseData.Achievements[class] then
+        local achievements = self:GetNetVar(NET_ACHIEVEMENTS, {})
+        if achievements[class] then
             return true
         end
 
@@ -70,31 +53,22 @@ if ( SERVER ) then
     -- @realm server
     -- @string class Achievement class
     function PLAYER:AchievementCheck(class)
-        if not self.impulseData then return end
-
-        self.impulseData.Achievements = self.impulseData.Achievements or {}
         local ach = impulse.Config.Achievements[class]
-
-        if ach.OnJoin and ach.Check and !self:AchievementHas(class) and ach.Check(self) then
+        if ach.OnJoin and ach.Check and ! self:AchievementHas(class) and ach.Check(self) then
             self:AchievementGive(class)
         end
     end
 
-    --- Calculates the achievement points and stores them in the "achievementPoints" SyncVar on the player
+    --- Calculates the achievement points and stores them in the NET_ACHIEVEMENT_POINTS SyncVar on the player
     -- @realm server
     -- @treturn int Achievement points
     function PLAYER:CalculateAchievementPoints()
-        if not self.impulseData then
-            return 0
-        end
-
+        local achievements = self:GetNetVar(NET_ACHIEVEMENTS, {})
         local val = 0
-
-        for v, k in pairs(self.impulseData.Achievements) do
+        for _ = 1, table.Count(achievements) do
             val = val + 60
         end
 
-        self:SetNetVar("achievementPoints", val)
         return val
     end
 end

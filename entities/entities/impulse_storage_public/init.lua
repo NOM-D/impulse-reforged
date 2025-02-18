@@ -28,7 +28,7 @@ end
 
 function ENT:Use(activator, caller)
     if activator:IsPlayer() and activator:Alive() then
-        if activator:GetNetVar("arrested", false) then 
+        if activator:GetNetVar(NET_IS_INCOGNITO, false) then 
             return activator:Notify("You cannot access your storage when detained.") 
         end
 

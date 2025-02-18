@@ -1,0 +1,46 @@
+---@class impulse.Networking.DataTypeHandler
+---@field read fun():unknown
+---@field write fun(value: any)
+---@field validate fun(value: any): boolean
+
+---@class impulse.Networking.DataType
+---@field UInt8 impulse.Networking.DataTypeHandler
+---@field UInt16 impulse.Networking.DataTypeHandler
+---@field UInt32 impulse.Networking.DataTypeHandler
+---@field UInt64 impulse.Networking.DataTypeHandler
+---@field Int8 impulse.Networking.DataTypeHandler
+---@field Int16 impulse.Networking.DataTypeHandler
+---@field Int32 impulse.Networking.DataTypeHandler
+---@field Int64 impulse.Networking.DataTypeHandler
+---@field Float impulse.Networking.DataTypeHandler
+---@field Double impulse.Networking.DataTypeHandler
+---@field String impulse.Networking.DataTypeHandler
+---@field Table impulse.Networking.DataTypeHandler
+---@field Bool impulse.Networking.DataTypeHandler
+---@field Entity impulse.Networking.DataTypeHandler
+---@field Vector impulse.Networking.DataTypeHandler
+---@field Angle impulse.Networking.DataTypeHandler
+---@field Color impulse.Networking.DataTypeHandler
+
+---@class impulse.Networking.Variable
+---@field id? string The unique identifier of the variable
+---@field index? number The index of the variable in the registry
+---@field dataType impulse.Networking.DataTypeHandler The data type of the variable
+---@field defaultValue? any The default value of the variable
+---@field scope number The scope of the variable (local, global or private)
+---@field storeKey? string The key to store the variable in the database (for players)
+---@field storeAccessor? fun(data: any): any Essentially the getter for the storeKey when we're setting the netvar for them based on the data var value
+---@field saveData? fun(ply: Player, value: any): table? Callback function that can return the structure of the data to store in the database. If no table is returned, it is just a callback where it is best practice to perform saving.
+---@field onSet? fun(entity: Entity, value: any) Callback function that is called when the variable is set
+
+---@class impulse.Networking.VariableObj : impulse.Networking.Variable Variable object
+---@field New fun(self: impulse.Networking.VariableObj, varTable: impulse.Networking.Variable): impulse.Networking.VariableObj Creates a new variable object
+---@field isGlobal? boolean Whether the variable is global
+---@field isWithinRealm? boolean Whether the variable is visible to our realm
+---@field Write fun(self: impulse.Networking.VariableObj,value: any, noValidate?: boolean): any Internal function to write the value to the network, with built-in validation
+---@field Read fun(self: impulse.Networking.VariableObj): any Internal function to read the value from the network
+---@field ReadTargetIndex fun(self: impulse.Networking.VariableObj): number? Internal function to read the target entity index from the network
+---@field Save fun(self: impulse.Networking.VariableObj, ent: Entity, value: any): any Internal function to save the value to the database
+---@field Network fun(self: impulse.Networking.VariableObj, ...) Internal function to network the variable (send or broadcast)
+---@field Get fun(self: impulse.Networking.VariableObj, ent?: Entity, fallbackValue?: any): any Internal function to get the value of the variable
+---@field Set fun(self: impulse.Networking.VariableObj, ent?: Entity, value: any): any Internal function to set the value of the variable

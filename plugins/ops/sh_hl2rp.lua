@@ -1,4 +1,4 @@
-if ( SERVER ) then
+if (SERVER) then
     util.AddNetworkString("opsGiveCombineBan")
 end
 
@@ -23,23 +23,23 @@ local combineBanCommand = {
             local curT = os.time()
             local endT = curT + time
 
-            plyTarget.impulseData.CombineBan = endT
-            plyTarget:SaveData()
+            plyTarget:SetNetVar(DATA_COMBINE_BAN_END_TIME, endT)
 
             if plyTarget:IsCP() then
-                plyTarget:SetTeam(impulse.Config.DefaultTeam)
+                plyTarget:SetTeam(impulse.Config.DefaultTeamId)
             end
 
             local howLong = string.NiceTime(time)
 
-            ply:Notify("You have combine banned "..plyTarget:Nick().." for "..howLong..".")
-            plyTarget:Notify("You have been banned from the combine faction for "..howLong.." by a game moderator ("..ply:SteamName()..").")
+            ply:Notify("You have combine banned " .. plyTarget:Nick() .. " for " .. howLong .. ".")
+            plyTarget:Notify("You have been banned from the combine faction for " ..
+                howLong .. " by a game moderator (" .. ply:SteamName() .. ").")
 
             net.Start("opsGiveCombineBan")
             net.WriteUInt(time, 16)
             net.Send(plyTarget)
         else
-            return ply:Notify("Could not find player: "..tostring(name))
+            return ply:Notify("Could not find player: " .. tostring(name))
         end
     end
 }
@@ -55,12 +55,10 @@ local combineUnBanCommand = {
         local plyTarget = impulse.Util:FindPlayer(name)
 
         if plyTarget and plyTarget.impulseData then
-            plyTarget.impulseData.CombineBan = nil
-            plyTarget:SaveData()
-
-            ply:Notify("You have removed "..plyTarget:Nick().."'s combine ban.")
+            plyTarget:SetNetVar(DATA_COMBINE_BAN_END_TIME, nil)
+            ply:Notify("You have removed " .. plyTarget:Nick() .. "'s combine ban.")
         else
-            return ply:Notify("Could not find player: "..tostring(name))
+            return ply:Notify("Could not find player: " .. tostring(name))
         end
     end
 }

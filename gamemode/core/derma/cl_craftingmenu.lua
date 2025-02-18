@@ -108,7 +108,7 @@ function PANEL:Think()
         return self:Remove()
     end
 
-    if LocalPlayer():GetNetVar("arrested", false) then
+    if LocalPlayer():GetNetVar(NET_IS_INCOGNITO, false) then
         return self:Remove()
     end
 end

@@ -38,11 +38,11 @@ function ENT:SpawnFunction(ply, trace, class)
 end
 
 function ENT:Use(activator, caller)
-    if activator:Team() == impulse.Config.DefaultTeam then
+    if activator:Team() == impulse.Config.DefaultTeamId then
         activator.currentCosmeticEditor = self
         net.Start("impulseCharacterEditorOpen")
         net.Send(activator)
     else
-        activator:Notify("You must be in the "..team.GetName(impulse.Config.DefaultTeam).." team to change your appearance.")
+        activator:Notify("You must be in the "..team.GetName(impulse.Config.DefaultTeamId).." team to change your appearance.")
     end
 end

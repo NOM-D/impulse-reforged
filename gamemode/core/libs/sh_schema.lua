@@ -5,7 +5,7 @@ impulse.Schema = impulse.Schema or {}
 
 SCHEMA = {}
 
-local logs =  impulse.Logs
+local logs = impulse.Logs
 
 local default = {
     Name = "Unknown",
@@ -21,22 +21,23 @@ function impulse.Schema:Load()
     logs:Info("Starting schema load ...")
 
     local name = engine.ActiveGamemode()
-    if ( name == "impulse-reforged" ) then
+    if (name == "impulse-reforged") then
         logs:Error("Attempted to load Schema \"impulse-reforged\", aborting. This is the framework!")
-        SetGlobalString("impulse_fatalerror", "Failed to load Schema \"impulse-reforged\", aborting. This is the framework!")
+        SetGlobalString("impulse_fatalerror",
+            "Failed to load Schema \"impulse-reforged\", aborting. This is the framework!")
         return
     end
 
     logs:Info("Loading Schema \"" .. name .. "\"...")
 
-    if ( SERVER and !file.IsDir(name, "LUA") ) then
+    if (SERVER and ! file.IsDir(name, "LUA")) then
         SetGlobalString("impulse_fatalerror", "Failed to load Schema \"" .. name .. "\", does not exist.")
         logs:Error("Failed to load Schema \"" .. name .. "\", does not exist.")
         return
     end
 
     local path = name .. "/schema/sh_schema.lua"
-    if ( !file.Exists(path, "LUA") ) then
+    if (! file.Exists(path, "LUA")) then
         SetGlobalString("impulse_fatalerror", "Failed to load Schema \"" .. name .. "\", no sh_schema.lua found.")
         logs:Error("Failed to load Schema \"" .. name .. "\", no sh_schema.lua found.")
         return
@@ -44,7 +45,7 @@ function impulse.Schema:Load()
 
     -- Prepare the schema information
     for k, v in pairs(default) do
-        if ( !SCHEMA[k] ) then
+        if (! SCHEMA[k]) then
             SCHEMA[k] = v
         end
     end
@@ -56,6 +57,7 @@ function impulse.Schema:Load()
 
     -- Load schema base files
     impulse.Util:IncludeDir(path, true)
+    impulse.Util:IncludeDir(path .. "/vars", true, true)
     impulse.Util:IncludeDir(path .. "/teams", true)
     impulse.Util:IncludeDir(path .. "/items", true)
     impulse.Util:IncludeDir(path .. "/benches", true)
@@ -67,7 +69,7 @@ function impulse.Schema:Load()
     -- Load the current map config if it exists
     local map = game.GetMap()
     path = name .. "/schema/config/maps/" .. map .. ".lua"
-    if ( file.Exists(path, "LUA") ) then
+    if (file.Exists(path, "LUA")) then
         logs:Info("Loading map config for \"" .. map .. "\" in Schema \"" .. name .. "\".")
         impulse.Util:Include(path, "shared")
     else
@@ -75,7 +77,7 @@ function impulse.Schema:Load()
     end
 
     hook.Run("PostConfigLoad")
-    
+
     path = name .. "/schema"
 
     -- Load schema scripts such as hooks, meta, etc.

@@ -1,23 +1,14 @@
 local KEY_BLACKLIST = IN_ATTACK + IN_ATTACK2
 local isValid = IsValid
 local mathAbs = math.abs
-
 function GM:StartCommand(ply, cmd)
-    if not ply:IsWeaponRaised() then
-        cmd:RemoveKey(KEY_BLACKLIST)
-    end
-
-    if ( SERVER ) then
+    if not ply:IsWeaponRaised() then cmd:RemoveKey(KEY_BLACKLIST) end
+    if SERVER then
         local dragger = ply.impulseArrestedDragger
-
         if isValid(dragger) and ply == dragger.impulseArrestedDragging and ply:Alive() and dragger:Alive() then
             cmd:ClearMovement()
             cmd:ClearButtons()
-
-            if ply:GetPos():DistToSqr(dragger:GetPos()) > (60 ^ 2) then
-                cmd:SetForwardMove(200)
-            end
-
+            if ply:GetPos():DistToSqr(dragger:GetPos()) > (60 ^ 2) then cmd:SetForwardMove(200) end
             cmd:SetViewAngles((dragger:GetShootPos() - ply:GetShootPos()):GetNormalized():Angle())
         end
     else
@@ -26,28 +17,25 @@ function GM:StartCommand(ply, cmd)
 end
 
 function GM:PlayerSwitchWeapon(ply, oldWep, newWep)
-    if ( SERVER ) then
-        ply:SetWeaponRaised(false)
-    end
+    if SERVER then ply:SetWeaponRaised(false) end
 end
 
 function GM:Move(ply, mvData)
     -- alt walk thing based on nutscripts
-    if ply.GetMoveType(ply) == MOVETYPE_WALK and ((ply.HasBrokenLegs(ply) and !ply.GetNetVar(ply, "arrested", false)) or mvData.KeyDown(mvData, IN_WALK)) then
+    if ply.GetMoveType(ply) == MOVETYPE_WALK and ((ply.HasBrokenLegs(ply) and not ply.GetNetVar(ply, NET_IS_ARRESTED, false)) or mvData.KeyDown(mvData, IN_WALK)) then
         local speed = ply:GetWalkSpeed()
         local forwardRatio = 0
         local sideRatio = 0
         local ratio = impulse.Config.SlowWalkRatio
-
-        if (mvData:KeyDown(IN_FORWARD)) then
+        if mvData:KeyDown(IN_FORWARD) then
             forwardRatio = ratio
-        elseif (mvData:KeyDown(IN_BACK)) then
+        elseif mvData:KeyDown(IN_BACK) then
             forwardRatio = -ratio
         end
 
-        if (mvData:KeyDown(IN_MOVELEFT)) then
+        if mvData:KeyDown(IN_MOVELEFT) then
             sideRatio = -ratio
-        elseif (mvData:KeyDown(IN_MOVERIGHT)) then
+        elseif mvData:KeyDown(IN_MOVERIGHT) then
             sideRatio = ratio
         end
 
@@ -57,9 +45,6 @@ function GM:Move(ply, mvData)
 end
 
 function GM:IsContainer(ent)
-    if ( !IsValid(ent) ) then return false end
-
-    if ( ent:GetClass() == "impulse_container" ) then
-        return true
-    end
+    if not IsValid(ent) then return false end
+    if ent:GetClass() == "impulse_container" then return true end
 end

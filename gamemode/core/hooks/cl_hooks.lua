@@ -5,7 +5,7 @@ function GM:ForceDermaSkin()
 end
 
 function GM:OnSchemaLoaded()
-    if not impulse.MainMenu and !IsValid(impulse.MainMenu) then
+    if not impulse.MainMenu and ! IsValid(impulse.MainMenu) then
         impulse.SplashScreen = vgui.Create("impulseSplash")
 
         if system.IsWindows() then
@@ -14,12 +14,12 @@ function GM:OnSchemaLoaded()
     end
 
     local dir = "impulse-reforged/menumsgs/"
-    for v, k in ipairs(file.Find(dir.."*.json", "DATA")) do
-        local f = file.Read(dir..k, "DATA")
+    for v, k in ipairs(file.Find(dir .. "*.json", "DATA")) do
+        local f = file.Read(dir .. k, "DATA")
         local data = util.JSONToTable(f)
 
         if not data then
-            logs:Error("Error loading menu message "..k.."!")
+            logs:Error("Error loading menu message " .. k .. "!")
             continue
         end
 
@@ -38,9 +38,9 @@ local nextCrashAnalysis
 local crashAnalysisAttempts = 0
 
 function GM:Think()
-    if ( LocalPlayer():Team() != 0 and !vgui.CursorVisible() and !impulse_ActiveWorkbar ) then
-        if ( !IsValid(impulse.MainMenu) ) then
-            if ( input.IsKeyDown(KEY_F1) ) then
+    if (LocalPlayer():Team() != 0 and ! vgui.CursorVisible() and ! impulse_ActiveWorkbar) then
+        if (! IsValid(impulse.MainMenu)) then
+            if (input.IsKeyDown(KEY_F1)) then
                 ---@class impulseMainMenu : Panel
                 impulse.MainMenu = vgui.Create("impulseMainMenu")
                 impulse.MainMenu:SetAlpha(0)
@@ -48,7 +48,7 @@ function GM:Think()
                 impulse.MainMenu.popup = true
 
                 hook.Run("DisplayMenuMessages", impulse.MainMenu)
-            elseif input.IsKeyDown(KEY_F4) and !IsValid(impulse.playerMenu) and LocalPlayer():Alive() then
+            elseif input.IsKeyDown(KEY_F4) and ! IsValid(impulse.playerMenu) and LocalPlayer():Alive() then
                 impulse.playerMenu = vgui.Create("impulsePlayerMenu")
             elseif input.IsKeyDown(KEY_F2) and LocalPlayer():Alive() then
                 local trace = {}
@@ -58,25 +58,25 @@ function GM:Think()
 
                 local traceEnt = util.TraceLine(trace).Entity
 
-                if ( ( !impulse.entityMenu or !IsValid(impulse.entityMenu) ) and IsValid(traceEnt) ) then
-                    if ( traceEnt:IsDoor() or traceEnt:IsPropDoor() ) then
+                if ((! impulse.entityMenu or ! IsValid(impulse.entityMenu)) and IsValid(traceEnt)) then
+                    if (traceEnt:IsDoor() or traceEnt:IsPropDoor()) then
                         impulse.entityMenu = vgui.Create("impulseEntityMenu")
                         impulse.entityMenu:SetDoor(traceEnt)
-                    elseif ( traceEnt:IsPlayer() ) then
+                    elseif (traceEnt:IsPlayer()) then
                         impulse.entityMenu = vgui.Create("impulseEntityMenu")
                         impulse.entityMenu:SetRangeEnt(traceEnt)
                         impulse.entityMenu:SetPlayer(traceEnt)
-                    elseif ( traceEnt:GetClass() == "impulse_container" ) then
+                    elseif (traceEnt:GetClass() == "impulse_container") then
                         impulse.entityMenu = vgui.Create("impulseEntityMenu")
                         impulse.entityMenu:SetRangeEnt(traceEnt)
                         impulse.entityMenu:SetContainer(traceEnt)
-                    elseif ( traceEnt:GetClass() == "prop_ragdoll" ) then
+                    elseif (traceEnt:GetClass() == "prop_ragdoll") then
                         impulse.entityMenu = vgui.Create("impulseEntityMenu")
                         impulse.entityMenu:SetRangeEnt(traceEnt)
                         impulse.entityMenu:SetBody(traceEnt)
                     end
                 end
-            elseif ( input.IsKeyDown(KEY_F6) and !IsValid(groupEditor) and hook.Run("CanOpenGroupEditor") != false ) then
+            elseif (input.IsKeyDown(KEY_F6) and ! IsValid(groupEditor) and hook.Run("CanOpenGroupEditor") != false) then
                 impulse.groupEditor = vgui.Create("impulseGroupEditor")
             end
 
@@ -86,7 +86,7 @@ function GM:Think()
 
     if (nextLoopThink or 0) < CurTime() then
         for v, k in player.Iterator() do
-            local isArrested = k:GetNetVar("arrested", false)
+            local isArrested = k:GetNetVar(NET_IS_INCOGNITO, false)
 
             if isArrested != (k.BoneArrested or false) then
                 k:SetHandsBehindBack(isArrested)
@@ -150,54 +150,89 @@ end
 
 function GM:ScoreboardHide()
     if LocalPlayer():Team() == 0 then return end -- players who have not been loaded yet
-    
+
     impulse_scoreboard:Remove()
 end
 
-impulse.Settings:Define("font_scale", {name="Font scale", category="Other", type="slider", default=1, minValue=0.5, maxValue=1.5, decimals = 2, onChanged = function(newValue)
-    hook.Run("LoadFonts")
-end})
-impulse.Settings:Define("hud_vignette", {name="Vignette enabled", category="HUD", type="tickbox", default=true})
-impulse.Settings:Define("hud_iconcolours", {name="Icon colours enabled", category="HUD", type="tickbox", default=false})
-impulse.Settings:Define("hud_crosshair", {name="Crosshair enabled", category="HUD", type="tickbox", default=true})
-impulse.Settings:Define("view_thirdperson", {name="Thirdperson enabled", category="View", type="tickbox", default=false})
-impulse.Settings:Define("view_thirdperson_offset_x", {name="Thirdperson X Offset", category="View", type="slider", default=75, minValue=-50, maxValue=50})
-impulse.Settings:Define("view_thirdperson_offset_y", {name="Thirdperson Y Offset", category="View", type="slider", default=20, minValue=-50, maxValue=50})
-impulse.Settings:Define("view_thirdperson_offset_z", {name="Thirdperson Z Offset", category="View", type="slider", default=5, minValue=-50, maxValue=50})
-impulse.Settings:Define("view_thirdperson_offset_z", {name="Thirdperson Z Offset", category="View", type="slider", default=5, minValue=-50, maxValue=50})
-impulse.Settings:Define("view_thirdperson_smooth_origin", {name="Thirdperson Smoothness for Origin", category="View", type="tickbox", default=false})
-impulse.Settings:Define("view_thirdperson_smooth_angles", {name="Thirdperson Smoothness for Angles", category="View", type="tickbox", default=false})
-impulse.Settings:Define("view_firstperson_smooth_origin", {name="Firstperson Smoothness for Origin", category="View", type="tickbox", default=false})
-impulse.Settings:Define("view_firstperson_smooth_angles", {name="Firstperson Smoothness for Angles", category="View", type="tickbox", default=false})
-impulse.Settings:Define("perf_mcore", {name="Multi-core rendering enabled", category="Performance", type="tickbox", default=false, onChanged = function(newValue)
-    RunConsoleCommand("gmod_mcore_test", tostring(tonumber(newValue)))
+impulse.Settings:Define("font_scale",
+    {
+        name = "Font scale",
+        category = "Other",
+        type = "slider",
+        default = 1,
+        minValue = 0.5,
+        maxValue = 1.5,
+        decimals = 2,
+        onChanged = function(newValue)
+            hook.Run("LoadFonts")
+        end
+    })
+impulse.Settings:Define("hud_vignette", { name = "Vignette enabled", category = "HUD", type = "tickbox", default = true })
+impulse.Settings:Define("hud_iconcolours",
+    { name = "Icon colours enabled", category = "HUD", type = "tickbox", default = false })
+impulse.Settings:Define("hud_crosshair",
+    { name = "Crosshair enabled", category = "HUD", type = "tickbox", default = true })
+impulse.Settings:Define("view_thirdperson",
+    { name = "Thirdperson enabled", category = "View", type = "tickbox", default = false })
+impulse.Settings:Define("view_thirdperson_offset_x",
+    { name = "Thirdperson X Offset", category = "View", type = "slider", default = 75, minValue = -50, maxValue = 50 })
+impulse.Settings:Define("view_thirdperson_offset_y",
+    { name = "Thirdperson Y Offset", category = "View", type = "slider", default = 20, minValue = -50, maxValue = 50 })
+impulse.Settings:Define("view_thirdperson_offset_z",
+    { name = "Thirdperson Z Offset", category = "View", type = "slider", default = 5, minValue = -50, maxValue = 50 })
+impulse.Settings:Define("view_thirdperson_offset_z",
+    { name = "Thirdperson Z Offset", category = "View", type = "slider", default = 5, minValue = -50, maxValue = 50 })
+impulse.Settings:Define("view_thirdperson_smooth_origin",
+    { name = "Thirdperson Smoothness for Origin", category = "View", type = "tickbox", default = false })
+impulse.Settings:Define("view_thirdperson_smooth_angles",
+    { name = "Thirdperson Smoothness for Angles", category = "View", type = "tickbox", default = false })
+impulse.Settings:Define("view_firstperson_smooth_origin",
+    { name = "Firstperson Smoothness for Origin", category = "View", type = "tickbox", default = false })
+impulse.Settings:Define("view_firstperson_smooth_angles",
+    { name = "Firstperson Smoothness for Angles", category = "View", type = "tickbox", default = false })
+impulse.Settings:Define("perf_mcore",
+    {
+        name = "Multi-core rendering enabled",
+        category = "Performance",
+        type = "tickbox",
+        default = false,
+        onChanged = function(newValue)
+            RunConsoleCommand("gmod_mcore_test", tostring(tonumber(newValue)))
 
-    if ( newValue == 1 ) then
-        RunConsoleCommand("mat_queue_mode", "-1")
-        RunConsoleCommand("cl_threaded_bone_setup", "1")
-    else
-        RunConsoleCommand("cl_threaded_bone_setup", "0")
-    end
-end})
-impulse.Settings:Define("perf_blur", {name="Blur enabled", category="Performance", type="tickbox", default=true})
-impulse.Settings:Define("perf_anim", {name="Animations enabled", category="Performance", type="tickbox", default=true})
-impulse.Settings:Define("inv_sortequippablesattop", {name="Sort equipped at top", category="Inventory", type="tickbox", default=true})
-impulse.Settings:Define("inv_sortweight", {name="Sort by weight", category="Inventory", type="dropdown", default="Inventory only", options={"Never", "Inventory only", "Containers only", "Always"}})
-impulse.Settings:Define("misc_vendorgreeting", {name="Vendor greeting sound enabled", category="Other", type="tickbox", default=true})
-impulse.Settings:Define("chat_oocenabled", {name="OOC enabled", category="Chatbox", type="tickbox", default=true})
-impulse.Settings:Define("chat_pmpings", {name="PM and tag sound enabled", category="Chatbox", type="tickbox", default=true})
+            if (newValue == 1) then
+                RunConsoleCommand("mat_queue_mode", "-1")
+                RunConsoleCommand("cl_threaded_bone_setup", "1")
+            else
+                RunConsoleCommand("cl_threaded_bone_setup", "0")
+            end
+        end
+    })
+impulse.Settings:Define("perf_blur",
+    { name = "Blur enabled", category = "Performance", type = "tickbox", default = true })
+impulse.Settings:Define("perf_anim",
+    { name = "Animations enabled", category = "Performance", type = "tickbox", default = true })
+impulse.Settings:Define("inv_sortequippablesattop",
+    { name = "Sort equipped at top", category = "Inventory", type = "tickbox", default = true })
+impulse.Settings:Define("inv_sortweight",
+    { name = "Sort by weight", category = "Inventory", type = "dropdown", default = "Inventory only", options = { "Never", "Inventory only", "Containers only", "Always" } })
+impulse.Settings:Define("misc_vendorgreeting",
+    { name = "Vendor greeting sound enabled", category = "Other", type = "tickbox", default = true })
+impulse.Settings:Define("chat_oocenabled",
+    { name = "OOC enabled", category = "Chatbox", type = "tickbox", default = true })
+impulse.Settings:Define("chat_pmpings",
+    { name = "PM and tag sound enabled", category = "Chatbox", type = "tickbox", default = true })
 
 local loweredAngles = Angle(30, -30, -25)
 
 function GM:CalcViewModelView(weapon, viewmodel, oldEyePos, oldEyeAng, eyePos, eyeAngles)
-    if ( !IsValid(weapon) ) then return end
+    if (! IsValid(weapon)) then return end
 
     local vm_origin, vm_angles = eyePos, eyeAngles
 
     local ply = LocalPlayer()
     local raiseTarg = 0
 
-    if ( !ply:IsWeaponRaised() ) then
+    if (! ply:IsWeaponRaised()) then
         raiseTarg = 100
     end
 
@@ -211,15 +246,15 @@ function GM:CalcViewModelView(weapon, viewmodel, oldEyePos, oldEyeAng, eyePos, e
     ply.raiseFraction = Lerp(FrameTime() * 2, ply.raiseFraction or 0, raiseTarg)
 
     local func = weapon.GetViewModelPosition
-    if ( func ) then
-        local pos, ang = func( weapon, eyePos*1, eyeAngles*1 )
+    if (func) then
+        local pos, ang = func(weapon, eyePos * 1, eyeAngles * 1)
         vm_origin = pos or vm_origin
         vm_angles = ang or vm_angles
     end
 
     func = weapon.CalcViewModelView
-    if ( func ) then
-        local pos, ang = func( weapon, viewModel, oldEyePos*1, oldEyeAng*1, eyePos*1, eyeAngles*1 )
+    if (func) then
+        local pos, ang = func(weapon, viewModel, oldEyePos * 1, oldEyeAng * 1, eyePos * 1, eyeAngles * 1)
         vm_origin = pos or vm_origin
         vm_angles = ang or vm_angles
     end
@@ -228,14 +263,14 @@ function GM:CalcViewModelView(weapon, viewmodel, oldEyePos, oldEyeAng, eyePos, e
 end
 
 function GM:ShouldDrawLocalPlayer()
-    if ( "falloverRagdoll" ) then
-        local entity = Entity(LocalPlayer():GetNetVar("falloverRagdoll", 0))
-        if ( IsValid(entity) ) then
+    if ("falloverRagdoll") then -- depends on fallover plugin
+        local entity = LocalPlayer():GetNetVar(NET_FALLOVER_RAGDOLL, nil)
+        if (IsValid(entity)) then
             return false
         end
     end
 
-    if ( impulse.Settings:Get("view_thirdperson") ) then
+    if (impulse.Settings:Get("view_thirdperson")) then
         return true
     end
 end
@@ -247,7 +282,7 @@ local firstperson_smooth_angles
 function GM:CalcView(ply, origin, angles, fov)
     local view
 
-    if ( IsValid(impulse.SplashScreen) or ( IsValid(impulse.MainMenu) and impulse.MainMenu:IsVisible() and !impulse.MainMenu.popup ) ) then
+    if (IsValid(impulse.SplashScreen) or (IsValid(impulse.MainMenu) and impulse.MainMenu:IsVisible() and ! impulse.MainMenu.popup)) then
         view = {
             origin = impulse.Config.MenuCamPos,
             angles = impulse.Config.MenuCamAng,
@@ -257,17 +292,15 @@ function GM:CalcView(ply, origin, angles, fov)
         return view
     end
 
-    if ( LocalPlayer():GetNetVar("falloverRagdoll", 0) ) then
-        local entity = Entity(LocalPlayer():GetNetVar("falloverRagdoll", 0))
-        if ( IsValid(entity) ) then
-            return
-        end
+    local falloverRagdollEnt = LocalPlayer():GetNetVar(NET_FALLOVER_RAGDOLL, nil) -- depends on fallover plugin
+    if (! falloverRagdollEnt || ! falloverRagdollEnt:IsValid()) then
+        return
     end
-    
+
     local ragdoll = ply.Ragdoll
-    if ( IsValid(ragdoll) ) then
+    if (IsValid(ragdoll)) then
         local eyes = ragdoll:GetAttachment(ragdoll:LookupAttachment("eyes"))
-        if ( !eyes ) then return end
+        if (! eyes) then return end
 
         local pos, ang = eyes.Pos, eyes.Ang
 
@@ -279,7 +312,7 @@ function GM:CalcView(ply, origin, angles, fov)
             maxs = Vector(10, 10, 10),
             mask = MASK_SHOT_HULL,
             filter = function(ent)
-                if ( ent == ragdoll ) then
+                if (ent == ragdoll) then
                     return false
                 end
 
@@ -298,28 +331,28 @@ function GM:CalcView(ply, origin, angles, fov)
         return view
     end
 
-    if ( impulse.Settings:Get("view_thirdperson") and ply:GetViewEntity() == ply ) then
-        if ( !thirdperson_smooth_origin ) then
+    if (impulse.Settings:Get("view_thirdperson") and ply:GetViewEntity() == ply) then
+        if (! thirdperson_smooth_origin) then
             thirdperson_smooth_origin = origin
         end
 
-        if ( !thirdperson_smooth_angles ) then
+        if (! thirdperson_smooth_angles) then
             thirdperson_smooth_angles = angles
         end
 
-        if ( firstperson_smooth_origin ) then
+        if (firstperson_smooth_origin) then
             firstperson_smooth_origin = nil
         end
 
-        if ( firstperson_smooth_angles ) then
+        if (firstperson_smooth_angles) then
             firstperson_smooth_angles = nil
         end
 
         local angles = ply:GetAimVector():Angle()
         local targetpos = Vector(0, 0, 60)
 
-        if ( ply:KeyDown(IN_DUCK) ) then
-            if ( ply:GetVelocity():Length() > 0 ) then
+        if (ply:KeyDown(IN_DUCK)) then
+            if (ply:GetVelocity():Length() > 0) then
                 targetpos.z = 50
             else
                 targetpos.z = 40
@@ -344,11 +377,11 @@ function GM:CalcView(ply, origin, angles, fov)
         traceData.endpos = traceData.endpos + angles:Up() * offset.z
         traceData.mask = MASK_SHOT
         traceData.filter = function(ent)
-            if ( ent == LocalPlayer() ) then
+            if (ent == LocalPlayer()) then
                 return false
             end
-            
-            if ( ent.GetNoDraw(ent) ) then
+
+            if (ent.GetNoDraw(ent)) then
                 return false
             end
 
@@ -360,33 +393,33 @@ function GM:CalcView(ply, origin, angles, fov)
 
         pos = traceData.HitPos
 
-        if ( traceData.Fraction < 1.0 ) then
+        if (traceData.Fraction < 1.0) then
             pos = pos + traceData.HitNormal * 5
         end
 
 
 
         local wep = ply:GetActiveWeapon()
-        if ( IsValid(wep) and wep.GetIronsights and !wep.NoThirdpersonIronsights ) then
+        if (IsValid(wep) and wep.GetIronsights and ! wep.NoThirdpersonIronsights) then
             fov = Lerp(FrameTime() * 15, wep.FOVMultiplier, wep:GetIronsights() and wep.IronsightsFOV or 1) * fov
         end
 
         local delta = ply:EyePos() - origin
 
-        if ( impulse.Settings:Get("view_thirdperson_smooth_origin") ) then
+        if (impulse.Settings:Get("view_thirdperson_smooth_origin")) then
             thirdperson_smooth_origin = LerpVector(FrameTime() * 10, thirdperson_smooth_origin, pos + delta)
         else
             thirdperson_smooth_origin = pos + delta
         end
-        
-        if ( impulse.Settings:Get("view_thirdperson_smooth_angles") ) then
+
+        if (impulse.Settings:Get("view_thirdperson_smooth_angles")) then
             thirdperson_smooth_angles = LerpAngle(FrameTime() * 10, thirdperson_smooth_angles, angles)
         else
             thirdperson_smooth_angles = angles
         end
 
         -- if we havent done anything, dont return anything
-        if ( thirdperson_smooth_origin == origin and thirdperson_smooth_angles == angles ) then
+        if (thirdperson_smooth_origin == origin and thirdperson_smooth_angles == angles) then
             return
         end
 
@@ -396,36 +429,36 @@ function GM:CalcView(ply, origin, angles, fov)
             fov = fov
         }
     else
-        if ( thirdperson_smooth_origin ) then
+        if (thirdperson_smooth_origin) then
             thirdperson_smooth_origin = nil
         end
 
-        if ( thirdperson_smooth_angles ) then
+        if (thirdperson_smooth_angles) then
             thirdperson_smooth_angles = nil
         end
 
-        if ( !firstperson_smooth_origin ) then
+        if (! firstperson_smooth_origin) then
             firstperson_smooth_origin = origin
         end
 
-        if ( !firstperson_smooth_angles ) then
+        if (! firstperson_smooth_angles) then
             firstperson_smooth_angles = angles
         end
 
-        if ( impulse.Settings:Get("view_firstperson_smooth_origin") ) then
+        if (impulse.Settings:Get("view_firstperson_smooth_origin")) then
             firstperson_smooth_origin = LerpVector(FrameTime() * 10, firstperson_smooth_origin, origin)
         else
             firstperson_smooth_origin = origin
         end
 
-        if ( impulse.Settings:Get("view_firstperson_smooth_angles") ) then
+        if (impulse.Settings:Get("view_firstperson_smooth_angles")) then
             firstperson_smooth_angles = LerpAngle(FrameTime() * 10, firstperson_smooth_angles, angles)
         else
             firstperson_smooth_angles = angles
         end
 
         -- if we havent done anything, dont return anything
-        if ( firstperson_smooth_origin == origin and firstperson_smooth_angles == angles ) then
+        if (firstperson_smooth_origin == origin and firstperson_smooth_angles == angles) then
             return
         end
 
@@ -458,29 +491,33 @@ end
 
 function GM:StartChat()
     net.Start("impulseChatState")
-        net.WriteBool(true)
+    net.WriteBool(true)
     net.SendToServer()
 end
 
 function GM:FinishChat()
     net.Start("impulseChatState")
-        net.WriteBool(false)
+    net.WriteBool(false)
     net.SendToServer()
 end
 
 function GM:OnContextMenuOpen()
     if LocalPlayer():Team() == 0 or not LocalPlayer():Alive() or impulse_ActiveWorkbar then return end
-    if LocalPlayer():GetNetVar("arrested", false) then return end
+    if LocalPlayer():GetNetVar(NET_IS_INCOGNITO, false) then return end
 
     local canUse = hook.Run("CanUseInventory", LocalPlayer())
 
     if canUse != nil and canUse == false then return end
 
     if not input.IsKeyDown(KEY_LALT) then
+        -- if not IsValid(impulse_inventory) then
         impulse_inventory = vgui.Create("impulseInventory")
+        -- end
+        impulse_inventory:Reload()
+        impulse_inventory:Show()
         gui.EnableScreenClicker(true)
     else
-        if IsValid(g_ContextMenu) and !g_ContextMenu:IsVisible() then
+        if IsValid(g_ContextMenu) and ! g_ContextMenu:IsVisible() then
             g_ContextMenu:Open()
             menubar.ParentTo(g_ContextMenu)
 
@@ -490,13 +527,13 @@ function GM:OnContextMenuOpen()
 end
 
 function GM:OnContextMenuClose()
-    if IsValid(g_ContextMenu) then 
+    if IsValid(g_ContextMenu) then
         g_ContextMenu:Close()
         hook.Call("ContextMenuClosed", self)
     end
 
     if IsValid(impulse_inventory) then
-        impulse_inventory:Remove()
+        impulse_inventory:Hide()
         gui.EnableScreenClicker(false)
     end
 end
@@ -515,7 +552,7 @@ local blockNormalTabs = {
 
 function GM:PostReloadToolsMenu()
     local ply = LocalPlayer()
-    if ( !IsValid(ply) or ply:Team() == 0 ) then return end
+    if (! IsValid(ply) or ply:Team() == 0) then return end
 
     local spawnMenu = g_SpawnMenu
 
@@ -529,11 +566,11 @@ function GM:PostReloadToolsMenu()
             end
 
             if ply and ply.IsAdmin and ply.IsDonator then -- when u first load ply doesnt exist
-                if blockNormalTabs[k.Name] and !ply:IsAdmin() then
+                if blockNormalTabs[k.Name] and ! ply:IsAdmin() then
                     table.insert(closeMe, k.Tab)
                 end
 
-                if k.Name == "#spawnmenu.category.vehicles" and !ply:IsDonator() then
+                if k.Name == "#spawnmenu.category.vehicles" and ! ply:IsDonator() then
                     table.insert(closeMe, k.Tab)
                 end
             end
@@ -619,5 +656,5 @@ hook.Add("player_spawn", "impulsePlayerSpawn", function(data)
 end)
 
 concommand.Add("impulse_togglethirdperson", function() -- ease of use command for binds
-    impulse.Settings:Set("view_thirdperson", (!impulse.Settings:Get("view_thirdperson")))
+    impulse.Settings:Set("view_thirdperson", (! impulse.Settings:Get("view_thirdperson")))
 end)

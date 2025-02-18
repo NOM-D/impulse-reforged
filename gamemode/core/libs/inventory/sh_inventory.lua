@@ -16,7 +16,7 @@ impulse.Inventory.Mixtures = impulse.Inventory.Mixtures or {}
 impulse.Inventory.MixturesStored = impulse.Inventory.MixturesStored or {}
 impulse.Inventory.CraftInfo = impulse.Inventory.CraftInfo or {}
 
-if ( CLIENT ) then
+if (CLIENT) then
     impulse.Inventory.Data[0][INVENTORY_PLAYER] = impulse.Inventory.Data[0][INVENTORY_PLAYER] or {}
     impulse.Inventory.Data[0][INVENTORY_STORAGE] = impulse.Inventory.Data[0][INVENTORY_STORAGE] or {}
 end
@@ -32,13 +32,13 @@ function impulse.Inventory:RegisterItem(item)
     local class = item.WeaponClass
     local attachmentClass = item.AttachmentClass
 
-    if ( class ) then
+    if (class) then
         function item:OnEquip(ply, data, uid, sec)
             local weapon = ply:Give(class)
-            if ( IsValid(weapon) ) then
+            if (IsValid(weapon)) then
                 weapon:SetClip1(item.WeaponOverrideClip or self.clip or 0)
 
-                if ( item.WeaponOverrideClip ) then
+                if (item.WeaponOverrideClip) then
                     weapon.PairedItem = uid
                 end
             end
@@ -46,12 +46,12 @@ function impulse.Inventory:RegisterItem(item)
 
         function item:UnEquip(ply)
             local weapon = ply:GetWeapon(class)
-            if ( IsValid(weapon) ) then
+            if (IsValid(weapon)) then
                 self.clip = weapon:Clip1()
                 ply:StripWeapon(class)
             end
 
-            if ( ply.InvAttachments ) then
+            if (ply.InvAttachments) then
                 local uid = ply.InvAttachments[class]
 
                 if uid and ply:HasInventoryItemSpecific(uid) then
@@ -60,15 +60,15 @@ function impulse.Inventory:RegisterItem(item)
                 end
             end
         end
-    elseif ( attachmentClass ) then
+    elseif (attachmentClass) then
         function item:CanEquip(ply)
-            if ( ply.doForcedInvEquip ) then
+            if (ply.doForcedInvEquip) then
                 ply.doForcedInvEquip = nil
                 return true -- hacky needs replacement
             end
 
             for k, v in pairs(ply:GetWeapons()) do
-                if ( IsValid(v) and v.IsLongsword and v.Attachments and v.Attachments[attachmentClass] ) then
+                if (IsValid(v) and v.IsLongsword and v.Attachments and v.Attachments[attachmentClass]) then
                     return true
                 end
             end
@@ -87,7 +87,7 @@ function impulse.Inventory:RegisterItem(item)
 
         function item:UnEquip(ply, class, uid)
             for k, v in pairs(ply:GetWeapons()) do
-                if ( IsValid(v) and v.IsLongsword and v.Attachments and v.Attachments[attachmentClass] and v:HasAttachment(attachmentClass) ) then
+                if (IsValid(v) and v.IsLongsword and v.Attachments and v.Attachments[attachmentClass] and v:HasAttachment(attachmentClass)) then
                     v:TakeAttachment(attachmentClass)
                     ply.InvAttachments[v:GetClass()] = nil
                     return
@@ -101,7 +101,7 @@ function impulse.Inventory:RegisterItem(item)
     local craftSound = item.CraftSound
     local craftTime = item.CraftTime
 
-    if ( craftSound or craftTime ) then
+    if (craftSound or craftTime) then
         impulse.Inventory.CraftInfo[item.UniqueID] = {
             time = craftTime or nil,
             sound = craftSound or nil
@@ -110,7 +110,7 @@ function impulse.Inventory:RegisterItem(item)
 
     impulse.Inventory.Items[count] = item -- this is done the wrong way round yea yea ik
     impulse.Inventory.ItemsStored[item.UniqueID] = count
-    impulse.Inventory.ItemsQW[item.UniqueID] = ( item.Weight or 1 )
+    impulse.Inventory.ItemsQW[item.UniqueID] = (item.Weight or 1)
 
     count = count + 1
 end
@@ -137,7 +137,7 @@ function impulse.Inventory:RegisterMixture(mix)
     mix.NetworkID = countX
 
     impulse.Inventory.Mixtures[bench][class] = mix
-    impulse.Inventory.MixturesStored[countX] = {bench, class}
+    impulse.Inventory.MixturesStored[countX] = { bench, class }
 
     countX = countX + 1
 end
@@ -164,13 +164,13 @@ function impulse.Inventory:GetCraftingTime(mix)
         local hasCustom = impulse.Inventory.CraftInfo[k]
 
         for i = 1, v.take do
-            if ( hasCustom and hasCustom.sound ) then
-                table.insert(sounds, {time, hasCustom.sound})
+            if (hasCustom and hasCustom.sound) then
+                table.insert(sounds, { time, hasCustom.sound })
             else
-                table.insert(sounds, {time, "generic"})
+                table.insert(sounds, { time, "generic" })
             end
 
-            time = time + ( ( hasCustom and hasCustom.time ) or 3 )
+            time = time + ((hasCustom and hasCustom.time) or 3)
         end
     end
 
@@ -203,7 +203,7 @@ local sounds = {
 -- @treturn string The random crafting sound based on the crafting type (eg: if type is wood then return wood2.wav)
 function impulse.Inventory:PickRandomCraftSound(crafttype)
     local max = sounds[crafttype]
-    if ( !max ) then
+    if (! max) then
         crafttype = "generic"
     end
 
@@ -226,7 +226,7 @@ function PLAYER:GetMaxInventoryStorage()
     return impulse.Config.InventoryStorageMaxWeight
 end
 
-if ( CLIENT ) then
+if (CLIENT) then
     --- Returns if a client has an inventory item and how much they have
     -- @realm client
     -- @int itemId Item Network ID (use impulse.Inventory:ClassToNetID)
@@ -234,7 +234,7 @@ if ( CLIENT ) then
     -- @treturn bool Has item
     -- @treturn int Amount
     function PLAYER:HasInventoryItem(id)
-        if ( self:Team() == 0 ) then
+        if (self:Team() == 0) then
             return false
         end
 
@@ -243,9 +243,9 @@ if ( CLIENT ) then
         local count
 
         for k, v in pairs(inv) do
-            if ( v.id == id ) then
+            if (v.id == id) then
                 has = true
-                count = ( count or 0 ) + 1
+                count = (count or 0) + 1
             end
         end
 

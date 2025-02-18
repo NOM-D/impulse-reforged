@@ -4,129 +4,129 @@
 impulse.Anim = impulse.Anim or {}
 impulse.Anim.citizen_male = {
     normal = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE, ACT_IDLE_ANGRY_SMG1},
-        [ACT_MP_CROUCH_IDLE] = {ACT_COVER_LOW, ACT_COVER_LOW},
-        [ACT_MP_WALK] = {ACT_WALK, ACT_WALK_AIM_RIFLE_STIMULATED},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH, ACT_WALK_CROUCH_AIM_RIFLE},
-        [ACT_MP_RUN] = {ACT_RUN, ACT_RUN_AIM_RIFLE_STIMULATED}
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE, ACT_IDLE_ANGRY_SMG1 },
+        [ACT_MP_CROUCH_IDLE] = { ACT_COVER_LOW, ACT_COVER_LOW },
+        [ACT_MP_WALK] = { ACT_WALK, ACT_WALK_AIM_RIFLE_STIMULATED },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH, ACT_WALK_CROUCH_AIM_RIFLE },
+        [ACT_MP_RUN] = { ACT_RUN, ACT_RUN_AIM_RIFLE_STIMULATED }
     },
     pistol = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE, ACT_RANGE_ATTACK_PISTOL},
-        [ACT_MP_CROUCH_IDLE] = {ACT_COVER_LOW, ACT_RANGE_ATTACK_PISTOL_LOW},
-        [ACT_MP_WALK] = {ACT_WALK, ACT_WALK_AIM_RIFLE_STIMULATED},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH, ACT_WALK_CROUCH_AIM_RIFLE},
-        [ACT_MP_RUN] = {ACT_RUN, ACT_RUN_AIM_RIFLE_STIMULATED},
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE, ACT_RANGE_ATTACK_PISTOL },
+        [ACT_MP_CROUCH_IDLE] = { ACT_COVER_LOW, ACT_RANGE_ATTACK_PISTOL_LOW },
+        [ACT_MP_WALK] = { ACT_WALK, ACT_WALK_AIM_RIFLE_STIMULATED },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH, ACT_WALK_CROUCH_AIM_RIFLE },
+        [ACT_MP_RUN] = { ACT_RUN, ACT_RUN_AIM_RIFLE_STIMULATED },
         attack = ACT_GESTURE_RANGE_ATTACK_PISTOL,
         reload = ACT_RELOAD_PISTOL
     },
     smg = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE_SMG1_RELAXED, ACT_IDLE_ANGRY_SMG1},
-        [ACT_MP_CROUCH_IDLE] = {ACT_COVER_LOW, ACT_RANGE_AIM_SMG1_LOW},
-        [ACT_MP_WALK] = {ACT_WALK_RIFLE_RELAXED, ACT_WALK_AIM_RIFLE_STIMULATED},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_AIM_RIFLE},
-        [ACT_MP_RUN] = {ACT_RUN_RIFLE_RELAXED, ACT_RUN_AIM_RIFLE_STIMULATED},
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE_SMG1_RELAXED, ACT_IDLE_ANGRY_SMG1 },
+        [ACT_MP_CROUCH_IDLE] = { ACT_COVER_LOW, ACT_RANGE_AIM_SMG1_LOW },
+        [ACT_MP_WALK] = { ACT_WALK_RIFLE_RELAXED, ACT_WALK_AIM_RIFLE_STIMULATED },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_AIM_RIFLE },
+        [ACT_MP_RUN] = { ACT_RUN_RIFLE_RELAXED, ACT_RUN_AIM_RIFLE_STIMULATED },
         attack = ACT_GESTURE_RANGE_ATTACK_SMG1,
         reload = ACT_GESTURE_RELOAD_SMG1
     },
     ar2 = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE_SMG1_RELAXED, ACT_IDLE_ANGRY_SMG1},
-        [ACT_MP_CROUCH_IDLE] = {ACT_COVER_LOW, ACT_RANGE_AIM_SMG1_LOW},
-        [ACT_MP_WALK] = {ACT_WALK_RIFLE_RELAXED, ACT_WALK_AIM_RIFLE_STIMULATED},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_AIM_RIFLE},
-        [ACT_MP_RUN] = {ACT_RUN_RIFLE_RELAXED, ACT_RUN_AIM_RIFLE_STIMULATED},
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE_SMG1_RELAXED, ACT_IDLE_ANGRY_SMG1 },
+        [ACT_MP_CROUCH_IDLE] = { ACT_COVER_LOW, ACT_RANGE_AIM_SMG1_LOW },
+        [ACT_MP_WALK] = { ACT_WALK_RIFLE_RELAXED, ACT_WALK_AIM_RIFLE_STIMULATED },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_AIM_RIFLE },
+        [ACT_MP_RUN] = { ACT_RUN_RIFLE_RELAXED, ACT_RUN_AIM_RIFLE_STIMULATED },
         attack = ACT_GESTURE_RANGE_ATTACK_SMG1,
         reload = ACT_GESTURE_RELOAD_SMG1
     },
     shotgun = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE_SHOTGUN_RELAXED, ACT_IDLE_ANGRY_SMG1},
-        [ACT_MP_CROUCH_IDLE] = {ACT_COVER_LOW, ACT_RANGE_AIM_SMG1_LOW},
-        [ACT_MP_WALK] = {ACT_WALK_RIFLE_RELAXED, ACT_WALK_AIM_RIFLE_STIMULATED},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_RIFLE},
-        [ACT_MP_RUN] = {ACT_RUN_RIFLE_RELAXED, ACT_RUN_AIM_RIFLE_STIMULATED},
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE_SHOTGUN_RELAXED, ACT_IDLE_ANGRY_SMG1 },
+        [ACT_MP_CROUCH_IDLE] = { ACT_COVER_LOW, ACT_RANGE_AIM_SMG1_LOW },
+        [ACT_MP_WALK] = { ACT_WALK_RIFLE_RELAXED, ACT_WALK_AIM_RIFLE_STIMULATED },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_RIFLE },
+        [ACT_MP_RUN] = { ACT_RUN_RIFLE_RELAXED, ACT_RUN_AIM_RIFLE_STIMULATED },
         attack = ACT_GESTURE_RANGE_ATTACK_SHOTGUN
     },
     grenade = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE, ACT_IDLE_MANNEDGUN},
-        [ACT_MP_CROUCH_IDLE] = {ACT_COVER_LOW, ACT_RANGE_AIM_SMG1_LOW},
-        [ACT_MP_WALK] = {ACT_WALK, ACT_WALK_AIM_RIFLE_STIMULATED},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH, ACT_WALK_CROUCH_AIM_RIFLE},
-        [ACT_MP_RUN] = {ACT_RUN, ACT_RUN_RIFLE_STIMULATED},
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE, ACT_IDLE_MANNEDGUN },
+        [ACT_MP_CROUCH_IDLE] = { ACT_COVER_LOW, ACT_RANGE_AIM_SMG1_LOW },
+        [ACT_MP_WALK] = { ACT_WALK, ACT_WALK_AIM_RIFLE_STIMULATED },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH, ACT_WALK_CROUCH_AIM_RIFLE },
+        [ACT_MP_RUN] = { ACT_RUN, ACT_RUN_RIFLE_STIMULATED },
         attack = ACT_RANGE_ATTACK_THROW
     },
     melee = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE, ACT_IDLE_ANGRY_MELEE},
-        [ACT_MP_CROUCH_IDLE] = {ACT_COVER_LOW, ACT_COVER_LOW},
-        [ACT_MP_WALK] = {ACT_WALK, ACT_WALK_AIM_RIFLE},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH, ACT_WALK_CROUCH},
-        [ACT_MP_RUN] = {ACT_RUN, ACT_RUN},
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE, ACT_IDLE_ANGRY_MELEE },
+        [ACT_MP_CROUCH_IDLE] = { ACT_COVER_LOW, ACT_COVER_LOW },
+        [ACT_MP_WALK] = { ACT_WALK, ACT_WALK_AIM_RIFLE },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH, ACT_WALK_CROUCH },
+        [ACT_MP_RUN] = { ACT_RUN, ACT_RUN },
         attack = ACT_MELEE_ATTACK_SWING
     },
     glide = ACT_GLIDE,
     vehicle = {
-        ["prop_vehicle_prisoner_pod"] = {"podpose", Vector(-3, 0, 0)},
-        ["prop_vehicle_jeep"] = {ACT_BUSY_SIT_CHAIR, Vector(14, 0, -14)},
-        ["prop_vehicle_airboat"] = {ACT_BUSY_SIT_CHAIR, Vector(8, 0, -20)},
-        chair = {ACT_BUSY_SIT_CHAIR, Vector(1, 0, -23)}
+        ["prop_vehicle_prisoner_pod"] = { "podpose", Vector(-3, 0, 0) },
+        ["prop_vehicle_jeep"] = { ACT_BUSY_SIT_CHAIR, Vector(14, 0, -14) },
+        ["prop_vehicle_airboat"] = { ACT_BUSY_SIT_CHAIR, Vector(8, 0, -20) },
+        chair = { ACT_BUSY_SIT_CHAIR, Vector(1, 0, -23) }
     },
 }
 
 impulse.Anim.citizen_female = {
     normal = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE, ACT_IDLE_MANNEDGUN},
-        [ACT_MP_CROUCH_IDLE] = {ACT_COVER_LOW, ACT_COVER_LOW},
-        [ACT_MP_WALK] = {ACT_WALK, ACT_RANGE_AIM_SMG1_LOW},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH, ACT_WALK_CROUCH_AIM_RIFLE},
-        [ACT_MP_RUN] = {ACT_RUN, ACT_RUN_AIM_RIFLE_STIMULATED}
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE, ACT_IDLE_MANNEDGUN },
+        [ACT_MP_CROUCH_IDLE] = { ACT_COVER_LOW, ACT_COVER_LOW },
+        [ACT_MP_WALK] = { ACT_WALK, ACT_RANGE_AIM_SMG1_LOW },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH, ACT_WALK_CROUCH_AIM_RIFLE },
+        [ACT_MP_RUN] = { ACT_RUN, ACT_RUN_AIM_RIFLE_STIMULATED }
     },
     pistol = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE_PISTOL, ACT_IDLE_ANGRY_PISTOL},
-        [ACT_MP_CROUCH_IDLE] = {ACT_COVER_LOW, ACT_RANGE_AIM_SMG1_LOW},
-        [ACT_MP_WALK] = {ACT_WALK, ACT_WALK_AIM_PISTOL},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH, ACT_WALK_CROUCH_AIM_RIFLE},
-        [ACT_MP_RUN] = {ACT_RUN, ACT_RUN_AIM_PISTOL},
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE_PISTOL, ACT_IDLE_ANGRY_PISTOL },
+        [ACT_MP_CROUCH_IDLE] = { ACT_COVER_LOW, ACT_RANGE_AIM_SMG1_LOW },
+        [ACT_MP_WALK] = { ACT_WALK, ACT_WALK_AIM_PISTOL },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH, ACT_WALK_CROUCH_AIM_RIFLE },
+        [ACT_MP_RUN] = { ACT_RUN, ACT_RUN_AIM_PISTOL },
         attack = ACT_GESTURE_RANGE_ATTACK_PISTOL,
         reload = ACT_RELOAD_PISTOL
     },
     smg = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE_SMG1_RELAXED, ACT_IDLE_ANGRY_SMG1},
-        [ACT_MP_CROUCH_IDLE] = {ACT_COVER_LOW, ACT_RANGE_AIM_SMG1_LOW},
-        [ACT_MP_WALK] = {ACT_WALK_RIFLE_RELAXED, ACT_WALK_AIM_RIFLE_STIMULATED},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_AIM_RIFLE},
-        [ACT_MP_RUN] = {ACT_RUN_RIFLE_RELAXED, ACT_RUN_AIM_RIFLE_STIMULATED},
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE_SMG1_RELAXED, ACT_IDLE_ANGRY_SMG1 },
+        [ACT_MP_CROUCH_IDLE] = { ACT_COVER_LOW, ACT_RANGE_AIM_SMG1_LOW },
+        [ACT_MP_WALK] = { ACT_WALK_RIFLE_RELAXED, ACT_WALK_AIM_RIFLE_STIMULATED },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_AIM_RIFLE },
+        [ACT_MP_RUN] = { ACT_RUN_RIFLE_RELAXED, ACT_RUN_AIM_RIFLE_STIMULATED },
         attack = ACT_GESTURE_RANGE_ATTACK_SMG1,
         reload = ACT_GESTURE_RELOAD_SMG1
     },
     ar2 = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE_SMG1_RELAXED, ACT_IDLE_ANGRY_SMG1},
-        [ACT_MP_CROUCH_IDLE] = {ACT_COVER_LOW, ACT_RANGE_AIM_SMG1_LOW},
-        [ACT_MP_WALK] = {ACT_WALK_RIFLE_RELAXED, ACT_WALK_AIM_RIFLE_STIMULATED},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_AIM_RIFLE},
-        [ACT_MP_RUN] = {ACT_RUN_RIFLE_RELAXED, ACT_RUN_AIM_RIFLE_STIMULATED},
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE_SMG1_RELAXED, ACT_IDLE_ANGRY_SMG1 },
+        [ACT_MP_CROUCH_IDLE] = { ACT_COVER_LOW, ACT_RANGE_AIM_SMG1_LOW },
+        [ACT_MP_WALK] = { ACT_WALK_RIFLE_RELAXED, ACT_WALK_AIM_RIFLE_STIMULATED },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_AIM_RIFLE },
+        [ACT_MP_RUN] = { ACT_RUN_RIFLE_RELAXED, ACT_RUN_AIM_RIFLE_STIMULATED },
         attack = ACT_GESTURE_RANGE_ATTACK_SMG1,
         reload = ACT_GESTURE_RELOAD_SMG1
     },
     shotgun = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE_SHOTGUN_RELAXED, ACT_IDLE_ANGRY_SMG1},
-        [ACT_MP_CROUCH_IDLE] = {ACT_COVER_LOW, ACT_RANGE_AIM_SMG1_LOW},
-        [ACT_MP_WALK] = {ACT_WALK_RIFLE_RELAXED, ACT_WALK_AIM_RIFLE_STIMULATED},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_AIM_RIFLE},
-        [ACT_MP_RUN] = {ACT_RUN_RIFLE_RELAXED, ACT_RUN_AIM_RIFLE_STIMULATED},
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE_SHOTGUN_RELAXED, ACT_IDLE_ANGRY_SMG1 },
+        [ACT_MP_CROUCH_IDLE] = { ACT_COVER_LOW, ACT_RANGE_AIM_SMG1_LOW },
+        [ACT_MP_WALK] = { ACT_WALK_RIFLE_RELAXED, ACT_WALK_AIM_RIFLE_STIMULATED },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_AIM_RIFLE },
+        [ACT_MP_RUN] = { ACT_RUN_RIFLE_RELAXED, ACT_RUN_AIM_RIFLE_STIMULATED },
         attack = ACT_GESTURE_RANGE_ATTACK_SHOTGUN
     },
     grenade = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE, ACT_IDLE_MANNEDGUN},
-        [ACT_MP_CROUCH_IDLE] = {ACT_COVER_LOW, ACT_RANGE_AIM_SMG1_LOW},
-        [ACT_MP_WALK] = {ACT_WALK, ACT_WALK_AIM_PISTOL},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH, ACT_WALK_CROUCH_AIM_RIFLE},
-        [ACT_MP_RUN] = {ACT_RUN, ACT_RUN_AIM_PISTOL},
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE, ACT_IDLE_MANNEDGUN },
+        [ACT_MP_CROUCH_IDLE] = { ACT_COVER_LOW, ACT_RANGE_AIM_SMG1_LOW },
+        [ACT_MP_WALK] = { ACT_WALK, ACT_WALK_AIM_PISTOL },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH, ACT_WALK_CROUCH_AIM_RIFLE },
+        [ACT_MP_RUN] = { ACT_RUN, ACT_RUN_AIM_PISTOL },
         attack = ACT_RANGE_ATTACK_THROW
     },
     melee = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE, ACT_IDLE_MANNEDGUN},
-        [ACT_MP_CROUCH_IDLE] = {ACT_COVER_LOW, ACT_COVER_LOW},
-        [ACT_MP_WALK] = {ACT_WALK, ACT_WALK_AIM_RIFLE},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH, ACT_WALK_CROUCH},
-        [ACT_MP_RUN] = {ACT_RUN, ACT_RUN},
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE, ACT_IDLE_MANNEDGUN },
+        [ACT_MP_CROUCH_IDLE] = { ACT_COVER_LOW, ACT_COVER_LOW },
+        [ACT_MP_WALK] = { ACT_WALK, ACT_WALK_AIM_RIFLE },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH, ACT_WALK_CROUCH },
+        [ACT_MP_RUN] = { ACT_RUN, ACT_RUN },
         attack = ACT_MELEE_ATTACK_SWING
     },
     glide = ACT_GLIDE,
@@ -134,174 +134,174 @@ impulse.Anim.citizen_female = {
 }
 impulse.Anim.metrocop = {
     normal = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE, ACT_IDLE},
-        [ACT_MP_CROUCH_IDLE] = {ACT_COVER_PISTOL_LOW, ACT_COVER_PISTOL_LOW},
-        [ACT_MP_WALK] = {ACT_WALK, ACT_WALK},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH, ACT_WALK_CROUCH},
-        [ACT_MP_RUN] = {ACT_RUN, ACT_RUN}
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE, ACT_IDLE },
+        [ACT_MP_CROUCH_IDLE] = { ACT_COVER_PISTOL_LOW, ACT_COVER_PISTOL_LOW },
+        [ACT_MP_WALK] = { ACT_WALK, ACT_WALK },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH, ACT_WALK_CROUCH },
+        [ACT_MP_RUN] = { ACT_RUN, ACT_RUN }
     },
     pistol = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE_PISTOL, ACT_IDLE_ANGRY_PISTOL},
-        [ACT_MP_CROUCH_IDLE] = {ACT_COVER_PISTOL_LOW, ACT_COVER_PISTOL_LOW},
-        [ACT_MP_WALK] = {ACT_WALK_PISTOL, ACT_WALK_AIM_PISTOL},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH, ACT_WALK_CROUCH},
-        [ACT_MP_RUN] = {ACT_RUN_PISTOL, ACT_RUN_AIM_PISTOL},
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE_PISTOL, ACT_IDLE_ANGRY_PISTOL },
+        [ACT_MP_CROUCH_IDLE] = { ACT_COVER_PISTOL_LOW, ACT_COVER_PISTOL_LOW },
+        [ACT_MP_WALK] = { ACT_WALK_PISTOL, ACT_WALK_AIM_PISTOL },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH, ACT_WALK_CROUCH },
+        [ACT_MP_RUN] = { ACT_RUN_PISTOL, ACT_RUN_AIM_PISTOL },
         attack = ACT_GESTURE_RANGE_ATTACK_PISTOL,
         reload = ACT_GESTURE_RELOAD_PISTOL
     },
     smg = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE_SMG1, ACT_IDLE_ANGRY_SMG1},
-        [ACT_MP_CROUCH_IDLE] = {ACT_COVER_SMG1_LOW, ACT_COVER_SMG1_LOW},
-        [ACT_MP_WALK] = {ACT_WALK_RIFLE, ACT_WALK_AIM_RIFLE},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH, ACT_WALK_CROUCH},
-        [ACT_MP_RUN] = {ACT_RUN_RIFLE, ACT_RUN_AIM_RIFLE}
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE_SMG1, ACT_IDLE_ANGRY_SMG1 },
+        [ACT_MP_CROUCH_IDLE] = { ACT_COVER_SMG1_LOW, ACT_COVER_SMG1_LOW },
+        [ACT_MP_WALK] = { ACT_WALK_RIFLE, ACT_WALK_AIM_RIFLE },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH, ACT_WALK_CROUCH },
+        [ACT_MP_RUN] = { ACT_RUN_RIFLE, ACT_RUN_AIM_RIFLE }
     },
     ar2 = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE_SMG1, ACT_IDLE_ANGRY_SMG1},
-        [ACT_MP_CROUCH_IDLE] = {ACT_COVER_SMG1_LOW, ACT_COVER_SMG1_LOW},
-        [ACT_MP_WALK] = {ACT_WALK_RIFLE, ACT_WALK_AIM_RIFLE},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH, ACT_WALK_CROUCH},
-        [ACT_MP_RUN] = {ACT_RUN_RIFLE, ACT_RUN_AIM_RIFLE}
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE_SMG1, ACT_IDLE_ANGRY_SMG1 },
+        [ACT_MP_CROUCH_IDLE] = { ACT_COVER_SMG1_LOW, ACT_COVER_SMG1_LOW },
+        [ACT_MP_WALK] = { ACT_WALK_RIFLE, ACT_WALK_AIM_RIFLE },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH, ACT_WALK_CROUCH },
+        [ACT_MP_RUN] = { ACT_RUN_RIFLE, ACT_RUN_AIM_RIFLE }
     },
     shotgun = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE_SMG1, ACT_IDLE_ANGRY_SMG1},
-        [ACT_MP_CROUCH_IDLE] = {ACT_COVER_SMG1_LOW, ACT_COVER_SMG1_LOW},
-        [ACT_MP_WALK] = {ACT_WALK_RIFLE, ACT_WALK_AIM_RIFLE},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH, ACT_WALK_CROUCH},
-        [ACT_MP_RUN] = {ACT_RUN_RIFLE, ACT_RUN_AIM_RIFLE}
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE_SMG1, ACT_IDLE_ANGRY_SMG1 },
+        [ACT_MP_CROUCH_IDLE] = { ACT_COVER_SMG1_LOW, ACT_COVER_SMG1_LOW },
+        [ACT_MP_WALK] = { ACT_WALK_RIFLE, ACT_WALK_AIM_RIFLE },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH, ACT_WALK_CROUCH },
+        [ACT_MP_RUN] = { ACT_RUN_RIFLE, ACT_RUN_AIM_RIFLE }
     },
     grenade = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE, ACT_IDLE_ANGRY_MELEE},
-        [ACT_MP_CROUCH_IDLE] = {ACT_COVER_PISTOL_LOW, ACT_COVER_PISTOL_LOW},
-        [ACT_MP_WALK] = {ACT_WALK, ACT_WALK_ANGRY},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH, ACT_WALK_CROUCH},
-        [ACT_MP_RUN] = {ACT_RUN, ACT_RUN},
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE, ACT_IDLE_ANGRY_MELEE },
+        [ACT_MP_CROUCH_IDLE] = { ACT_COVER_PISTOL_LOW, ACT_COVER_PISTOL_LOW },
+        [ACT_MP_WALK] = { ACT_WALK, ACT_WALK_ANGRY },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH, ACT_WALK_CROUCH },
+        [ACT_MP_RUN] = { ACT_RUN, ACT_RUN },
         attack = ACT_COMBINE_THROW_GRENADE
     },
     melee = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE, ACT_IDLE_ANGRY_MELEE},
-        [ACT_MP_CROUCH_IDLE] = {ACT_COVER_PISTOL_LOW, ACT_COVER_PISTOL_LOW},
-        [ACT_MP_WALK] = {ACT_WALK, ACT_WALK_ANGRY},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH, ACT_WALK_CROUCH},
-        [ACT_MP_RUN] = {ACT_RUN, ACT_RUN},
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE, ACT_IDLE_ANGRY_MELEE },
+        [ACT_MP_CROUCH_IDLE] = { ACT_COVER_PISTOL_LOW, ACT_COVER_PISTOL_LOW },
+        [ACT_MP_WALK] = { ACT_WALK, ACT_WALK_ANGRY },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH, ACT_WALK_CROUCH },
+        [ACT_MP_RUN] = { ACT_RUN, ACT_RUN },
         attack = ACT_MELEE_ATTACK_SWING_GESTURE
     },
     glide = ACT_GLIDE,
     vehicle = {
-        chair = {ACT_COVER_PISTOL_LOW, Vector(5, 0, -5)},
-        ["prop_vehicle_airboat"] = {ACT_COVER_PISTOL_LOW, Vector(10, 0, 0)},
-        ["prop_vehicle_jeep"] = {ACT_COVER_PISTOL_LOW, Vector(18, -2, 4)},
-        ["prop_vehicle_prisoner_pod"] = {ACT_IDLE, Vector(-4, -0.5, 0)}
+        chair = { ACT_COVER_PISTOL_LOW, Vector(5, 0, -5) },
+        ["prop_vehicle_airboat"] = { ACT_COVER_PISTOL_LOW, Vector(10, 0, 0) },
+        ["prop_vehicle_jeep"] = { ACT_COVER_PISTOL_LOW, Vector(18, -2, 4) },
+        ["prop_vehicle_prisoner_pod"] = { ACT_IDLE, Vector(-4, -0.5, 0) }
     }
 }
 impulse.Anim.overwatch = {
     normal = {
-        [ACT_MP_STAND_IDLE] = {"idle_unarmed", "idle_unarmed"},
-        [ACT_MP_CROUCH_IDLE] = {ACT_CROUCHIDLE, ACT_CROUCHIDLE},
-        [ACT_MP_WALK] = {"walkunarmed_all", "walkunarmed_all"},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_RIFLE},
-        [ACT_MP_RUN] = {ACT_RUN_AIM_RIFLE, ACT_RUN_AIM_RIFLE}
+        [ACT_MP_STAND_IDLE] = { "idle_unarmed", "idle_unarmed" },
+        [ACT_MP_CROUCH_IDLE] = { ACT_CROUCHIDLE, ACT_CROUCHIDLE },
+        [ACT_MP_WALK] = { "walkunarmed_all", "walkunarmed_all" },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_RIFLE },
+        [ACT_MP_RUN] = { ACT_RUN_AIM_RIFLE, ACT_RUN_AIM_RIFLE }
     },
     pistol = {
-        [ACT_MP_STAND_IDLE] = {"idle_unarmed", ACT_IDLE_ANGRY_SMG1},
-        [ACT_MP_CROUCH_IDLE] = {ACT_CROUCHIDLE, ACT_CROUCHIDLE},
-        [ACT_MP_WALK] = {"walkunarmed_all", ACT_WALK_RIFLE},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_RIFLE},
-        [ACT_MP_RUN] = {ACT_RUN_AIM_RIFLE, ACT_RUN_AIM_RIFLE}
+        [ACT_MP_STAND_IDLE] = { "idle_unarmed", ACT_IDLE_ANGRY_SMG1 },
+        [ACT_MP_CROUCH_IDLE] = { ACT_CROUCHIDLE, ACT_CROUCHIDLE },
+        [ACT_MP_WALK] = { "walkunarmed_all", ACT_WALK_RIFLE },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_RIFLE },
+        [ACT_MP_RUN] = { ACT_RUN_AIM_RIFLE, ACT_RUN_AIM_RIFLE }
     },
     smg = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE_SMG1, ACT_IDLE_ANGRY_SMG1},
-        [ACT_MP_CROUCH_IDLE] = {ACT_CROUCHIDLE, ACT_CROUCHIDLE},
-        [ACT_MP_WALK] = {ACT_WALK_RIFLE, ACT_WALK_AIM_RIFLE},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_RIFLE},
-        [ACT_MP_RUN] = {ACT_RUN_RIFLE, ACT_RUN_AIM_RIFLE}
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE_SMG1, ACT_IDLE_ANGRY_SMG1 },
+        [ACT_MP_CROUCH_IDLE] = { ACT_CROUCHIDLE, ACT_CROUCHIDLE },
+        [ACT_MP_WALK] = { ACT_WALK_RIFLE, ACT_WALK_AIM_RIFLE },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_RIFLE },
+        [ACT_MP_RUN] = { ACT_RUN_RIFLE, ACT_RUN_AIM_RIFLE }
     },
     ar2 = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE_SMG1, ACT_IDLE_ANGRY},
-        [ACT_MP_CROUCH_IDLE] = {ACT_CROUCHIDLE, ACT_CROUCHIDLE},
-        [ACT_MP_WALK] = {ACT_WALK_RIFLE, ACT_WALK_AIM_RIFLE},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_RIFLE},
-        [ACT_MP_RUN] = {ACT_RUN_RIFLE, ACT_RUN_AIM_RIFLE}
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE_SMG1, ACT_IDLE_ANGRY },
+        [ACT_MP_CROUCH_IDLE] = { ACT_CROUCHIDLE, ACT_CROUCHIDLE },
+        [ACT_MP_WALK] = { ACT_WALK_RIFLE, ACT_WALK_AIM_RIFLE },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_RIFLE },
+        [ACT_MP_RUN] = { ACT_RUN_RIFLE, ACT_RUN_AIM_RIFLE }
     },
     shotgun = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE_SMG1, ACT_IDLE_ANGRY_SHOTGUN},
-        [ACT_MP_CROUCH_IDLE] = {ACT_CROUCHIDLE, ACT_CROUCHIDLE},
-        [ACT_MP_WALK] = {ACT_WALK_RIFLE, ACT_WALK_AIM_SHOTGUN},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_RIFLE},
-        [ACT_MP_RUN] = {ACT_RUN_RIFLE, ACT_RUN_AIM_SHOTGUN}
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE_SMG1, ACT_IDLE_ANGRY_SHOTGUN },
+        [ACT_MP_CROUCH_IDLE] = { ACT_CROUCHIDLE, ACT_CROUCHIDLE },
+        [ACT_MP_WALK] = { ACT_WALK_RIFLE, ACT_WALK_AIM_SHOTGUN },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_RIFLE },
+        [ACT_MP_RUN] = { ACT_RUN_RIFLE, ACT_RUN_AIM_SHOTGUN }
     },
     grenade = {
-        [ACT_MP_STAND_IDLE] = {"idle_unarmed", ACT_IDLE_ANGRY},
-        [ACT_MP_CROUCH_IDLE] = {ACT_CROUCHIDLE, ACT_CROUCHIDLE},
-        [ACT_MP_WALK] = {"walkunarmed_all", ACT_WALK_RIFLE},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_RIFLE},
-        [ACT_MP_RUN] = {ACT_RUN_AIM_RIFLE, ACT_RUN_AIM_RIFLE}
+        [ACT_MP_STAND_IDLE] = { "idle_unarmed", ACT_IDLE_ANGRY },
+        [ACT_MP_CROUCH_IDLE] = { ACT_CROUCHIDLE, ACT_CROUCHIDLE },
+        [ACT_MP_WALK] = { "walkunarmed_all", ACT_WALK_RIFLE },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_RIFLE },
+        [ACT_MP_RUN] = { ACT_RUN_AIM_RIFLE, ACT_RUN_AIM_RIFLE }
     },
     melee = {
-        [ACT_MP_STAND_IDLE] = {"idle_unarmed", ACT_IDLE_ANGRY},
-        [ACT_MP_CROUCH_IDLE] = {ACT_CROUCHIDLE, ACT_CROUCHIDLE},
-        [ACT_MP_WALK] = {"walkunarmed_all", ACT_WALK_RIFLE},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_RIFLE},
-        [ACT_MP_RUN] = {ACT_RUN_AIM_RIFLE, ACT_RUN_AIM_RIFLE},
+        [ACT_MP_STAND_IDLE] = { "idle_unarmed", ACT_IDLE_ANGRY },
+        [ACT_MP_CROUCH_IDLE] = { ACT_CROUCHIDLE, ACT_CROUCHIDLE },
+        [ACT_MP_WALK] = { "walkunarmed_all", ACT_WALK_RIFLE },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK_CROUCH_RIFLE, ACT_WALK_CROUCH_RIFLE },
+        [ACT_MP_RUN] = { ACT_RUN_AIM_RIFLE, ACT_RUN_AIM_RIFLE },
         attack = ACT_MELEE_ATTACK_SWING_GESTURE
     },
     glide = ACT_GLIDE,
     vehicle = {
-        chair = {ACT_CROUCHIDLE, Vector(5, 0, -5)},
-        ["prop_vehicle_airboat"] = {ACT_CROUCHIDLE, Vector(10, 0, 0)},
-        ["prop_vehicle_jeep"] = {ACT_CROUCHIDLE, Vector(18, -2, 4)},
-        ["prop_vehicle_prisoner_pod"] = {"idle_unarmed", Vector(-4, -0.5, 0)}
+        chair = { ACT_CROUCHIDLE, Vector(5, 0, -5) },
+        ["prop_vehicle_airboat"] = { ACT_CROUCHIDLE, Vector(10, 0, 0) },
+        ["prop_vehicle_jeep"] = { ACT_CROUCHIDLE, Vector(18, -2, 4) },
+        ["prop_vehicle_prisoner_pod"] = { "idle_unarmed", Vector(-4, -0.5, 0) }
     }
 }
 impulse.Anim.vort = {
     normal = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE, ACT_IDLE},
-        [ACT_MP_CROUCH_IDLE] = {"crouchidle", "crouchidle"},
-        [ACT_MP_WALK] = {ACT_WALK, ACT_WALK},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK, ACT_WALK},
-        [ACT_MP_RUN] = {ACT_RUN, ACT_RUN}
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE, ACT_IDLE },
+        [ACT_MP_CROUCH_IDLE] = { "crouchidle", "crouchidle" },
+        [ACT_MP_WALK] = { ACT_WALK, ACT_WALK },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK, ACT_WALK },
+        [ACT_MP_RUN] = { ACT_RUN, ACT_RUN }
     },
     pistol = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE, ACT_IDLE},
-        [ACT_MP_CROUCH_IDLE] = {"crouchidle", "crouchidle"},
-        [ACT_MP_WALK] = {ACT_WALK, ACT_WALK},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK, ACT_WALK},
-        [ACT_MP_RUN] = {ACT_RUN, ACT_RUN}
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE, ACT_IDLE },
+        [ACT_MP_CROUCH_IDLE] = { "crouchidle", "crouchidle" },
+        [ACT_MP_WALK] = { ACT_WALK, ACT_WALK },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK, ACT_WALK },
+        [ACT_MP_RUN] = { ACT_RUN, ACT_RUN }
     },
     smg = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE, ACT_IDLE},
-        [ACT_MP_CROUCH_IDLE] = {"crouchidle", "crouchidle"},
-        [ACT_MP_WALK] = {ACT_WALK, ACT_WALK},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK, ACT_WALK},
-        [ACT_MP_RUN] = {ACT_RUN, ACT_RUN}
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE, ACT_IDLE },
+        [ACT_MP_CROUCH_IDLE] = { "crouchidle", "crouchidle" },
+        [ACT_MP_WALK] = { ACT_WALK, ACT_WALK },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK, ACT_WALK },
+        [ACT_MP_RUN] = { ACT_RUN, ACT_RUN }
     },
     ar2 = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE, ACT_IDLE},
-        [ACT_MP_CROUCH_IDLE] = {"crouchidle", "crouchidle"},
-        [ACT_MP_WALK] = {ACT_WALK, ACT_WALK},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK, ACT_WALK},
-        [ACT_MP_RUN] = {ACT_RUN, ACT_RUN}
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE, ACT_IDLE },
+        [ACT_MP_CROUCH_IDLE] = { "crouchidle", "crouchidle" },
+        [ACT_MP_WALK] = { ACT_WALK, ACT_WALK },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK, ACT_WALK },
+        [ACT_MP_RUN] = { ACT_RUN, ACT_RUN }
     },
     shotgun = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE, ACT_IDLE},
-        [ACT_MP_CROUCH_IDLE] = {"crouchidle", "crouchidle"},
-        [ACT_MP_WALK] = {ACT_WALK, ACT_WALK},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK, ACT_WALK},
-        [ACT_MP_RUN] = {ACT_RUN, ACT_RUN}
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE, ACT_IDLE },
+        [ACT_MP_CROUCH_IDLE] = { "crouchidle", "crouchidle" },
+        [ACT_MP_WALK] = { ACT_WALK, ACT_WALK },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK, ACT_WALK },
+        [ACT_MP_RUN] = { ACT_RUN, ACT_RUN }
     },
     grenade = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE, ACT_IDLE},
-        [ACT_MP_CROUCH_IDLE] = {"crouchidle", "crouchidle"},
-        [ACT_MP_WALK] = {ACT_WALK, ACT_WALK},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK, ACT_WALK},
-        [ACT_MP_RUN] = {ACT_RUN, ACT_RUN}
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE, ACT_IDLE },
+        [ACT_MP_CROUCH_IDLE] = { "crouchidle", "crouchidle" },
+        [ACT_MP_WALK] = { ACT_WALK, ACT_WALK },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK, ACT_WALK },
+        [ACT_MP_RUN] = { ACT_RUN, ACT_RUN }
     },
     melee = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE, "sweep_idle"},
-        [ACT_MP_CROUCH_IDLE] = {"crouchidle", "crouchidle"},
-        [ACT_MP_WALK] = {ACT_WALK, "walk_all_holdbroom"},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK, "walk_all_holdbroom"},
-        [ACT_MP_RUN] = {ACT_RUN, "walk_all_holdbroom"}
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE, "sweep_idle" },
+        [ACT_MP_CROUCH_IDLE] = { "crouchidle", "crouchidle" },
+        [ACT_MP_WALK] = { ACT_WALK, "walk_all_holdbroom" },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK, "walk_all_holdbroom" },
+        [ACT_MP_RUN] = { ACT_RUN, "walk_all_holdbroom" }
     },
     glide = ACT_GLIDE
 }
@@ -321,19 +321,19 @@ impulse.Anim.player = {
 }
 impulse.Anim.zombie = {
     normal = {
-        [ACT_MP_STAND_IDLE] = {ACT_IDLE, ACT_IDLE},
-        [ACT_MP_CROUCH_IDLE] = {"crouchidle", "crouchidle"},
-        [ACT_MP_WALK] = {ACT_WALK, ACT_WALK},
-        [ACT_MP_CROUCHWALK] = {ACT_WALK, ACT_WALK},
-        [ACT_MP_RUN] = {ACT_WALK, ACT_WALK},
+        [ACT_MP_STAND_IDLE] = { ACT_IDLE, ACT_IDLE },
+        [ACT_MP_CROUCH_IDLE] = { "crouchidle", "crouchidle" },
+        [ACT_MP_WALK] = { ACT_WALK, ACT_WALK },
+        [ACT_MP_CROUCHWALK] = { ACT_WALK, ACT_WALK },
+        [ACT_MP_RUN] = { ACT_WALK, ACT_WALK },
         attack = ACT_MELEE_ATTACK1
     },
     grenade = {
-        [ACT_MP_STAND_IDLE] = {"idle_grenade", "idle_grenade"},
-        [ACT_MP_CROUCH_IDLE] = {"idle_grenade", "idle_grenade"},
-        [ACT_MP_WALK] = {"walk_all_grenade", "walk_all_grenade"},
-        [ACT_MP_CROUCHWALK] = {"walk_all_grenade", "walk_all_grenade"},
-        [ACT_MP_RUN] = {"run_all_grenade", "run_all_grenade"},
+        [ACT_MP_STAND_IDLE] = { "idle_grenade", "idle_grenade" },
+        [ACT_MP_CROUCH_IDLE] = { "idle_grenade", "idle_grenade" },
+        [ACT_MP_WALK] = { "walk_all_grenade", "walk_all_grenade" },
+        [ACT_MP_CROUCHWALK] = { "walk_all_grenade", "walk_all_grenade" },
+        [ACT_MP_RUN] = { "run_all_grenade", "run_all_grenade" },
         attack = ACT_MELEE_ATTACK1
     }
 }
@@ -368,9 +368,9 @@ local translations = translations or {}
 -- @see DefaultAnimClasses
 function impulse.Anim:SetModelClass(model, class)
     if not impulse.Anim[class] then
-        error("'"..tostring(class).."' is not a valid animation class!")
+        error("'" .. tostring(class) .. "' is not a valid animation class!")
     end
-    
+
     translations[model:lower()] = class
 end
 
@@ -387,7 +387,7 @@ function impulse.Anim:GetModelClass(model)
     local class = translations[model]
 
     class = class or "player"
-    
+
     return class
 end
 
@@ -400,43 +400,43 @@ impulse.Anim:SetModelClass("models/zombie/classic.mdl", "zombie")
 impulse.Anim:SetModelClass("models/zombie/zombie_soldier.mdl", "zombie")
 impulse.Anim:SetModelClass("models/breen.mdl", "player")
 
-HOLDTYPE_TRANSLATOR = {}
-HOLDTYPE_TRANSLATOR[""] = "normal"
-HOLDTYPE_TRANSLATOR["physgun"] = "smg"
-HOLDTYPE_TRANSLATOR["crossbow"] = "shotgun"
-HOLDTYPE_TRANSLATOR["rpg"] = "shotgun"
-HOLDTYPE_TRANSLATOR["slam"] = "normal"
-HOLDTYPE_TRANSLATOR["grenade"] = "grenade"
-HOLDTYPE_TRANSLATOR["fist"] = "normal"
-HOLDTYPE_TRANSLATOR["melee2"] = "melee"
-HOLDTYPE_TRANSLATOR["passive"] = "normal"
-HOLDTYPE_TRANSLATOR["knife"] = "melee"
-HOLDTYPE_TRANSLATOR["duel"] = "pistol"
-HOLDTYPE_TRANSLATOR["camera"] = "smg"
-HOLDTYPE_TRANSLATOR["magic"] = "normal"
-HOLDTYPE_TRANSLATOR["revolver"] = "pistol"
+HOLDTYPE_TRANSLATOR                    = {}
+HOLDTYPE_TRANSLATOR[""]                = "normal"
+HOLDTYPE_TRANSLATOR["physgun"]         = "smg"
+HOLDTYPE_TRANSLATOR["crossbow"]        = "shotgun"
+HOLDTYPE_TRANSLATOR["rpg"]             = "shotgun"
+HOLDTYPE_TRANSLATOR["slam"]            = "normal"
+HOLDTYPE_TRANSLATOR["grenade"]         = "grenade"
+HOLDTYPE_TRANSLATOR["fist"]            = "normal"
+HOLDTYPE_TRANSLATOR["melee2"]          = "melee"
+HOLDTYPE_TRANSLATOR["passive"]         = "normal"
+HOLDTYPE_TRANSLATOR["knife"]           = "melee"
+HOLDTYPE_TRANSLATOR["duel"]            = "pistol"
+HOLDTYPE_TRANSLATOR["camera"]          = "smg"
+HOLDTYPE_TRANSLATOR["magic"]           = "normal"
+HOLDTYPE_TRANSLATOR["revolver"]        = "pistol"
 
-PLAYER_HOLDTYPE_TRANSLATOR = {}
-PLAYER_HOLDTYPE_TRANSLATOR[""] = "normal"
-PLAYER_HOLDTYPE_TRANSLATOR["fist"] = "normal"
-PLAYER_HOLDTYPE_TRANSLATOR["pistol"] = "normal"
-PLAYER_HOLDTYPE_TRANSLATOR["grenade"] = "normal"
-PLAYER_HOLDTYPE_TRANSLATOR["melee"] = "normal"
-PLAYER_HOLDTYPE_TRANSLATOR["slam"] = "normal"
-PLAYER_HOLDTYPE_TRANSLATOR["melee2"] = "normal"
-PLAYER_HOLDTYPE_TRANSLATOR["passive"] = "normal"
-PLAYER_HOLDTYPE_TRANSLATOR["knife"] = "normal"
-PLAYER_HOLDTYPE_TRANSLATOR["duel"] = "normal"
-PLAYER_HOLDTYPE_TRANSLATOR["bugbait"] = "normal"
-PLAYER_HOLDTYPE_TRANSLATOR["pistol"] = "normal"
+PLAYER_HOLDTYPE_TRANSLATOR             = {}
+PLAYER_HOLDTYPE_TRANSLATOR[""]         = "normal"
+PLAYER_HOLDTYPE_TRANSLATOR["fist"]     = "normal"
+PLAYER_HOLDTYPE_TRANSLATOR["pistol"]   = "normal"
+PLAYER_HOLDTYPE_TRANSLATOR["grenade"]  = "normal"
+PLAYER_HOLDTYPE_TRANSLATOR["melee"]    = "normal"
+PLAYER_HOLDTYPE_TRANSLATOR["slam"]     = "normal"
+PLAYER_HOLDTYPE_TRANSLATOR["melee2"]   = "normal"
+PLAYER_HOLDTYPE_TRANSLATOR["passive"]  = "normal"
+PLAYER_HOLDTYPE_TRANSLATOR["knife"]    = "normal"
+PLAYER_HOLDTYPE_TRANSLATOR["duel"]     = "normal"
+PLAYER_HOLDTYPE_TRANSLATOR["bugbait"]  = "normal"
+PLAYER_HOLDTYPE_TRANSLATOR["pistol"]   = "normal"
 PLAYER_HOLDTYPE_TRANSLATOR["revolver"] = "normal"
 
-local IsValid = IsValid
-local string  = string
-local type = type
+local IsValid                          = IsValid
+local string                           = string
+local type                             = type
 
-local PLAYER_HOLDTYPE_TRANSLATOR = PLAYER_HOLDTYPE_TRANSLATOR
-local HOLDTYPE_TRANSLATOR = HOLDTYPE_TRANSLATOR
+local PLAYER_HOLDTYPE_TRANSLATOR       = PLAYER_HOLDTYPE_TRANSLATOR
+local HOLDTYPE_TRANSLATOR              = HOLDTYPE_TRANSLATOR
 
 function GM:TranslateActivity(ply, act)
     local model = string.lower(ply.GetModel(ply))
@@ -444,7 +444,7 @@ function GM:TranslateActivity(ply, act)
     local weapon = ply.GetActiveWeapon(ply)
 
     if class == "player" then
-        if IsValid(weapon) and !ply.IsWeaponRaised(ply) and ply.OnGround(ply) then
+        if IsValid(weapon) and ! ply.IsWeaponRaised(ply) and ply.OnGround(ply) then
             local holdType = IsValid(weapon) and (weapon.HoldType or weapon.GetHoldType(weapon)) or "normal"
             if not ply.IsWeaponRaised(ply) and ply.OnGround(ply) then
                 holdType = PLAYER_HOLDTYPE_TRANSLATOR[holdType] or "passive"
@@ -528,7 +528,7 @@ function GM:CalcMainActivity(ply, velocity)
 
     ply.SetPoseParameter(ply, "move_yaw", normalized)
 
-    if ( CLIENT ) then
+    if (CLIENT) then
         ply.SetIK(ply, false)
     end
 
@@ -554,10 +554,12 @@ function GM:DoAnimationEvent(ply, event, data)
             local animation = impulse.Anim[class][holdType]
 
             if event == PLAYERANIMEVENT_ATTACK_PRIMARY then
-                ply:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, animation.attack or ACT_GESTURE_RANGE_ATTACK_SMG1, true)
+                ply:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, animation.attack or ACT_GESTURE_RANGE_ATTACK_SMG1,
+                    true)
                 return ACT_VM_PRIMARYATTACK
             elseif event == PLAYERANIMEVENT_ATTACK_SECONDARY then
-                ply:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, animation.attack or ACT_GESTURE_RANGE_ATTACK_SMG1, true)
+                ply:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, animation.attack or ACT_GESTURE_RANGE_ATTACK_SMG1,
+                    true)
                 return ACT_VM_SECONDARYATTACK
             elseif event == PLAYERANIMEVENT_RELOAD then
                 ply:AnimRestartGesture(GESTURE_SLOT_ATTACK_AND_RELOAD, animation.reload or ACT_GESTURE_RELOAD_SMG1, true)
@@ -593,37 +595,37 @@ local PLAYER = FindMetaTable("Player")
 function PLAYER:ForceSequence(sequence, callback, time, noFreeze)
     hook.Run("OnPlayerEnterSequence", self, sequence, callback, time, noFreeze)
 
-    if ( !sequence ) then
+    if (! sequence) then
         net.Start("impulseSeqSet")
-            net.WriteEntity(self)
-            net.WriteBool(true)
-            net.WriteUInt(0, 16)
+        net.WriteEntity(self)
+        net.WriteBool(true)
+        net.WriteUInt(0, 16)
         net.Broadcast()
     end
 
     local sequence = self:LookupSequence(sequence)
-    if ( sequence and sequence > 0 ) then
+    if (sequence and sequence > 0) then
         time = time or self:SequenceDuration(sequence)
 
         self.impulseSeqCallback = callback
         self.impulseForceSeq = sequence
 
-        if ( !noFreeze ) then
+        if (! noFreeze) then
             self:SetMoveType(MOVETYPE_NONE)
         end
 
-        if ( time > 0 ) then
+        if (time > 0) then
             timer.Create("impulseSeq" .. self:EntIndex(), time, 1, function()
-                if ( !IsValid(self) ) then return end
+                if (! IsValid(self)) then return end
 
                 self:LeaveSequence()
             end)
         end
 
         net.Start("impulseSeqSet")
-            net.WriteEntity(self)
-            net.WriteBool(false)
-            net.WriteUInt(sequence, 16)
+        net.WriteEntity(self)
+        net.WriteBool(false)
+        net.WriteUInt(sequence, 16)
         net.Broadcast()
 
         return time
@@ -636,49 +638,49 @@ function PLAYER:LeaveSequence()
     hook.Run("OnPlayerLeaveSequence", self)
 
     net.Start("impulseSeqSet")
-        net.WriteEntity(self)
-        net.WriteBool(true)
-        net.WriteUInt(0, 16)
+    net.WriteEntity(self)
+    net.WriteBool(true)
+    net.WriteUInt(0, 16)
     net.Broadcast()
 
     self:SetMoveType(MOVETYPE_WALK)
     self.impulseForceSeq = nil
 
-    if ( self.impulseSeqCallback ) then
+    if (self.impulseSeqCallback) then
         self:impulseSeqCallback()
     end
 end
 
 function PLAYER:IsWeaponRaised()
     local weapon = self:GetActiveWeapon()
-    if ( IsValid(weapon) ) then
-        if ( weapon.IsAlwaysRaised or ALWAYS_RAISED[weapon.GetClass(weapon)] ) then
+    if (IsValid(weapon)) then
+        if (weapon.IsAlwaysRaised or ALWAYS_RAISED[weapon.GetClass(weapon)]) then
             return true
-        elseif ( weapon.IsAlwaysLowered ) then
+        elseif (weapon.IsAlwaysLowered) then
             return false
         end
     end
 
-    return self.GetNetVar(self, "weaponRaised", false)
+    return self.GetNetVar(self, NET_IS_WEAPON_RAISED, false)
 end
 
-if ( SERVER ) then
+if (SERVER) then
     util.AddNetworkString("impulseSeqSet")
-    
+
     function PLAYER:SetWeaponRaised(state)
-        self:SetNetVar("weaponRaised", state)
+        self:SetNetVar(NET_IS_WEAPON_RAISED, state)
 
         local weapon = self:GetActiveWeapon()
-        if ( IsValid(weapon) ) then
+        if (IsValid(weapon)) then
             weapon:SetNextPrimaryFire(CurTime() + 1)
             weapon:SetNextSecondaryFire(CurTime() + 1)
 
-            if ( state ) then
-                if ( weapon.OnRaised ) then
+            if (state) then
+                if (weapon.OnRaised) then
                     weapon.OnRaised(weapon)
                 end
             else
-                if ( weapon.OnLowered ) then
+                if (weapon.OnLowered) then
                     weapon.OnLowered(weapon)
                 end
             end
@@ -688,18 +690,18 @@ if ( SERVER ) then
     end
 
     function PLAYER:ToggleWeaponRaised()
-        self:SetWeaponRaised(!self:IsWeaponRaised())
+        self:SetWeaponRaised(! self:IsWeaponRaised())
     end
 end
 
-if ( CLIENT ) then
+if (CLIENT) then
     net.Receive("impulseSeqSet", function()
         local ent = net.ReadEntity()
         local reset = net.ReadBool()
         local sequence = net.ReadUInt(16)
 
-        if ( IsValid(ent) ) then
-            if ( reset ) then
+        if (IsValid(ent)) then
+            if (reset) then
                 ent.impulseForceSeq = nil
                 return
             end

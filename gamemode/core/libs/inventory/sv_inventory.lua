@@ -39,7 +39,6 @@ function impulse.Inventory:RemoveItem(ownerid, class, storagetype, limit)
     query:Where("uniqueid", class)
     query:Where("storagetype", storagetype or INVENTORY_PLAYER)
     query:Limit(limit or 1)
-
     query:Execute()
 end
 
@@ -66,7 +65,7 @@ function impulse.Inventory:PrintAll()
 end
 
 concommand.Add("impulse_inventory_printall", function(ply)
-    if ( !IsValid(ply) or !ply:IsSuperAdmin() ) then return end
+    if (! IsValid(ply) or ! ply:IsSuperAdmin()) then return end
 
     impulse.Inventory:PrintAll()
 end)
@@ -110,13 +109,13 @@ end
 -- @realm server
 -- @string class Class name of the item to spawn
 -- @vector pos limit The spawn position
--- @player[opt] bannedPlayer Player to ban from picking up 
+-- @player[opt] bannedPlayer Player to ban from picking up
 -- @int[opt] killTime Time until the item is removed automatically
 -- @treturn entity Spawned item
 function impulse.Inventory:SpawnItem(class, pos, bannedPlayer, killTime)
     local itemID = impulse.Inventory:ClassToNetID(class)
     if not itemID then return logs:Error("Attempting to spawn nil item!") end
-    
+
     local item = ents.Create("impulse_item")
     item:SetItem(itemID)
     item:SetPos(pos)
@@ -128,7 +127,7 @@ function impulse.Inventory:SpawnItem(class, pos, bannedPlayer, killTime)
     if killTime then
         item.RemoveIn = CurTime() + killTime
     end
-    
+
     item:Spawn()
 
     return item
@@ -171,7 +170,7 @@ end
 -- @treturn bool Can hold item
 function PLAYER:CanHoldItem(class, amount)
     local item = impulse.Inventory.Items[impulse.Inventory:ClassToNetID(class)]
-    local weight = ( item.Weight or 0 ) * (amount or 1)
+    local weight = (item.Weight or 0) * (amount or 1)
 
     return self.InventoryWeight + weight <= impulse.Config.InventoryMaxWeight
 end
@@ -183,9 +182,9 @@ end
 -- @treturn bool Can hold item
 function PLAYER:CanHoldItemStorage(class, amount)
     local item = impulse.Inventory.Items[impulse.Inventory:ClassToNetID(class)]
-    local weight = ( item.Weight or 0 ) * (amount or 1)
+    local weight = (item.Weight or 0) * (amount or 1)
 
-    if ( self:IsDonator() ) then
+    if (self:IsDonator()) then
         return self.InventoryWeightStorage + weight <= impulse.Config.InventoryStorageMaxWeightDonator
     else
         return self.InventoryWeightStorage + weight <= impulse.Config.InventoryStorageMaxWeight
@@ -200,7 +199,7 @@ end
 function PLAYER:HasInventoryItem(class, amount)
     local has = self.InventoryRegister[class]
 
-    if ( amount ) then
+    if (amount) then
         if has and has >= amount then
             return true, has
         else
@@ -208,7 +207,7 @@ function PLAYER:HasInventoryItem(class, amount)
         end
     end
 
-    if ( has ) then
+    if (has) then
         return true, has
     end
 
@@ -223,7 +222,7 @@ end
 function PLAYER:HasInventoryItemStorage(class, amount)
     local has = self.InventoryStorageRegister[class]
 
-    if ( amount ) then
+    if (amount) then
         if has and has >= amount then
             return true, has
         else
@@ -231,7 +230,7 @@ function PLAYER:HasInventoryItemStorage(class, amount)
         end
     end
 
-    if ( has ) then
+    if (has) then
         return true, has
     end
 
@@ -239,18 +238,19 @@ function PLAYER:HasInventoryItemStorage(class, amount)
 end
 
 --- Returns if a player has an specific item. This is used to check if they have the exact item, not just an item of the class specified
--- @realm server
--- @int itemID Item ID
--- @int[opt=1] storagetype Storage type (1 is player inventory, 2 is storage)
--- @treturn bool Has item
+--- @realm server
+--- @param itemID number Item ID
+--- @param storagetype number = 1 Storage type (1 is player inventory, 2 is storage)
+--- @return boolean hasItem Whether the player has the item
+--- @return table? itemData The item data
 function PLAYER:HasInventoryItemSpecific(itemID, storagetype)
-    if ( !self.impulseBeenInventorySetup ) then
+    if (! self.impulseBeenInventorySetup) then
         return false
     end
 
     local storagetype = storagetype or INVENTORY_PLAYER
     local has = impulse.Inventory.Data[self.impulseID][storagetype][itemID]
-    if ( has ) then
+    if (has) then
         return true, has
     end
 
@@ -263,7 +263,7 @@ end
 -- @treturn bool Has illegal item
 -- @treturn int Item ID of illegal item
 function PLAYER:HasIllegalInventoryItem(storagetype)
-    if ( !self.impulseBeenInventorySetup ) then
+    if (! self.impulseBeenInventorySetup) then
         return false
     end
 
@@ -274,7 +274,7 @@ function PLAYER:HasIllegalInventoryItem(storagetype)
         local class = impulse.Inventory:ClassToNetID(v.class)
         local item = impulse.Inventory.Items[class]
 
-        if ( !v.restricted and item.Illegal ) then
+        if (! v.restricted and item.Illegal) then
             return true, k
         end
     end
@@ -288,13 +288,13 @@ end
 -- @int[opt=1] storagetype Storage type (1 is player inventory, 2 is storage)
 -- @treturn bool Is restricted
 function PLAYER:IsInventoryItemRestricted(itemID, storagetype)
-    if ( !self.impulseBeenInventorySetup ) then
+    if (! self.impulseBeenInventorySetup) then
         return false
     end
 
     local storagetype = storagetype or INVENTORY_PLAYER
     local has = impulse.Inventory.Data[self.impulseID][storagetype][itemID]
-    if ( has ) then
+    if (has) then
         return has.restricted
     end
 
@@ -311,7 +311,8 @@ end
 --- @param clip number? (INTERNAL) (Only used for weapons) Item clip
 --- @return number? itemId
 function PLAYER:GiveItem(class, storagetype, restricted, isLoaded, moving, clip) -- isLoaded is a internal arg used for first time item setup, when they are already half loaded
-    if ( !self.impulseBeenInventorySetup and !isLoaded ) then
+    if (! self.impulseBeenInventorySetup and ! isLoaded) then
+        impulse.Logs:Warning("Attempted to give %s an item while they have not fully loaded in!", self:SteamName())
         return
     end
 
@@ -322,10 +323,10 @@ function PLAYER:GiveItem(class, storagetype, restricted, isLoaded, moving, clip)
     local impulseID = self.impulseID
 
     local inv = impulse.Inventory.Data[impulseID][storagetype]
-    local itemID 
+    local itemID
 
-    for i = 1, ( table.Count(inv) + 1 ) do -- intellegent table insert looks for left over ids to reuse to stop massive id's that cant be networked
-        if ( inv[i] == nil ) then
+    for i = 1, (table.Count(inv) + 1) do -- intellegent table insert looks for left over ids to reuse to stop massive id's that cant be networked
+        if (inv[i] == nil) then
             itemID = i
 
             impulse.Inventory.Data[impulseID][storagetype][i] = {
@@ -340,24 +341,26 @@ function PLAYER:GiveItem(class, storagetype, restricted, isLoaded, moving, clip)
         end
     end
 
-    if ( !restricted and !isLoaded and !moving ) then
+    if (! restricted and ! isLoaded and ! moving) then
         impulse.Inventory:AddItem(impulseID, class, storagetype)
     end
-    
-    if ( storagetype == INVENTORY_PLAYER ) then
+
+    if (storagetype == INVENTORY_PLAYER) then
         self.InventoryWeight = self.InventoryWeight + weight
-        self.InventoryRegister[class] = (self.InventoryRegister[class] or 0) + 1 -- use a register that copies the actions of the real inv for search efficiency
-    elseif ( storagetype == INVENTORY_STORAGE ) then
+        self.InventoryRegister[class] = (self.InventoryRegister[class] or 0) +
+                1 -- use a register that copies the actions of the real inv for search efficiency
+    elseif (storagetype == INVENTORY_STORAGE) then
         self.InventoryWeightStorage = self.InventoryWeightStorage + weight
-        self.InventoryStorageRegister[class] = (self.InventoryStorageRegister[class] or 0) + 1 -- use a register that copies the actions of the real inv for search efficiency
+        self.InventoryStorageRegister[class] = (self.InventoryStorageRegister[class] or 0) +
+                1 -- use a register that copies the actions of the real inv for search efficiency
     end
 
-    if ( !moving ) then
+    if (! moving) then
         net.Start("impulseInvGive")
-            net.WriteUInt(itemNet, 16) 
-            net.WriteUInt(itemID, 16)
-            net.WriteUInt(storagetype, 4)
-            net.WriteBool(restricted or false)
+        net.WriteUInt(itemNet, 16)
+        net.WriteUInt(itemID, 16)
+        net.WriteUInt(storagetype, 4)
+        net.WriteBool(restricted or false)
         net.Send(self)
     end
 
@@ -371,7 +374,7 @@ end
 -- @bool[opt=false] moving (INTERNAL) Is item just being moved? (stops database requests)
 -- @treturn int Clip
 function PLAYER:TakeInventoryItem(itemID, storagetype, moving)
-    if ( !self.impulseBeenInventorySetup ) then
+    if (! self.impulseBeenInventorySetup) then
         return false
     end
 
@@ -382,24 +385,24 @@ function PLAYER:TakeInventoryItem(itemID, storagetype, moving)
     local itemNet = impulse.Inventory:ClassToNetID(itemData.class)
     local weight = (impulse.Inventory.Items[itemNet].Weight or 0) * amount
 
-    if ( !moving ) then
+    if (! moving) then
         impulse.Inventory:RemoveItem(self.impulseID, itemData.class, storagetype, 1)
     end
 
-    if ( storagetype == INVENTORY_PLAYER ) then
+    if (storagetype == INVENTORY_PLAYER) then
         self.InventoryWeight = math.Clamp(self.InventoryWeight - weight, 0, 1000)
-    elseif ( storagetype == INVENTORY_STORAGE ) then
+    elseif (storagetype == INVENTORY_STORAGE) then
         self.InventoryWeightStorage = math.Clamp(self.InventoryWeightStorage - weight, 0, 1000)
     end
 
-    if ( storagetype == INVENTORY_PLAYER ) then
+    if (storagetype == INVENTORY_PLAYER) then
         local regvalue = self.InventoryRegister[itemData.class]
         self.InventoryRegister[itemData.class] = regvalue - 1
 
         if self.InventoryRegister[itemData.class] < 1 then -- any negative values to be removed
             self.InventoryRegister[itemData.class] = nil
         end
-    elseif ( storagetype == INVENTORY_STORAGE ) then
+    elseif (storagetype == INVENTORY_STORAGE) then
         local regvalue = self.InventoryStorageRegister[itemData.class]
         self.InventoryStorageRegister[itemData.class] = regvalue - 1
 
@@ -408,20 +411,21 @@ function PLAYER:TakeInventoryItem(itemID, storagetype, moving)
         end
     end
 
-    if ( itemData.equipped ) then
+    if (itemData.equipped) then
         self:SetInventoryItemEquipped(itemID, false)
     end
 
     local clip = itemData.clip
 
-    hook.Run("OnInventoryItemRemoved", self, storagetype, itemData.class, itemData.id, itemData.equipped, itemData.restricted, itemID)
+    hook.Run("OnInventoryItemRemoved", self, storagetype, itemData.class, itemData.id, itemData.equipped,
+        itemData.restricted, itemID)
 
     impulse.Inventory.Data[impulseID][storagetype][itemID] = nil
-    
-    if ( !moving ) then
+
+    if (! moving) then
         net.Start("impulseInvRemove")
-            net.WriteUInt(itemID, 16)
-            net.WriteUInt(storagetype, 4)
+        net.WriteUInt(itemID, 16)
+        net.WriteUInt(storagetype, 4)
         net.Send(self)
     end
 
@@ -432,7 +436,7 @@ end
 --- @realm server
 --- @param storageType number Storage type (1 is player inventory, 2 is storage)
 function PLAYER:ClearInventory(storagetype)
-    if ( !self.impulseBeenInventorySetup ) then
+    if (! self.impulseBeenInventorySetup) then
         return false
     end
 
@@ -455,7 +459,7 @@ end
 -- @realm server
 -- @int[opt=1] storagetype Storage type (1 is player inventory, 2 is storage)
 function PLAYER:ClearRestrictedInventory(storagetype)
-    if ( !self.impulseBeenInventorySetup ) then
+    if (! self.impulseBeenInventorySetup) then
         return false
     end
     local storagetype = storagetype or INVENTORY_PLAYER
@@ -477,7 +481,7 @@ end
 -- @realm server
 -- @int[opt=1] storagetype Storage type (1 is player inventory, 2 is storage)
 function PLAYER:ClearIllegalInventory(storagetype)
-    if ( !self.impulseBeenInventorySetup ) then
+    if (! self.impulseBeenInventorySetup) then
         return false
     end
     local storagetype = storagetype or INVENTORY_PLAYER
@@ -499,7 +503,7 @@ end
 -- @int[opt=1] storagetype Storage type (1 is player inventory, 2 is storage)
 -- @int[opt=1] amount Amount to take
 function PLAYER:TakeInventoryItemClass(class, storagetype, amount)
-    if ( !self.impulseBeenInventorySetup ) then
+    if (! self.impulseBeenInventorySetup) then
         return false
     end
 
@@ -526,7 +530,7 @@ function PLAYER:SetInventoryItemEquipped(itemID, state)
     local item = impulse.Inventory.Data[self.impulseID][1][itemID]
 
     if not item then return end
-    
+
     local id = impulse.Inventory:ClassToNetID(item.class)
     local onEquip = impulse.Inventory.Items[id].OnEquip
     local unEquip = impulse.Inventory.Items[id].UnEquip
@@ -534,17 +538,17 @@ function PLAYER:SetInventoryItemEquipped(itemID, state)
     local class = impulse.Inventory.Items[id]
     local isAlive = self:Alive()
 
-    if class.CanEquip and !class.CanEquip(item, self) then return end
+    if class.CanEquip and ! class.CanEquip(item, self) then return end
 
     local canEquip = hook.Run("PlayerCanEquipItem", self, class, item)
 
-    if canEquip != nil and !canEquip then return end
+    if canEquip != nil and ! canEquip then return end
 
     if class.EquipGroup then
         local equippedItem = self.InventoryEquipGroups[class.EquipGroup]
         if equippedItem and equippedItem != itemID then
             self:SetInventoryItemEquipped(equippedItem, false)
-        end 
+        end
     end
 
     if state then
@@ -572,14 +576,14 @@ end
 --- Un equips all iventory items for a player
 -- @realm server
 function PLAYER:UnEquipInventory()
-    if ( !self.impulseBeenInventorySetup ) then
+    if (! self.impulseBeenInventorySetup) then
         return false
     end
 
     local inv = self:GetInventory(1)
 
     for k, v in pairs(inv) do
-        if ( v.equipped ) then
+        if (v.equipped) then
             self:SetInventoryItemEquipped(k, false)
         end
     end
@@ -600,7 +604,7 @@ function PLAYER:DropInventoryItem(itemID)
     local itemNet = impulse.Inventory:ClassToNetID(item.class)
     local class = impulse.Inventory.Items[itemNet]
 
-    if ( item.restricted and !class.DropIfRestricted ) then
+    if (item.restricted and ! class.DropIfRestricted) then
         return
     end
 
@@ -610,9 +614,9 @@ function PLAYER:DropInventoryItem(itemID)
     self.DroppedItems = self.DroppedItems or {}
     self.DroppedItemsCA = (self.DroppedItemsCA and self.DroppedItemsCA + 1) or 1
 
-    if ( self.DroppedItemsC >= impulse.Config.DroppedItemsLimit ) then
+    if (self.DroppedItemsC >= impulse.Config.DroppedItemsLimit) then
         for k, v in pairs(self.DroppedItems) do
-            if ( IsValid(v) and v.ItemOwner and v.ItemOwner == self ) then
+            if (IsValid(v) and v.ItemOwner and v.ItemOwner == self) then
                 v:Remove()
                 break
             end
@@ -622,7 +626,7 @@ function PLAYER:DropInventoryItem(itemID)
     local ent = impulse.Inventory:SpawnItem(item.class, tr.HitPos)
     ent.ItemOwner = self
 
-    if ( class.WeaponClass and item.clip ) then
+    if (class.WeaponClass and item.clip) then
         ent.ItemClip = item.clip
     end
 
@@ -633,7 +637,7 @@ function PLAYER:DropInventoryItem(itemID)
     ent.DropIndex = self.DroppedItemsCA
 
     -- Measurements to stop crashes
-    if ( self.DroppedItemsC > 5 and ( ( self.NextItemDrop or 0 ) > CurTime() or self.DroppedItemsC > 14 ) ) then
+    if (self.DroppedItemsC > 5 and ((self.NextItemDrop or 0) > CurTime() or self.DroppedItemsC > 14)) then
         ent:SetCollisionGroup(COLLISION_GROUP_WORLD)
     end
 end
@@ -647,8 +651,8 @@ function PLAYER:UseInventoryItem(itemID)
     local item = impulse.Inventory.Items[itemNet]
     local trEnt
 
-    if ( item.OnUse ) then
-        if ( item.ShouldTraceUse ) then
+    if (item.OnUse) then
+        if (item.ShouldTraceUse) then
             local trace = {}
             trace.start = self:EyePos()
             trace.endpos = trace.start + self:GetAimVector() * 85
@@ -656,13 +660,13 @@ function PLAYER:UseInventoryItem(itemID)
 
             trEnt = util.TraceLine(trace).Entity
 
-            if ( !trEnt or !IsValid(trEnt) or !item.ShouldTraceUse(item, self, trEnt) ) then
+            if (! trEnt or ! IsValid(trEnt) or ! item.ShouldTraceUse(item, self, trEnt)) then
                 return
             end
         end
 
         local shouldRemove = item.OnUse(item, self, trEnt or nil)
-        if ( shouldRemove and self:HasInventoryItemSpecific(itemID) ) then
+        if (shouldRemove and self:HasInventoryItemSpecific(itemID)) then
             self:TakeInventoryItem(itemID)
         end
     end
@@ -674,7 +678,7 @@ end
 -- @int from Old storage type
 -- @int to New storage type
 function PLAYER:MoveInventoryItem(itemID, from, to)
-    if ( self:IsInventoryItemRestricted(itemID, from) ) then
+    if (self:IsInventoryItemRestricted(itemID, from)) then
         return
     end
 
@@ -687,10 +691,10 @@ function PLAYER:MoveInventoryItem(itemID, from, to)
     local newitemID = self:GiveItem(class, to, false, nil, true, (itemclip or nil))
 
     net.Start("impulseInvMove")
-        net.WriteUInt(itemID, 16)
-        net.WriteUInt(newitemID, 16)
-        net.WriteUInt(from, 4)
-        net.WriteUInt(to, 4)
+    net.WriteUInt(itemID, 16)
+    net.WriteUInt(newitemID, 16)
+    net.WriteUInt(from, 4)
+    net.WriteUInt(to, 4)
     net.Send(self)
 end
 
@@ -705,11 +709,11 @@ function PLAYER:MoveInventoryItemMass(class, from, to, amount)
 
     local takes = 0
     for k, v in pairs(self:GetInventory(from)) do
-        if ( !v.restricted and v.class == class ) then
+        if (! v.restricted and v.class == class) then
             takes = takes + 1
 
             local itemclip = self:TakeInventoryItem(k, from, true)
-            local newitemID = self:GiveItem(class, to, false, nil, true, ( itemclip or nil ))
+            local newitemID = self:GiveItem(class, to, false, nil, true, (itemclip or nil))
 
             net.Start("impulseInvMove")
             net.WriteUInt(k, 16)
@@ -718,7 +722,7 @@ function PLAYER:MoveInventoryItemMass(class, from, to, amount)
             net.WriteUInt(to, 4)
             net.Send(self)
 
-            if ( takes >= amount ) then
+            if (takes >= amount) then
                 return
             end
         end
@@ -731,13 +735,13 @@ end
 -- @treturn bool Can make mixture
 function PLAYER:CanMakeMix(class)
     local skill = self:GetSkillLevel("craft")
-    if ( class.Level > skill ) then
+    if (class.Level > skill) then
         return false
     end
 
     for k, v in pairs(class.Input) do
         local item = self:HasInventoryItem(k, v.take)
-        if ( !item or self:IsInventoryItemRestricted(item) ) then
+        if (! item or self:IsInventoryItemRestricted(item)) then
             return false
         end
     end

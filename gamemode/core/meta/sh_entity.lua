@@ -13,15 +13,15 @@ local ENTITY = FindMetaTable("Entity")
 
 local modelCache = {}
 function ENTITY:IsFemale(modelov)
-    if ( self:IsPlayer() and hook.Run("PlayerIsFemale", self) ) then return true end
+    if (self:IsPlayer() and hook.Run("PlayerIsFemale", self)) then return true end
 
     local model = modelov or self:GetModel()
-    if ( modelCache[model] ) then
+    if (modelCache[model]) then
         return modelCache[model]
     end
 
     local isFemale = string.find(self:GetModel(), "female")
-    if ( isFemale ) then
+    if (isFemale) then
         modelCache[model] = true
         return true
     end
@@ -30,7 +30,6 @@ function ENTITY:IsFemale(modelov)
 
     return false
 end
-
 
 ---Reset the bodygroups of an entity (set all to 0)
 --- @realm shared
@@ -60,13 +59,13 @@ end
 -- @treturn bool Is player prop door
 function ENTITY:IsPropDoor()
     if not IsValid(self) then return end
-    
+
     if not self.GetModel or not propDoors[self:GetModel()] then return false end
 
     if (self:CPPIGetOwner() and IsValid(self:CPPIGetOwner())) and self:CPPIGetOwner():IsPlayer() then return true end
 
     if (self:CPPIGetOwner() and IsValid(self:CPPIGetOwner())) and self:CPPIGetOwner() == Entity(0) then
-        if ( SERVER ) then
+        if (SERVER) then
             if self:MapCreationID() == -1 then
                 return true
             else
@@ -144,7 +143,7 @@ function ENTITY:EmitQueuedSounds(sounds, delay, spacing, volume, pitch)
             v = v[1]
         end
 
-        local length = SoundDuration(ADJUST_SOUND..v)
+        local length = SoundDuration(ADJUST_SOUND .. v)
         delay = delay + preSet
 
         timer.Simple(delay, function()
@@ -159,28 +158,9 @@ function ENTITY:EmitQueuedSounds(sounds, delay, spacing, volume, pitch)
     return delay
 end
 
-if ( SERVER ) then
+if (SERVER) then
     util.AddNetworkString("impulseBudgetSound")
     util.AddNetworkString("impulseBudgetSoundExtra")
-
-
-    ---Get a data variable for an entity
-    ---@param key string
-    ---@param default any
-    ---@return unknown
-    function ENTITY:GetData(key, default)
-        if (key == true) then
-            return self.impulseData
-        end
-
-        local data = self.impulseData and self.impulseData[key]
-
-        if (data == nil) then
-            return default
-        else
-            return data
-        end
-    end
 
     --- Emits a that is only networked to nearby players
     -- @realm server
@@ -247,9 +227,9 @@ if (SERVER) then
     -- @treturn[1] Entity The physics prop created for the door
     -- @treturn nil If the entity is not a door
     function ENTITY:BlastDoor(velocity, lifeTime, bIgnorePartner)
-        if ( !self:IsDoor() ) then return end
+        if (! self:IsDoor()) then return end
 
-        if ( IsValid(self.impulseDummy) ) then
+        if (IsValid(self.impulseDummy)) then
             self.impulseDummy:Remove()
         end
 
@@ -257,7 +237,7 @@ if (SERVER) then
         lifeTime = lifeTime or 120
 
         local partner = self:GetDoorPartner()
-        if ( IsValid(partner) and !bIgnorePartner ) then
+        if (IsValid(partner) and ! bIgnorePartner) then
             partner:BlastDoor(velocity, lifeTime, true)
         end
 
@@ -273,7 +253,7 @@ if (SERVER) then
         dummy:SetSkin(self:GetSkin() or 0)
         dummy:SetRenderMode(RENDERMODE_TRANSALPHA)
         dummy:CallOnRemove("restoreDoor", function()
-            if ( IsValid(self) ) then
+            if (IsValid(self)) then
                 self:SetNotSolid(false)
                 self:SetNoDraw(false)
                 self:DrawShadow(true)
@@ -281,11 +261,11 @@ if (SERVER) then
                 self.impulseIsMuted = false
 
                 for _, v in ents.Iterator() do
-                    if ( v:GetParent() == self ) then
+                    if (v:GetParent() == self) then
                         v:SetNotSolid(false)
                         v:SetNoDraw(false)
 
-                        if ( v.OnDoorRestored ) then
+                        if (v.OnDoorRestored) then
                             v:OnDoorRestored(self)
                         end
                     end
@@ -310,11 +290,11 @@ if (SERVER) then
         end
 
         for _, v in ents.Iterator() do
-            if ( v:GetParent() == self ) then
+            if (v:GetParent() == self) then
                 v:SetNotSolid(true)
                 v:SetNoDraw(true)
 
-                if ( v.OnDoorBlasted ) then
+                if (v.OnDoorBlasted) then
                     v:OnDoorBlasted(self)
                 end
             end
@@ -322,11 +302,11 @@ if (SERVER) then
 
         dummy:GetPhysicsObject():SetVelocity(velocity)
 
-        local uniqueID = "doorRestore"..self:EntIndex()
-        local uniqueID2 = "doorOpener"..self:EntIndex()
+        local uniqueID = "doorRestore" .. self:EntIndex()
+        local uniqueID2 = "doorOpener" .. self:EntIndex()
 
         timer.Create(uniqueID2, 1, 0, function()
-            if ( IsValid(self) and IsValid(self.impulseDummy) ) then
+            if (IsValid(self) and IsValid(self.impulseDummy)) then
                 self:Fire("open")
             else
                 timer.Remove(uniqueID2)
@@ -334,16 +314,16 @@ if (SERVER) then
         end)
 
         timer.Create(uniqueID, lifeTime, 1, function()
-            if ( IsValid(self) and IsValid(dummy) ) then
+            if (IsValid(self) and IsValid(dummy)) then
                 uniqueID = "dummyFade" .. dummy:EntIndex()
                 local alpha = 255
 
                 timer.Create(uniqueID, 0.1, 255, function()
-                    if ( IsValid(dummy) ) then
+                    if (IsValid(dummy)) then
                         alpha = alpha - 1
                         dummy:SetColor(ColorAlpha(color, alpha))
 
-                        if ( alpha <= 0 ) then
+                        if (alpha <= 0) then
                             dummy:Remove()
                         end
                     else
@@ -355,46 +335,25 @@ if (SERVER) then
 
         return dummy
     end
-
 else
     net.Receive("impulseDataSync", function()
         impulse.localData = net.ReadTable()
         impulse.playTime = net.ReadUInt(32)
     end)
 
-    net.Receive("impulseData", function()
-        impulse.localData = impulse.localData or {}
-        impulse.localData[net.ReadString()] = net.ReadType()
-    end)
-
     -- Returns the door's slave entity.
     function ENTITY:GetDoorPartner()
         local owner = self:GetOwner() or self.impulseDoorOwner
-        if ( IsValid(owner) and owner:IsDoor() ) then
+        if (IsValid(owner) and owner:IsDoor()) then
             return owner
         end
 
         for _, v in ipairs(ents.FindByClass("prop_door_rotating")) do
-            if ( v:GetOwner() == self ) then
+            if (v:GetOwner() == self) then
                 self.impulseDoorOwner = v
 
                 return v
             end
-        end
-    end
-
-    
-    ---Get a data variable for an entity
-    ---@param key string
-    ---@param default any
-    ---@return unknown
-    function ENTITY:GetData(key, default)
-        local data = impulse.localData and impulse.localData[key]
-
-        if (data == nil) then
-            return default
-        else
-            return data
         end
     end
 end

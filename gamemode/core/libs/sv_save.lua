@@ -21,7 +21,7 @@ function impulse.Save:Load()
 
             ent:SetPos(v.pos)
             ent:SetAngles(v.angle)
-            
+
             if ( v.class == "prop_physics" or v.class == "prop_dynamic" or v.class == "impulse_hl2rp_scavengable" ) then
                 ent:SetModel(v.model)
                 ent:SetMaterial(v.material)

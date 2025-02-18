@@ -1,6 +1,6 @@
 net.Receive("impulseChatText", function()
     local data = net.ReadTable()
-    if ( !data ) then return end
+    if (! data) then return end
 
     chat.AddText(unpack(data))
 end)
@@ -15,7 +15,7 @@ end)
 
 net.Receive("impulseNotify", function(len)
     local message = net.ReadString()
-    if ( !LocalPlayer() or !LocalPlayer().Notify ) then return end
+    if (! LocalPlayer() or ! LocalPlayer().Notify) then return end
 
     LocalPlayer():Notify(message)
 end)
@@ -33,7 +33,7 @@ net.Receive("impulseReadNote", function()
     mainFrame:MakePopup()
     mainFrame:SetTitle("Letter")
 
-    local textFrame = vgui.Create( "DTextEntry", mainFrame )
+    local textFrame = vgui.Create("DTextEntry", mainFrame)
     textFrame:SetPos(25, 50)
     textFrame:Dock(FILL)
     textFrame:SetText(text)
@@ -121,131 +121,6 @@ net.Receive("impulseQuizForce", function()
     quiz:SetQuiz(team)
 end)
 
-net.Receive("impulseInvGive", function()
-    local netid = net.ReadUInt(16)
-    local itemID = net.ReadUInt(16)
-    local strid = net.ReadUInt(4)
-    local restricted = net.ReadBool()
-
-    if not impulse.Inventory.Data[0][strid] then
-        impulse.Inventory.Data[0][strid] = {}
-    end
-
-    impulse.Inventory.Data[0][strid][itemID] = {
-        equipped = false,
-        restricted = restricted,
-        id = netid
-    }
-
-    if impulse_inventory and IsValid(impulse_inventory) then
-        impulse_inventory:SetupItems()
-    end
-end)
-
-net.Receive("impulseInvMove", function()
-    local itemID = net.ReadUInt(16)
-    local newitemID = net.ReadUInt(16)
-    local from = net.ReadUInt(4)
-    local to = net.ReadUInt(4)
-    local netid
-
-    local take = impulse.Inventory.Data[0][from][itemID]
-
-    netid = take.id
-
-    impulse.Inventory.Data[0][from][itemID] = nil
-    impulse.Inventory.Data[0][to][newitemID] = {
-        id = netid
-    }
-
-    if impulse_storage and IsValid(impulse_storage) then
-        local invScroll = impulse_storage.invScroll:GetVBar():GetScroll()
-        local invStorageScroll = impulse_storage.invStorageScroll:GetVBar():GetScroll()
-
-        impulse_storage:SetupItems(invScroll, invStorageScroll)
-
-        if (NEXT_MOVENOISE or 0) < CurTime() then -- to stop ear rape when mass moving items
-            LocalPlayer():EmitSound("physics/wood/wood_crate_impact_hard2.wav", nil, nil, 0.5, CHAN_ITEM)
-        end
-
-        NEXT_MOVENOISE = CurTime() + 0.1
-    end
-end)
-
-net.Receive("impulseInvRemove", function()
-    local itemID = net.ReadUInt(16)
-    local strid = net.ReadUInt(4)
-    local item = impulse.Inventory.Data[0][strid][itemID]
-
-    if item then
-        impulse.Inventory.Data[0][strid][itemID] = nil
-
-        if impulse_inventory and IsValid(impulse_inventory) then
-            impulse_inventory:SetupItems()
-        end
-    end
-end)
-
-net.Receive("impulseInvClear", function()
-    local storagetype = net.ReadUInt(4)
-
-    if impulse.Inventory.Data[0][storagetype] then
-        impulse.Inventory.Data[0][storagetype] = {}
-    end
-end)
-
-net.Receive("impulseInvClearRestricted", function()
-    local storagetype = net.ReadUInt(4)
-
-    if impulse.Inventory.Data[0][storagetype] then
-        for v, k in pairs(impulse.Inventory.Data[0][storagetype]) do
-            if k.restricted then
-                impulse.Inventory.Data[0][storagetype][v] = nil
-            end
-        end
-    end
-end)
-
-net.Receive("impulseInvUpdateEquip", function()
-    local itemID = net.ReadUInt(16)
-    local state = net.ReadBool()
-    local item = impulse.Inventory.Data[0][INVENTORY_PLAYER][itemID]
-
-    item.equipped = state or false
-
-    if impulse_inventory and IsValid(impulse_inventory) then
-        impulse_inventory:FindItemPanelByID(itemID).IsEquipped = state or false
-    end
-end)
-
-net.Receive("impulseInvDoSearch", function()
-    local searchee = Entity(net.ReadUInt(8))
-    local invSize = net.ReadUInt(16)
-    local invCompiled = {}
-
-    if not IsValid(searchee) then return end
-
-    for i=1,invSize do
-        local itemnetid = net.ReadUInt(10)
-        local item = impulse.Inventory.Items[itemnetid]
-
-        table.insert(invCompiled, item)
-    end
-
-
-    impulse.Util:MakeWorkbar(5, "Searching...", function()
-        if not IsValid(searchee) then return end
-
-        local searchMenu = vgui.Create("impulseSearchMenu")
-        searchMenu:SetInv(invCompiled)
-        searchMenu:SetPlayer(searchee)
-    end, true)
-end)
-
-net.Receive("impulseInvStorageOpen", function(len, ply)
-    impulse_storage = vgui.Create("impulseInventoryStorage")
-end)
-
 net.Receive("impulseRagdollLink", function()
     local ragdoll = net.ReadEntity()
 
@@ -268,8 +143,10 @@ net.Receive("impulseUpdateOOCLimit", function()
         return
     end
 
-    LocalPlayer().OOCLimit = (LocalPlayer().OOCLimit and LocalPlayer().OOCLimit - 1) or ((LocalPlayer():IsDonator() and impulse.Config.OOCLimitVIP) or impulse.Config.OOCLimit)
-    LocalPlayer():Notify("You have "..LocalPlayer().OOCLimit.." OOC messages left for "..string.NiceTime(time)..".")
+    LocalPlayer().OOCLimit = (LocalPlayer().OOCLimit and LocalPlayer().OOCLimit - 1) or
+            ((LocalPlayer():IsDonator() and impulse.Config.OOCLimitVIP) or impulse.Config.OOCLimit)
+    LocalPlayer():Notify("You have " .. LocalPlayer().OOCLimit .. " OOC messages left for " .. string.NiceTime(time) ..
+        ".")
 end)
 
 net.Receive("impulseCharacterEditorOpen", function()
@@ -288,7 +165,7 @@ net.Receive("impulseConfiscateCheck", function()
     local item = net.ReadEntity()
 
     if IsValid(item) then
-        local request = Derma_Query("Would you like to confiscate this "..item.HUDName.."?",
+        local request = Derma_Query("Would you like to confiscate this " .. item.HUDName .. "?",
             "impulse",
             "Confiscate",
             function()
@@ -320,7 +197,8 @@ net.Receive("impulseSkillUpdate", function()
     local newLevel = LocalPlayer():GetSkillLevel(name)
 
     if oldLevel != newLevel then
-        LocalPlayer():Notify("You have reached skill level "..newLevel.." for the "..impulse.Skills.GetNiceName(name).." skill.")
+        LocalPlayer():Notify("You have reached skill level " ..
+            newLevel .. " for the " .. impulse.Skills.GetNiceName(name) .. " skill.")
     end
 end)
 
@@ -329,7 +207,7 @@ net.Receive("impulseBenchUse", function()
 end)
 
 net.Receive("impulseMixDo", function()
-    if ( IsValid(impulse.CraftingMenu) and impulse.CraftingMenu.UseItem and impulse.CraftingMenu.UseMix ) then
+    if (IsValid(impulse.CraftingMenu) and impulse.CraftingMenu.UseItem and impulse.CraftingMenu.UseMix) then
         impulse.CraftingMenu:DoCraft(impulse.CraftingMenu.UseItem, impulse.CraftingMenu.UseMix)
     end
 end)
@@ -363,102 +241,21 @@ net.Receive("impulseViewWhitelists", function()
     if not targ or not IsValid(targ) then return end
 
     local count = net.ReadUInt(4)
-    local top = targ:SteamName().."'s whitelist(s):\n\n"
+    local top = targ:SteamName() .. "'s whitelist(s):\n\n"
     local mid = ""
 
-    for i=1, count do
+    for i = 1, count do
         local teamid = net.ReadUInt(8)
         local level = net.ReadUInt(8)
         local teamname = team.GetName(teamid)
-        mid = mid..teamname.."   Level: "..level.."\n"
+        mid = mid .. teamname .. "   Level: " .. level .. "\n"
     end
 
     if mid == "" then
         mid = "None"
     end
 
-    Derma_Message(top..mid, targ:SteamName().."'s whitelist(s)", "Close")
-end)
-
-net.Receive("impulseInvContainerCodeTry", function()
-    Derma_StringRequest("impulse", "Enter container passcode (numerics only):", nil, function(text)
-        local code = tonumber(text)
-
-        if code then
-            code = math.floor(code)
-
-            if code < 0 then
-                return LocalPlayer():Notify("Passcode can not be negative.")
-            end
-
-            net.Start("impulseInvContainerCodeReply")
-            net.WriteUInt(code, 16)
-            net.SendToServer()
-        else
-            LocalPlayer():Notify("Passcode must only contain numeric characters.")
-        end
-    end, nil, "Enter")
-end)
-
-net.Receive("impulseInvContainerOpen", function()
-    local count = net.ReadUInt(8)
-    local containerInv = {}
-
-    for i=1,count do
-        local itemid = net.ReadUInt(10)
-        local amount = net.ReadUInt(8)
-
-        containerInv[itemid] = {amount = amount}
-    end
-
-    if impulse_container and IsValid(impulse_container) then
-        impulse_container:Remove()
-    end
-
-    impulse_container = vgui.Create("impulseInventoryContainer")
-    impulse_container:SetupContainer()
-    impulse_container:SetupItems(containerInv)
-end)
-
-net.Receive("impulseInvContainerUpdate", function()
-    local count = net.ReadUInt(8)
-    local containerInv = {}
-
-    for i=1,count do
-        local itemid = net.ReadUInt(10)
-        local amount = net.ReadUInt(8)
-
-        containerInv[itemid] = {amount = amount}
-    end
-
-    if impulse_container and IsValid(impulse_container) then
-        local invScroll = impulse_container.invScroll:GetVBar():GetScroll()
-        local invStorageScroll = impulse_container.invStorageScroll:GetVBar():GetScroll()
-
-        impulse_container:SetupItems(containerInv, invScroll, invStorageScroll)
-        surface.PlaySound("physics/wood/wood_crate_impact_hard2.wav")
-    end
-end)
-
-net.Receive("impulseInvContainerSetCode", function()
-    Derma_StringRequest("impulse",
-        "Enter new container passcode:",
-        nil, function(text)
-            if not tonumber(text) then
-                return LocalPlayer():Notify("Passcode must be a number.")
-            end
-
-            local passcode = tonumber(text)
-            passcode = math.floor(passcode)
-
-            if passcode < 1000 or passcode > 9999 then
-                return LocalPlayer():Notify("Passcode must have 4 digits.")
-            end
-
-            net.Start("impulseInvContainerDoSetCode")
-            net.WriteUInt(passcode, 16)
-            net.SendToServer()
-        end, nil, "Set Passcode")
+    Derma_Message(top .. mid, targ:SteamName() .. "'s whitelist(s)", "Close")
 end)
 
 net.Receive("impulseAchievementGet", function()
@@ -476,7 +273,7 @@ net.Receive("impulseAchievementSync", function()
     impulse.Achievements = {}
     local count = net.ReadUInt(8)
 
-    for i=1, count do
+    for i = 1, count do
         local id = net.ReadString()
         local time = net.ReadUInt(32)
 
@@ -485,7 +282,8 @@ net.Receive("impulseAchievementSync", function()
 end)
 
 net.Receive("impulseGetRefund", function()
-    local messageTop = "You have been refunded for a server crash/restart.\nThe funds will be deposited into your bank.\n\nDetails:"
+    local messageTop =
+    "You have been refunded for a server crash/restart.\nThe funds will be deposited into your bank.\n\nDetails:"
     local details = ""
 
     local count = net.ReadUInt(8)
@@ -495,12 +293,12 @@ net.Receive("impulseGetRefund", function()
         local name = net.ReadString()
         local amount = net.ReadUInt(8)
 
-        details = details.."\n"..amount.."x".." "..name
+        details = details .. "\n" .. amount .. "x" .. " " .. name
     end
 
-    details = details.."\nTOTAL REFUND: "..impulse.Config.CurrencyPrefix..amount
+    details = details .. "\nTOTAL REFUND: " .. impulse.Config.CurrencyPrefix .. amount
 
-    REFUND_MSG = messageTop..details
+    REFUND_MSG = messageTop .. details
 end)
 
 net.Receive("impulseGroupMember", function()
@@ -511,7 +309,7 @@ net.Receive("impulseGroupMember", function()
     impulse.Group.Groups[1] = impulse.Group.Groups[1] or {}
     impulse.Group.Groups[1].Members = impulse.Group.Groups[1].Members or {}
 
-    impulse.Group.Groups[1].Members[sid] = {Name = name, Rank = rank}
+    impulse.Group.Groups[1].Members[sid] = { Name = name, Rank = rank }
 
     if IsValid(impulse.groupEditor) then
         impulse.groupEditor:Refresh()
@@ -603,7 +401,7 @@ net.Receive("impulseGetButtons", function()
 
     impulse_ActiveButtons = {}
 
-    for i=1,count do
+    for i = 1, count do
         local entIndex = net.ReadUInt(16)
         local buttonId = net.ReadUInt(16)
 
@@ -613,7 +411,7 @@ end)
 
 net.Receive("impulsePlayGesture", function()
     local ply = net.ReadPlayer()
-    if ( !IsValid(ply) ) then return end
+    if (! IsValid(ply)) then return end
 
     local gesture = net.ReadString()
     local slot = net.ReadInt(16)
@@ -622,13 +420,13 @@ net.Receive("impulsePlayGesture", function()
 end)
 
 net.Receive("impulseClearWorkbar", function()
-    if ( IsValid(impulse.WorkbarPanel) ) then
+    if (IsValid(impulse.WorkbarPanel)) then
         impulse.WorkbarPanel:Remove()
     end
 end)
 
 net.Receive("impulseMakeWorkbar", function()
-    if ( IsValid(impulse.WorkbarPanel) ) then
+    if (IsValid(impulse.WorkbarPanel)) then
         impulse.WorkbarPanel:Remove()
     end
 

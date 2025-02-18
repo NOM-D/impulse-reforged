@@ -22,8 +22,8 @@ function PLAYER:MakeAFK()
 
     self:Notify("As a result of inactivity, you have been marked as AFK. You may be demoted from your current team.")
 
-    if not self:IsAdmin() and self:Team() != impulse.Config.DefaultTeam then
-        self:SetTeam(impulse.Config.DefaultTeam, true)
+    if not self:IsAdmin() and self:Team() != impulse.Config.DefaultTeamId then
+        self:SetTeam(impulse.Config.DefaultTeamId, true)
     end
 end
 

@@ -9,29 +9,24 @@ local function IsSteamID64(str)
 end
 
 concommand.Add("impulse_set_group", function(ply, cmd, args)
-    if ( !IsValid(ply) or ply:IsSuperAdmin() or ply:IsListenServerHost() ) then
+    if (! IsValid(ply) or ply:IsSuperAdmin() or ply:IsListenServerHost()) then
         local find = args[1]
-        if !find then
+        if ! find then
             logs:Error("No player target specified.")
             return
         end
 
         local group = args[2]
-        if !group then
+        if ! group then
             logs:Error("No group specified.")
             return
         end
 
         local targ = impulse.Util:FindPlayer(find)
         if IsValid(targ) then
-            targ:SetUserGroup(group, true)
+            targ:SetUserGroup(group)
+            targ:SetNetVar(NET_USERGROUP, group)
             logs:Info("Set '" .. targ:SteamID64() .. " (" .. targ:Name() .. ")' to group '" .. group .. "'.\n")
-
-            local query = mysql:Update("impulse_players")
-            query:Update("group", group)
-            query:Where("steamid", targ:SteamID64())
-            query:Execute()
-
             return
         else
             logs:Warning("Target not found, checking for SteamID64...\n")
@@ -43,8 +38,8 @@ concommand.Add("impulse_set_group", function(ply, cmd, args)
         elseif IsSteamID64(find) then
             steamid = find
         end
-        
-        if !steamid then
+
+        if ! steamid then
             logs:Error("Target not found, and '" .. find .. "' is not a valid SteamID64.")
             return
         end
