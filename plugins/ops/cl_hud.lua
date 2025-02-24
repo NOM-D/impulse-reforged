@@ -68,6 +68,11 @@ hook.Add("HUDPaint", "impulseOpsHUD", function()
                 draw.SimpleText("CITYCODE: "..ccode[1], "Impulse-Elements16-Shadow", 20, 140, ccode[2])
             end
 
+            if impulse.Schedule then
+                local schedule = impulse.Schedule.GetSchedule()
+                draw.SimpleText("SCHEDULE: "..schedule, "Impulse-Elements16-Shadow", 20, 300, col)
+            end
+
             local y = 160
 
             for v, k in pairs(impulse.Teams.Stored) do
