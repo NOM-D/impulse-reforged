@@ -12,30 +12,30 @@ end
 ---@param teamTable impulse.Teams.TeamData
 ---@param level number
 function impulse.Teams.SetWhitelist(steamid, teamTable, level)
-    if ( !teamTable ) then
+    if (! teamTable) then
         impulse.Logs:Error("Attempted to set whitelist for invalid team %s", tostring(teamTable))
         return
     end
 
     impulse.Teams.GetWhitelist(steamid, teamTable, function(whitelistExists)
         local teamId = teamTable.id
-        if ( whitelistExists ) then
+        if (whitelistExists) then
             local query = mysql:Update("impulse_whitelists")
             query:Update("level", level)
-            query:Where("teamId", teamId)
+            query:Where("teamid", teamId)
             query:Where("steamid", steamid)
             query:Execute()
         else
             local query = mysql:Insert("impulse_whitelists")
             query:Insert("level", level)
-            query:Insert("teamId", teamId)
+            query:Insert("teamid", teamId)
             query:Insert("steamid", steamid)
             query:Execute()
         end
     end)
 
     local ply = player.GetBySteamID64(steamid)
-    if ( IsValid(ply) ) then
+    if (IsValid(ply)) then
         ply = ply --[[@as Player]]
 
         impulse.Logs:Debug("Setting whitelist for " .. ply:Nick() .. " to " .. team .. " with level " .. level)
@@ -48,7 +48,7 @@ end
 ---@param teamTable impulse.Teams.TeamData
 ---@param callback fun(result: impulse.Teams.WhitelistDBEntry[]) The callback to run when the query is complete and the result isn't empty
 function impulse.Teams.GetAllWhitelists(teamTable, callback)
-    if ( !teamTable ) then
+    if (! teamTable) then
         impulse.Logs:Error("Attempted to get all whitelists for invalid team %s", teamTable)
         return
     end
@@ -57,11 +57,11 @@ function impulse.Teams.GetAllWhitelists(teamTable, callback)
     local query = mysql:Select("impulse_whitelists")
     query:Select("level")
     query:Select("steamid")
-    query:Where("teamId", teamTable)
-    if ( callback ) then -- only add a callback if we need to
+    query:Where("teamid", teamTable)
+    if (callback) then -- only add a callback if we need to
         ---@param whitelists impulse.Teams.TeamData.Rank[]
         query:Callback(function(whitelists)
-            if ( type(whitelists) == "table" && whitelists[1] != nil ) then
+            if (type(whitelists) == "table" && whitelists[1] != nil) then
                 callback(whitelists)
             end
         end)
@@ -76,9 +76,9 @@ function impulse.Teams.GetAllWhitelistsPlayer(steamid64, callback)
     impulse.Logs:Debug("Getting all whitelists for " .. steamid64)
     local query = mysql:Select("impulse_whitelists")
     query:Select("level")
-    query:Select("teamId")
+    query:Select("teamid")
     query:Where("steamid", steamid64)
-    if ( callback ) then -- only add a callback if we need to
+    if (callback) then -- only add a callback if we need to
         query:Callback(function(result)
             if (type(result) == "table" && result[1] != nil) then
                 callback(result)
@@ -88,20 +88,19 @@ function impulse.Teams.GetAllWhitelistsPlayer(steamid64, callback)
     query:Execute()
 end
 
-
 ---Get a whitelist for a player
 ---@param steamid string The steamid64 of the player
 ---@param teamTable impulse.Teams.TeamData
 ---@param callback fun(level?: number)
 function impulse.Teams.GetWhitelist(steamid, teamTable, callback)
-    if ( !teamTable ) then
+    if (! teamTable) then
         impulse.Logs:Error("Attempted to get whitelist for invalid team %s", tostring(teamTable))
         return
     end
 
     local query = mysql:Select("impulse_whitelists")
     query:Select("level")
-    query:Where("teamId", teamTable.id)
+    query:Where("teamid", teamTable.id)
     query:Where("steamid", steamid)
     query:Callback(function(result)
         if type(result) == "table" && result[1] != nil && callback then -- if player exists in db
@@ -118,16 +117,16 @@ end
 ---@param level number
 ---@return boolean hasWhitelist
 function PLAYER:HasTeamWhitelist(teamTable, level)
-    if ( !teamTable ) then
+    if (! teamTable) then
         impulse.Logs:Error("Attempted to check whitelist for invalid team %s", teamTable)
         return false
     end
-    if ( !self.Whitelists ) then return false end
+    if (! self.Whitelists) then return false end
 
     ---@type number?
     local teamWhitelistLevel = self.Whitelists[teamTable]
-    if ( teamWhitelistLevel ) then
-        if ( level ) then
+    if (teamWhitelistLevel) then
+        if (level) then
             return teamWhitelistLevel >= level
         else
             return true
@@ -139,13 +138,13 @@ end
 
 ---Set up team and class whitelists for a player
 ---
----In theory this should only be called once because their whitelists will be entirely reloaded 
+---In theory this should only be called once because their whitelists will be entirely reloaded
 function PLAYER:SetupWhitelists()
     self.Whitelists = {}
 
     impulse.Teams.GetAllWhitelistsPlayer(self:SteamID64(), function(whitelists)
         impulse.Logs:Debug("Setting up whitelists for " .. self:Nick() .. ", found " .. #whitelists .. " entries")
-        if ( !whitelists || !IsValid(self) ) then return end
+        if (! whitelists || ! IsValid(self)) then return end
         for _, whitelistData in pairs(whitelists) do
             local teamId = whitelistData.teamId
             local level = whitelistData.level

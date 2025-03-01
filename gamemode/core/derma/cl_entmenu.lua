@@ -30,7 +30,7 @@ function PANEL:AddAction(icon, name, onClick)
     self.iconLbl:SetText(name)
     self.iconLbl:SetFont("Impulse-Elements18")
     self.iconLbl:SizeToContents()
-    self.iconLbl:SetPos(100-(self.iconLbl:GetWide()/2), self.addY+140)
+    self.iconLbl:SetPos(100 - (self.iconLbl:GetWide() / 2), self.addY + 140)
 
     self.addY = self.addY + 125
 
@@ -103,7 +103,7 @@ function PANEL:SetDoor(door)
                     local name = k:Nick()
 
                     if k:GetFriendStatus() == "friend" then
-                        name = "(FRIEND) "..name
+                        name = "(FRIEND) " .. name
                     end
 
                     local x = removeMenu:AddOption(name, function()
@@ -126,7 +126,7 @@ function PANEL:SetDoor(door)
                     local name = k:Nick()
 
                     if k:GetFriendStatus() == "friend" then
-                        name = "(FRIEND) "..name
+                        name = "(FRIEND) " .. name
                     end
 
                     local x = addMenu:AddOption(name, function()
@@ -179,7 +179,7 @@ function PANEL:SetPlayer(ply)
 end
 
 function PANEL:SetContainer(ent)
-    if ent:GetClass() == "impulse_container" and !ent:GetLoot() then
+    if ent:GetClass() == "impulse_container" and ! ent:GetLoot() then
         if LocalPlayer():IsCP() then
             self:AddAction("impulse-reforged/icons/padlock-2-256.png", "Remove Padlock", function()
                 impulse.Util:MakeWorkbar(15, "Breaking padlock...", function()
@@ -213,6 +213,5 @@ function PANEL:Think()
         end
     end
 end
-
 
 vgui.Register("impulseEntityMenu", PANEL, "DFrame")

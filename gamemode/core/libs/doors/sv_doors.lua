@@ -3,7 +3,7 @@ impulse.Doors.Data = impulse.Doors.Data or {}
 
 local logs = impulse.Logs
 local eMeta = FindMetaTable("Entity")
-local fileName = "impulse-reforged/doors/"..game.GetMap()
+local fileName = "impulse-reforged/doors/" .. game.GetMap()
 
 file.CreateDir("impulse-reforged/doors")
 
@@ -22,16 +22,16 @@ function impulse.Doors:Save()
             end
         end
     end
-    
-    logs:Debug("Saving doors to impulse-reforged/doors/"..game.GetMap()..".json | Doors saved: "..#doors)
-    file.Write(fileName..".json", util.TableToJSON(doors))
+
+    logs:Debug("Saving doors to impulse-reforged/doors/" .. game.GetMap() .. ".json | Doors saved: " .. #doors)
+    file.Write(fileName .. ".json", util.TableToJSON(doors))
 end
 
 function impulse.Doors:Load()
     impulse.Doors.Data = {}
 
-    if file.Exists(fileName..".json", "DATA") then
-        local mapDoorData = util.JSONToTable(file.Read(fileName..".json", "DATA"))
+    if file.Exists(fileName .. ".json", "DATA") then
+        local mapDoorData = util.JSONToTable(file.Read(fileName .. ".json", "DATA"))
         local posBuffer = {}
         local posFinds = {}
 
@@ -39,20 +39,20 @@ function impulse.Doors:Load()
         for doorID, doorData in pairs(mapDoorData) do
             if not doorData.pos then continue end
 
-            posBuffer[doorData.pos.x.."|"..doorData.pos.y.."|"..doorData.pos.z] = doorID
+            posBuffer[doorData.pos.x .. "|" .. doorData.pos.y .. "|" .. doorData.pos.z] = doorID
         end
 
         -- try to find every door via the pos value (update safeish)
         for v, k in ents.Iterator() do
             local p = k.GetPos(k)
-            local found = posBuffer[p.x.."|"..p.y.."|"..p.z]
+            local found = posBuffer[p.x .. "|" .. p.y .. "|" .. p.z]
 
             if found and k:IsDoor() then
                 local doorEnt = k
                 local doorData = mapDoorData[found]
                 local doorIndex = doorEnt:EntIndex()
                 posFinds[doorIndex] = true
-                
+
                 if doorData.name then doorEnt:SetNetVar(NET_DOOR_NAME, doorData.name) end
                 if doorData.group then doorEnt:SetNetVar(NET_DOOR_GROUP, doorData.group) end
                 if doorData.buyable != nil then doorEnt:SetNetVar(NET_IS_DOOR_BUYABLE, false) end
@@ -69,12 +69,13 @@ function impulse.Doors:Load()
                 if posFinds[doorIndex] then
                     continue
                 end
-                
+
                 if doorData.name then doorEnt:SetNetVar(NET_DOOR_NAME, doorData.name) end
                 if doorData.group then doorEnt:SetNetVar(NET_DOOR_GROUP, doorData.group) end
                 if doorData.buyable != nil then doorEnt:SetNetVar(NET_IS_DOOR_BUYABLE, false) end
 
-                logs:Warning("Added door by HammerID value because it could not be found via pos. Door index: "..doorIndex..". Please investigate.")
+                logs:Warning("Added door by HammerID value because it could not be found via pos. Door index: " ..
+                    doorIndex .. ". Please investigate.")
             end
         end
 
@@ -104,7 +105,7 @@ end
 local PLAYER = FindMetaTable("Player")
 
 function PLAYER:SetDoorMaster(door)
-    local owners = {self:EntIndex()}
+    local owners = { self:EntIndex() }
 
     door:SetNetVar(NET_DOOR_OWNERS, owners)
     door.MasterUser = self
@@ -156,7 +157,7 @@ function PLAYER:RemoveDoorUser(door)
 end
 
 concommand.Add("impulse_door_sethidden", function(ply, cmd, args)
-    if ( IsValid(ply) and !ply:IsSuperAdmin() ) then return end
+    if (IsValid(ply) and ! ply:IsSuperAdmin()) then return end
 
     local trace = {}
     trace.start = ply:EyePos()
@@ -175,14 +176,14 @@ concommand.Add("impulse_door_sethidden", function(ply, cmd, args)
         traceEnt:SetNetVar(NET_DOOR_NAME, nil)
         traceEnt:SetNetVar(NET_DOOR_OWNERS, nil)
 
-        ply:Notify("Door "..traceEnt:EntIndex().." show = "..args[1])
+        ply:Notify("Door " .. traceEnt:EntIndex() .. " show = " .. args[1])
 
         impulse.Doors:Save()
     end
 end)
 
 concommand.Add("impulse_door_setgroup", function(ply, cmd, args)
-    if ( IsValid(ply) and !ply:IsSuperAdmin() ) then return end
+    if (IsValid(ply) and ! ply:IsSuperAdmin()) then return end
 
     local trace = {}
     trace.start = ply:EyePos()
@@ -197,14 +198,14 @@ concommand.Add("impulse_door_setgroup", function(ply, cmd, args)
         traceEnt:SetNetVar(NET_DOOR_NAME, nil)
         traceEnt:SetNetVar(NET_DOOR_OWNERS, nil)
 
-        ply:Notify("Door "..traceEnt:EntIndex().." group = "..args[1])
+        ply:Notify("Door " .. traceEnt:EntIndex() .. " group = " .. args[1])
 
         impulse.Doors:Save()
     end
 end)
 
 concommand.Add("impulse_door_removegroup", function(ply, cmd, args)
-    if ( IsValid(ply) and !ply:IsSuperAdmin() ) then return end
+    if (IsValid(ply) and ! ply:IsSuperAdmin()) then return end
 
     local trace = {}
     trace.start = ply:EyePos()
@@ -212,13 +213,13 @@ concommand.Add("impulse_door_removegroup", function(ply, cmd, args)
     trace.filter = ply
 
     local traceEnt = util.TraceLine(trace).Entity
-    if ( IsValid(traceEnt) and traceEnt:IsDoor() ) then
+    if (IsValid(traceEnt) and traceEnt:IsDoor()) then
         traceEnt:SetNetVar(NET_IS_DOOR_BUYABLE, nil)
         traceEnt:SetNetVar(NET_DOOR_GROUP, nil)
         traceEnt:SetNetVar(NET_DOOR_NAME, nil)
         traceEnt:SetNetVar(NET_DOOR_OWNERS, nil)
 
-        ply:Notify("Door "..traceEnt:EntIndex().." group = nil")
+        ply:Notify("Door " .. traceEnt:EntIndex() .. " group = nil")
 
         impulse.Doors:Save()
     end
