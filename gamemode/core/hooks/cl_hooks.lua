@@ -293,43 +293,42 @@ function GM:CalcView(ply, origin, angles, fov)
     end
 
     local falloverRagdollEnt = LocalPlayer():GetNetVar(NET_FALLOVER_RAGDOLL, nil) -- depends on fallover plugin
-    if (! falloverRagdollEnt || ! falloverRagdollEnt:IsValid()) then
-        return
-    end
+    if (falloverRagdollEnt && falloverRagdollEnt:IsValid()) then
+        local ragdoll = ply.Ragdoll
+        if (IsValid(ragdoll)) then
+            local eyes = ragdoll:GetAttachment(ragdoll:LookupAttachment("eyes"))
+            if (! eyes) then return end
 
-    local ragdoll = ply.Ragdoll
-    if (IsValid(ragdoll)) then
-        local eyes = ragdoll:GetAttachment(ragdoll:LookupAttachment("eyes"))
-        if (! eyes) then return end
+            local pos, ang = eyes.Pos, eyes.Ang
 
-        local pos, ang = eyes.Pos, eyes.Ang
+            local traceHull = util.TraceHull({
+                start = ragdoll:WorldSpaceCenter(),
+                endpos = pos,
+                filter = ragdoll,
+                mins = Vector(-10, -10, -10),
+                maxs = Vector(10, 10, 10),
+                mask = MASK_SHOT_HULL,
+                filter = function(ent)
+                    if (ent == ragdoll) then
+                        return false
+                    end
 
-        local traceHull = util.TraceHull({
-            start = ragdoll:WorldSpaceCenter(),
-            endpos = pos,
-            filter = ragdoll,
-            mins = Vector(-10, -10, -10),
-            maxs = Vector(10, 10, 10),
-            mask = MASK_SHOT_HULL,
-            filter = function(ent)
-                if (ent == ragdoll) then
-                    return false
+                    return true
                 end
+            })
 
-                return true
-            end
-        })
+            pos = traceHull.HitPos
 
-        pos = traceHull.HitPos
+            view = {
+                origin = pos,
+                angles = ang,
+                fov = 75
+            }
 
-        view = {
-            origin = pos,
-            angles = ang,
-            fov = 75
-        }
-
-        return view
+            return view
+        end
     end
+
 
     if (impulse.Settings:Get("view_thirdperson") and ply:GetViewEntity() == ply) then
         if (! thirdperson_smooth_origin) then
